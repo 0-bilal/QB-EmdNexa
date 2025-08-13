@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QB-EmdNexa</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <header class="page-header">
+    <h1>QB-EmdNexa</h1>
+     <p class="lead">الحل الذكي لحسابات دقيقة وقرارات أسرع</p>
+    <p class="lead">الحاسبة الجديدة الإلكترونية — الإصدار المطوّر من حاسبة الإكسل v2.3.1</p>
+  </header>
+
+  <main class="dashboard">
+    <!-- القسم الأول -->
+    <section class="card" aria-labelledby="sec1-title">
+      <h2 id="sec1-title">السعر المرفوع للبنك</h2>
+
+      <label class="field">
+        <span class="field__label">نوع الإدخال:</span>
+        <select id="priceType" class="input">
+          <option value="withTax">سعر بطاقة</option>
+          <option value="withoutTax">سعر شامل الضريبة</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="field__label">سعر السيارة:</span>
+        <input type="number" id="carPrice" class="input" placeholder="أدخل السعر" />
+      </label>
+
+      <label class="field">
+        <span class="field__label">رسوم اللوحات:</span>
+        <input type="number" id="extras" class="input" value="500" />
+      </label>
+
+      <label class="field">
+        <span class="field__label">رسوم الخدمات:</span>
+        <input type="number" id="other1" class="input" placeholder="0" />
+      </label>
+
+      <label class="field">
+        <span class="field__label">نسبة الكاش باك:</span>
+        <input type="number" id="cashback" class="input" placeholder="%0" />
+      </label>
+
+      <label class="field">
+        <span class="field__label">نسبة الدعم:</span>
+        <input type="number" id="support" class="input" placeholder="%0" />
+      </label>
+
+      <label class="field">
+        <span class="field__label">صافي الربح:</span>
+        <input type="number" id="other2" class="input" placeholder="0" />
+      </label>
+
+      <div class="result-line">
+        <span>السعر المرفوع على البنك:</span>
+        <span id="bankPrice" class="pill">0</span>
+        <span class="unit">ريال</span>
+      </div>
+    </section>
+
+    <!-- القسم الثاني -->
+    <section class="card" aria-labelledby="sec2-title">
+      <h2 id="sec2-title">تفاصيل الحسبة</h2>
+
+      <!-- سطور (عنوان | مدخل صغير | قيمة) -->
+      <div class="row">
+        <div class="row__label">الدفعة الأولى</div>
+        <input type="number" id="downPaymentRate" class="mini" placeholder="%10" aria-label="نسبة الدفعة الأولى">
+        <div class="box"><span id="downPayment">0</span> <small>ريال</small></div>
+      </div>
+
+      <div class="row">
+        <div class="row__label">الدفعة الأخيرة</div>
+        <input type="number" id="balloonRate" class="mini" placeholder="%30" aria-label="نسبة الدفعة الأخيرة">
+        <div class="box"><span id="balloon">0</span> <small>ريال</small></div>
+      </div>
+
+      <div class="row">
+        <div class="row__label">هامش الربح</div>
+        <input type="number" id="profitRate" class="mini" placeholder="%5" aria-label="نسبة هامش الربح">
+        <div class="box"><span id="profit">0</span> <small>ريال</small></div>
+      </div>
+
+      <div class="row">
+        <div class="row__label">التأمين</div>
+        <input type="number" id="insuranceRate" class="mini" placeholder="%2" aria-label="نسبة التأمين">
+        <div class="box"><span id="insurance">0</span> <small>ريال</small></div>
+      </div>
+
+      <div class="row">
+        <div class="row__label">الرسوم الإدارية</div>
+        <input type="number" id="adminRate" class="mini" placeholder="%1" aria-label="نسبة الرسوم الإدارية">
+        <div class="box"><span id="admin">0</span> <small>ريال</small></div>
+      </div>
+
+      <div class="row">
+        <div class="row__label">مدة التمويل (سنوات)</div>
+        <input type="number" id="years" class="mini" value="5" aria-label="مدة التمويل بالسنوات">
+        <div class="box box--muted"><span>—</span></div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="row">
+        <div class="row__label">القسط الشهري</div>
+        <div class="spacer"></div>
+        <div class="box box--emph"><span id="monthlyPayment">0</span> <small>ريال</small></div>
+      </div>
+
+      <div class="row">
+        <div class="row__label">التكلفة النهائية</div>
+        <div class="spacer"></div>
+        <div class="box box--emph"><span id="finalCost">0</span> <small>ريال</small></div>
+      </div>
+    </section>
+
+    <!-- القسم الثالث -->
+    <section class="card" aria-labelledby="sec3-title">
+      <h2 id="sec3-title">رسالة العميل</h2>
+      <textarea id="clientMessage" class="textarea" readonly></textarea>
+      <button id="copyMessage" class="btn">نسخ الرسالة</button>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <div class="meta">
+      <div class="meta-item">
+        <strong>تاريخ الاصدار</strong>
+        <span>5 أغسطس 2025</span>
+      </div>
+      <div class="meta-item">
+        <strong>الإصدار</strong>
+        <span>v1.5.0</span>
+      </div>
+      <div class="meta-item">
+        <strong>المطور</strong>
+        <span>بلال الخواجة</span>
+      </div>
+      <div class="meta-item">
+        <strong>الأساس</strong>
+        <span>مبني على إصدر الإكسل الأصلية </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- زر التنقل للجوال -->
+  <button class="nav-button" id="navButton">
+    📱 القسم التالي
+  </button>
+
+  <script src="script.js"></script>
+  
+  <!-- Navigation Script for Mobile -->
+  <script>
+    // Mobile navigation functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const navButton = document.getElementById('navButton');
+      const cards = document.querySelectorAll('.card');
+      let currentSection = 0;
+      
+      // Update button text based on current section
+      function updateNavButton() {
+        const sectionNames = ['🔢 التفاصيل', '💬 الرسالة', '🏦 البداية'];
+        navButton.textContent = sectionNames[currentSection];
+      }
+      
+      // Navigate to next section
+      navButton.addEventListener('click', function() {
+        currentSection = (currentSection + 1) % 3;
+        
+        // Scroll to the next card
+        cards[currentSection].scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+        
+        updateNavButton();
+      });
+      
+      // Initialize button text
+      if (window.innerWidth <= 768) {
+        updateNavButton();
+      }
+      
+      // Hide/show nav button based on screen size
+      function handleResize() {
+        if (window.innerWidth <= 768) {
+          navButton.style.display = 'block';
+          updateNavButton();
+        } else {
+          navButton.style.display = 'none';
+        }
+      }
+      
+      window.addEventListener('resize', handleResize);
+      handleResize(); // Initial check
+    });
+  </script>
+</body>
+</html>
