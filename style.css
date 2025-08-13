@@ -9,7 +9,7 @@ html, body {
 }
 :root {
   --bg: #0b1220; --ink: #e5e7eb; --muted: #94a3b8;
-  --card: #0f172a; --card2: #111a31; --border: #1f2a44;
+  --card: #0f172a; --card2: #15213d; --border: #1f2a44;
   --brand: #38bdf8; --brand2: #22d3ee;
   --radius: 12px; --shadow: 0 4px 12px rgba(0,0,0,.2);
   --header-height: 70px;
@@ -25,11 +25,18 @@ body { background: var(--bg); color: var(--ink); }
   display: flex; align-items: center; justify-content: center;
   flex-direction: column; padding: 8px 16px;
 }
+
 .page-header h1 {
-  margin: 0; font-size: 20px; font-weight: 900;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 900;
   background: linear-gradient(135deg, var(--brand), var(--brand2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; /* الخاصية القياسية */
+  -webkit-background-clip: text; /* التوافق مع WebKit */
+  -webkit-text-fill-color: transparent;
 }
+
+
 .page-header .lead {
   margin: 0; font-size: 12px; color: var(--muted);
 }
@@ -278,14 +285,14 @@ body { background: var(--bg); color: var(--ink); }
 .nav-button {
   display: none;
   position: fixed;
-  bottom: 20px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(135deg, var(--brand), var(--brand2));
   color: #06121d;
   border: none;
   border-radius: 50px;
-  padding: 12px 24px;
+  padding: 12px 150px;
   font-weight: 800;
   font-size: 14px;
   cursor: pointer;
@@ -299,7 +306,7 @@ body { background: var(--bg); color: var(--ink); }
 }
 
 .nav-button:hover {
-  box-shadow: 0 12px 32px rgba(56,189,248,.4);
+  box-shadow: 0px 0px 12px rgba(56,189,248,.3);
 }
 
 /* Responsive Design */
@@ -331,7 +338,7 @@ body { background: var(--bg); color: var(--ink); }
   
   /* تصغير صندوق الرسالة في الجوال */
   .message-section .textarea {
-    min-height: 200px;
+    min-height: 200x;
     max-height: 300px;
   }
   
@@ -393,4 +400,99 @@ body { background: var(--bg); color: var(--ink); }
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.8; }
+}
+
+/* --- زر الانتقال العريض والثابت أسفل الشاشة على الجوال --- */
+:root{
+  --btn-height: 56px; /* ارتفاع الزر، ويمكن تغييره بحرية */
+}
+
+.section-nav{ position: relative; }
+
+.section-nav-btn{
+  display: none; /* افتراضيًا مخفي على الديسكتوب */
+}
+
+/* مساحة سفلية للمحتوى كي لا يختبئ خلف الزر على الجوال */
+@media (max-width: 820px){
+  body.has-sticky-nav main{
+    padding-bottom: calc(var(--btn-height) + 28px + env(safe-area-inset-bottom));
+  }
+
+  .section-nav-btn{
+    position: sticky;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    left: 50%; transform: translateX(-50%);
+    z-index: 10;
+
+    display: inline-flex; align-items: center; justify-content: center;
+
+    /* العرض الكامل تقريبًا مع هامش جانبي مريح */
+    width: calc(100% - 32px);
+    max-width: 720px;   /* اختيارية: حد أقصى لجمالية العرض */
+    min-height: var(--btn-height);
+    margin: 8px auto;
+
+    /* الطابع الزجاجي */
+    background: rgba(255,255,255,.14);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 16px;
+
+    /* نص الزر */
+    color: #fff; font-weight: 800; font-size: 15px;
+    text-align: center;
+
+    /* تأثيرات */
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    transition: transform .2s ease, background .2s ease, border-color .2s ease, opacity .18s ease;
+  }
+  .section-nav-btn:hover{
+    background: rgba(255,255,255,.22);
+    border-color: rgba(255,255,255,.35);
+    transform: translateX(-50%) scale(1.02);
+  }
+  .section-nav-btn:active{
+    transform: translateX(-50%) scale(.98);
+  }
+
+  /* عند ظهور الفوتر: أخفِ الزر واخرجه قليلًا للأسفل لترك الفوتر يظهر كامل */
+  .section-nav.is-footer-visible .section-nav-btn{
+    opacity: 0; pointer-events: none;
+    transform: translateX(-50%) translateY(18px);
+  }
+}
+
+
+@media (max-width: 820px){
+  .section-nav-btn{
+    position: fixed;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%); /* يضمن التوسيط الأفقي */
+    z-index: 100;
+
+    display: flex;               /* تفعيل الفليكس لتوسيط المحتوى */
+    align-items: center;         /* توسيط عمودي */
+    justify-content: center;     /* توسيط أفقي للنص */
+    
+    width: calc(100% - 32px);     /* عرض شبه كامل */
+    max-width: 720px;
+    min-height: var(--btn-height);
+    margin: 0 auto;
+
+    /* الطابع الزجاجي */
+    background: rgba(255,255,255,.14);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 16px;
+
+    color: #fff; font-weight: 800; font-size: 15px;
+    text-align: center;
+
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    transition: transform .2s ease, background .2s ease, border-color .2s ease, opacity .18s ease;
+  }
 }

@@ -6,17 +6,17 @@
   <title>QB-EmdNexa</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
-<body>
 
+<body data-theme="glass">
   <header class="page-header">
     <h1>QB-EmdNexa</h1>
-     <p class="lead">الحل الذكي لحسابات دقيقة وقرارات أسرع</p>
+    <p class="lead">الحل الذكي لحسابات دقيقة وقرارات أسرع</p>
     <p class="lead">الحاسبة الجديدة الإلكترونية — الإصدار المطوّر من حاسبة الإكسل v2.3.1</p>
   </header>
 
   <main class="dashboard">
     <!-- القسم الأول -->
-    <section class="card" aria-labelledby="sec1-title">
+    <section id="sec1" class="card" aria-labelledby="sec1-title">
       <h2 id="sec1-title">السعر المرفوع للبنك</h2>
 
       <label class="field">
@@ -65,10 +65,9 @@
     </section>
 
     <!-- القسم الثاني -->
-    <section class="card" aria-labelledby="sec2-title">
+    <section id="sec2" class="card" aria-labelledby="sec2-title">
       <h2 id="sec2-title">تفاصيل الحسبة</h2>
 
-      <!-- سطور (عنوان | مدخل صغير | قيمة) -->
       <div class="row">
         <div class="row__label">الدفعة الأولى</div>
         <input type="number" id="downPaymentRate" class="mini" placeholder="%10" aria-label="نسبة الدفعة الأولى">
@@ -121,22 +120,30 @@
     </section>
 
     <!-- القسم الثالث -->
-    <section class="card" aria-labelledby="sec3-title">
+    <section id="sec3" class="card" aria-labelledby="sec3-title">
       <h2 id="sec3-title">رسالة العميل</h2>
       <textarea id="clientMessage" class="textarea" readonly></textarea>
       <button id="copyMessage" class="btn">نسخ الرسالة</button>
     </section>
   </main>
 
-  <footer class="page-footer">
+  <!-- حاوية زر الانتقال (يجب أن تسبق الفوتر في الـ DOM) -->
+ <div class="section-nav" id="sectionNav">
+  <button class="section-nav-btn" id="sectionNavBtn" aria-label="الانتقال بين الأقسام">
+    التفاصيل
+  </button>
+</div>
+
+  <!-- قسم المطوّر أسفل الصفحة (غير مثبت) -->
+  <footer class="page-footer" id="devSection">
     <div class="meta">
       <div class="meta-item">
         <strong>تاريخ الاصدار</strong>
-        <span>5 أغسطس 2025</span>
+        <span>13 أغسطس 2025</span>
       </div>
       <div class="meta-item">
         <strong>الإصدار</strong>
-        <span>v1.5.0</span>
+        <span>v1.5.1</span>
       </div>
       <div class="meta-item">
         <strong>المطور</strong>
@@ -149,58 +156,9 @@
     </div>
   </footer>
 
-  <!-- زر التنقل للجوال -->
-  <button class="nav-button" id="navButton">
-    📱 القسم التالي
-  </button>
-
+  <!-- ملف الجافاسكربت المنفصل -->
+  <script src="section-nav-control.js"></script>
   <script src="script.js"></script>
-  
-  <!-- Navigation Script for Mobile -->
-  <script>
-    // Mobile navigation functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const navButton = document.getElementById('navButton');
-      const cards = document.querySelectorAll('.card');
-      let currentSection = 0;
-      
-      // Update button text based on current section
-      function updateNavButton() {
-        const sectionNames = ['🔢 التفاصيل', '💬 الرسالة', '🏦 البداية'];
-        navButton.textContent = sectionNames[currentSection];
-      }
-      
-      // Navigate to next section
-      navButton.addEventListener('click', function() {
-        currentSection = (currentSection + 1) % 3;
-        
-        // Scroll to the next card
-        cards[currentSection].scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-        
-        updateNavButton();
-      });
-      
-      // Initialize button text
-      if (window.innerWidth <= 768) {
-        updateNavButton();
-      }
-      
-      // Hide/show nav button based on screen size
-      function handleResize() {
-        if (window.innerWidth <= 768) {
-          navButton.style.display = 'block';
-          updateNavButton();
-        } else {
-          navButton.style.display = 'none';
-        }
-      }
-      
-      window.addEventListener('resize', handleResize);
-      handleResize(); // Initial check
-    });
-  </script>
+   
 </body>
 </html>
