@@ -1,0 +1,117 @@
+/* =========================================
+   QB — A11Y Dark (v5)
+   - يطبّق على كل الصفحات (تسجيل الدخول + التطبيق)
+   - ألوان فقط (WCAG-friendly) بدون أي تعديل تخطيط
+   ========================================= */
+
+/* 1) متغيرات ألوان الوضع الليلي (عالمية) */
+:root{
+  /* خلفيات */
+  --bg: #121212;        /* خلفية عامة داكنة تقلل الوهج */
+  --card: #1E1E2E;      /* خلفية البطاقات/الحاويات */
+  --card2: #2A2A3D;     /* طبقة فرعية لتمييز مقاطع داخلية */
+
+  /* نصوص */
+  --ink: #F5F5F5;       /* نص أساسي عالي التباين */
+  --muted: #9CA3AF;     /* نص ثانوي قابل للقراءة (≈4.7:1 على الخلفية) */
+
+  /* حدود/تركيز/روابط */
+  --border: #4A90E2;    /* حدود واضحة (≥3:1) */
+  --focus: #F59E0B;     /* لون تركيز مرئي وواضح */
+  --link: #000000;      /* روابط/أزرار أساسية */
+  --link-hover: #000000;/* تحويم للروابط/الأزرار */
+}
+
+/* 2) ألوان النصوص والخلفية العامة (لا تغيّر أي قياسات) */
+html, body {
+  background-color: var(--bg);
+  color: var(--ink);
+}
+
+/* 3) استخدام الألوان على العناصر الشائعة (بدون تغيير تخطيط) */
+.card, .panel, .sheet,
+.page-header, .page-footer,
+.modal, .dropdown-menu {
+  background-color: var(--card);
+  border-color: var(--border) !important;
+}
+
+/* قد تكون لديك حاوية تسجيل دخول باسم مختلف؛ نغطي أشهر التسميات */
+.login, .login-card, .login-box, .auth-card, .auth-panel {
+  background-color: var(--card);
+  border-color: var(--border) !important;
+}
+
+/* حقول الإدخال والعناصر التفاعلية — حدود فقط */
+input, select, textarea,
+.input, .textarea, .mini, .select {
+  color: var(--ink);
+  background-color: transparent;      /* لا نغيّر القياس، فقط اللون */
+  border-color: var(--border) !important;
+}
+
+/* نصوص ثانوية */
+.meta, .subtle, .hint, .helper, .login-msg, .lead, .muted {
+  color: var(--muted) !important;
+}
+
+/* 4) روابط وأزرار — ألوان فقط */
+a, .btn, button.linklike {
+  color: var(--link);
+}
+a:hover, .btn:hover, button.linklike:hover {
+  color: var(--link-hover);
+}
+
+/* لو عندك أزرار بخلفية ملوّنة، نرفع تباين النص فقط */
+.btn.primary, .button-primary {
+  background-color: var(--link);
+  color: #0B1020; /* نص داكن على الأزرق لتباين مريح */
+}
+.btn.primary:hover, .button-primary:hover {
+  background-color: var(--link-hover);
+}
+
+/* 5) مؤشرات التركيز — Outline فقط (لا تغيّر الأبعاد) */
+:where(a, button, [role="button"], input, select, textarea):focus-visible{
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  box-shadow: none !important;
+}
+
+/* 6) فواصل/Dividers — وضوح بدون تأثير على القياسات */
+.hr, .divider, hr {
+  background: rgba(255,255,255,.16) !important;
+  color: rgba(255,255,255,.16) !important;
+  border-color: rgba(255,255,255,.16) !important;
+}
+
+/* 7) عنوان به تدرّج: بديل عالي التباين فقط عند تفضيل التباين */
+@media (prefers-contrast: more){
+  .page-header h1, .login-header h1, .title-gradient {
+    background: none !important;
+    -webkit-text-fill-color: unset !important;
+    color: var(--ink) !important;
+    text-shadow: 0 1px 0 rgba(0,0,0,.6);
+  }
+}
+
+/* 8) دعم أنظمة High Contrast في ويندوز — ألوان فقط */
+@media (forced-colors: active){
+  * { forced-color-adjust: auto; }
+  .page-header h1, .login-header h1, .title-gradient{
+    background: none !important;
+    -webkit-text-fill-color: ButtonText !important;
+    color: ButtonText !important;
+  }
+  .card, .panel, .sheet,
+  .page-footer, .page-header,
+  .login, .login-card, .login-box, .auth-card, .auth-panel {
+    border: 1px solid CanvasText !important;
+  }
+}
+
+/* ملاحظة مهمة:
+   لا يوجد هنا أي min-height أو padding أو transform أو filter
+   أو تغييرات grid/flex — فقط ألوان وحدود وتركيز.
+*/
