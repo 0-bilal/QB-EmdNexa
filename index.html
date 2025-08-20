@@ -4,92 +4,160 @@
   <meta charset="UTF-8" />
   <title>QB-EmdNexa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- CSS المستقل للصفحة -->
-  <link rel="stylesheet" href="login.css" />
-  <link rel="stylesheet" href="a11y-dark.css">
-
-
-  <!-- JS الخاص بالتحقق والتحويل -->
+  <link rel="stylesheet" href="modern-login-style.css" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script defer src="login.js"></script>
 </head>
 
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-
-<body class="login-page">
-
-  <!-- الهيدر -->
- <header class="page-header">
-    <h1>QB-EmdNexa</h1>
-    <p class="lead">بوابة الدخول</p>
-    <p class="lead">أدخل رقم التعريف للمتابعة</p>
+<body class="modern-login-page">
+  <!-- Modern Header -->
+  <header class="modern-header">
+    <div class="header-content">
+      <div class="brand-section">
+        <h1 class="brand-title">QB-EmdNexa</h1>
+      </div>
+       <div class="version-badge">v2.0 Nexus</div>
+      </div>
+    </div>
+    <div class="header-gradient"></div>
   </header>
 
-  <!-- المحتوى الرئيسي -->
-  <main class="login">
-    <section class="card login-card" aria-labelledby="loginTitle">
-      <h2 id="loginTitle">تسجيل الدخول</h2>
+  <!-- Main Content -->
+  <main class="login-container">
+    <div class="login-wrapper">
+      <!-- Login Card -->
+      <section class="login-card">
+        <div class="login-header">
+          <div class="login-icon">
+            <span class="icon-symbol">🔐</span>
+          </div>
+          <h2 class="login-title">تسجيل الدخول</h2>
+          <p class="login-subtitle">أدخل رقم التعريف للمتابعة</p>
+        </div>
 
-      <!-- صف الإدخال + زر الدخول -->
-      <form id="loginForm" class="login-row" autocomplete="on" novalidate>
-        <input id="userId" class="input tnum" type="text"
-               inputmode="numeric" pattern="[0-9]*"
-               placeholder="رقم التعريف" required
-               aria-label="رقم التعريف" />
-        <button type="submit" class="btn" id="loginBtn" aria-label="دخول">دخول</button>
-      </form>
+        <form id="loginForm" class="login-form" autocomplete="on" novalidate>
+          <div class="input-group">
+            <label for="userId" class="input-label">رقم التعريف</label>
+            <div class="input-wrapper">
+              <input 
+                id="userId" 
+                class="login-input" 
+                type="text"
+                inputmode="numeric" 
+                pattern="[0-9]*"
+                placeholder="أدخل رقم التعريف" 
+                required
+                aria-label="رقم التعريف" 
+              />
+              <div class="input-decoration"></div>
+            </div>
+          </div>
 
-      <!-- رسالة الحالة -->
-      <p class="login-msg" id="msg" role="status" aria-live="polite"></p>
+          <button type="submit" class="login-btn" id="loginBtn">
+            <span class="btn-text">دخول</span>
+            <span class="btn-icon">→</span>
+          </button>
 
-      <!-- توقيع خفيف -->
-      <div class="login-brand">اهلا بك في<strong>QB-EmdNexa</strong>الحاسبة الإلكترونية</div>
+          <div class="login-status" id="msg" role="status" aria-live="polite"></div>
+        </form>
 
+        <div class="login-footer">
+          <div class="welcome-text">
+            <span class="welcome-label">أهلاً بك في</span>
+            <span class="brand-name">QB-EmdNexa</span>
+          </div>
+          <div class="app-description">الحاسبة الإلكترونية المتطورة</div>
+        </div>
+      </section>
 
-
-      
-    </section>
+      <!-- Features Section -->
+      <section class="features-section">
+        <div class="feature-item">
+          <div class="feature-icon">🌍</div>
+          <div class="feature-text">
+            <div class="feature-title">في أي وقت، من أي مكان</div>
+            <div class="feature-desc">نتائج فورية ودقيقة</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-text">
+            <div class="feature-title">سرعة أدق</div>
+            <div class="feature-desc">تجربة أسهل</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🌟</div>
+          <div class="feature-text">
+            <div class="feature-title">خطوتك الذكية تبدأ من هنا</div>
+            <div class="feature-desc">نظامك جاهز دائمًا</div>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
-
-
-<footer class="page-footer dev-section" id="devSection">
-    <div class="meta">
-      <div class="meta-item">
-        <strong>تاريخ الاصدار</strong>
-        <span>19 أغسطس 2025</span>
-      </div>
-      <div class="meta-item">
-        <strong>الإصدار</strong>
-        <span>v1.5.8</span>
-      </div>
-      <div class="meta-item">
-        <strong>المطور</strong>
-        <span>بلال الخواجة</span>
-      </div>
-      <div class="meta-item">
-        <strong>الأساس</strong>
-        <span>مبني على إصدر الإكسل الأصلية </span>
+  <!-- Modern Footer -->
+  <footer class="modern-footer">
+    <div class="footer-content">
+      <div class="developer-info">
+        <div class="dev-main">
+          <span class="dev-name">تطوير : بلال الخواجة</span>
+        </div>
+        <div class="dev-details">
+          <span class="dev-date">20 أغسطس 2025</span>
+          <span class="dev-separator">•</span>
+          <span class="dev-base">مبني على إصدار الإكسل الأصلية</span>
+        </div>
       </div>
     </div>
   </footer>
 
+  <!-- Background Animation -->
+  <div class="bg-animation">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+    <div class="floating-shape shape-4"></div>
+  </div>
 
-<script>
-  (function () {
-    function updateDevHeight(){
-      var dev = document.querySelector('.dev-section, #devSection'); // ← دعم الحالتين
-      if(!dev) return;
-      var h = Math.ceil(dev.getBoundingClientRect().height);
-      document.documentElement.style.setProperty('--dev-h', h + 'px');
-    }
-    window.addEventListener('load', updateDevHeight);
-    window.addEventListener('resize', updateDevHeight);
-    if (window.ResizeObserver) {
-      var devEl = document.querySelector('.dev-section, #devSection');
-      if (devEl) new ResizeObserver(updateDevHeight).observe(devEl);
-    }
-  })();
-</script>
+  <script>
+    (function () {
+      function updateFooterHeight(){
+        var footer = document.querySelector('.modern-footer');
+        if(!footer) return;
+        var h = Math.ceil(footer.getBoundingClientRect().height);
+        document.documentElement.style.setProperty('--footer-h', h + 'px');
+      }
+      window.addEventListener('load', updateFooterHeight);
+      window.addEventListener('resize', updateFooterHeight);
+      if (window.ResizeObserver) {
+        var footerEl = document.querySelector('.modern-footer');
+        if (footerEl) new ResizeObserver(updateFooterHeight).observe(footerEl);
+      }
+    })();
 
+    // Add input animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const input = document.getElementById('userId');
+      const wrapper = input.closest('.input-wrapper');
+      
+      input.addEventListener('focus', function() {
+        wrapper.classList.add('focused');
+      });
+      
+      input.addEventListener('blur', function() {
+        wrapper.classList.remove('focused');
+      });
+      
+      input.addEventListener('input', function() {
+        if (this.value.length > 0) {
+          wrapper.classList.add('has-value');
+        } else {
+          wrapper.classList.remove('has-value');
+        }
+      });
+    });
+  </script>
 </body>
 </html>

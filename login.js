@@ -39,12 +39,12 @@ async function validateAndLogin(e) {
 
     if (data && data.ok) {
       // خزن جلسة خفيفة في المتصفح
-      localStorage.setItem("qb_session", JSON.stringify({
-        user_id: data.user.user_id,
-        name: data.user.name,
-        role: data.user.role,
-        ts: Date.now()
-      }));
+    localStorage.setItem("qb_session", JSON.stringify({
+     user_id: data.user.user_id,
+     name: data.user.name,
+     role: data.user.role,
+     ts: Date.now()                 // مهم: توقيت إنشاء الجلسة
+    }));
 
       msg.style.color = "var(--brand)";
       msg.textContent = "تم تسجيل الدخول ✅";

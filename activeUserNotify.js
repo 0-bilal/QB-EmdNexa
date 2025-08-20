@@ -64,6 +64,12 @@ async function notifyActiveUserIfLoggedIn() {
   if (!isFreshLogin(s)) return;          // ⛔ لا ترسل قبل الدخول أو إن كانت الجلسة قديمة
   if (!shouldNotifyOnce(s)) return;      // ⛔ لا تكرر لنفس الجلسة
 
+  // ⛔ شرط منع الإرسال إذا كان المستخدم Admin
+  if (s.role && s.role.toLowerCase() === "admin") {
+    console.log("المستخدم Admin — لن يتم إرسال إشعار الدخول.");
+    return;
+  }
+
   const name = s.name || "غير معروف";
   const message =
 `📢 تم فتح QB-Nexa
@@ -83,6 +89,7 @@ async function notifyActiveUserIfLoggedIn() {
     console.error("خطأ إرسال الإشعار:", err);
   }
 }
+
 
 // تشغيل تلقائي عند تحميل الصفحات "المحمية" فقط
 window.addEventListener("load", () => {
