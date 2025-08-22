@@ -1,0 +1,87 @@
+<!-- نافذة التواصل مع المطور -->
+<div id="developerContactModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="modal-title">
+        <div class="modal-icon">👨‍💻</div>
+        <h3>التواصل مع المطور</h3>
+      </div>
+      <button class="modal-close" id="closeContactModal">
+        <span class="close-icon">✕</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="developer-info-card">
+        <div class="dev-avatar">👨‍💻</div>
+        <div class="dev-details">
+          <h4>بلال الخواجة</h4>
+          <p>مطور التطبيق</p>
+        </div>
+      </div>
+
+      <form id="contactForm" class="contact-form">
+        <div class="form-section">
+          <label for="messageType" class="form-label">نوع الرسالة</label>
+          <select id="messageType" class="contact-input contact-select" required>
+            <option value="">اختر نوع الرسالة</option>
+            <option value="bug">بلاغ عن خطأ</option>
+            <option value="feature">طلب ميزة جديدة</option>
+            <option value="feedback">ملاحظات عامة</option>
+            <option value="question">استفسار</option>
+            <option value="other">أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-section">
+          <label for="messageSubject" class="form-label">موضوع الرسالة</label>
+          <input 
+            type="text" 
+            id="messageSubject" 
+            class="contact-input" 
+            placeholder="اكتب موضوع الرسالة"
+            required
+          />
+        </div>
+
+        <div class="form-section">
+          <label for="messageContent" class="form-label">محتوى الرسالة</label>
+          <textarea 
+            id="messageContent" 
+            class="contact-textarea" 
+            placeholder="اكتب رسالتك هنا... كن مفصلاً قدر الإمكان"
+            required
+            rows="4"
+          ></textarea>
+          <div class="char-counter">
+            <span id="charCount">0</span> / 500 حرف
+          </div>
+        </div>
+
+        <div class="app-version">
+          <span class="version-label">إصدار التطبيق:</span>
+          <span class="version-value">v2.2 Nexus</span>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" id="cancelContact">إلغاء</button>
+      <button type="submit" form="contactForm" class="btn-primary" id="sendMessage">
+        <span class="btn-text">إرسال الرسالة</span>
+        <span class="btn-spinner" style="display: none;">⏳</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- رسالة التأكيد -->
+<div id="confirmationToast" class="toast-notification">
+  <div class="toast-content">
+    <div class="toast-icon">✅</div>
+    <div class="toast-message">
+      <div class="toast-title">تم الإرسال بنجاح!</div>
+      <div class="toast-desc">شكراً لك، سيتم الرد عليك قريباً</div>
+    </div>
+  </div>
+</div>
