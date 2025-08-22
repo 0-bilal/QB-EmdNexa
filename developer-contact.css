@@ -359,6 +359,68 @@
 
 .contact-btn-icon { font-size: var(--font-size-sm); }
 
+
+/* نمط عام للشارة إن لم يكن موجودًا */
+.version-badge {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 800;
+  padding: 6px 10px;
+  border: 1px solid var(--border, rgba(255,255,255,.18));
+  border-radius: 12px;
+}
+
+/* على الديسكتوب: عادي */
+.header-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* موبايل: اجعلهم على سطر واحد، زر المطوّر على يمين الشارة */
+@media (max-width: 600px) {
+  .header-actions {
+    flex-direction: row;          /* صف واحد */
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* إظهار الأيقونة فقط في الموبايل */
+  #contactDeveloperBtn .contact-btn-label {
+    display: none;
+  }
+
+  /* تصغير مساحة الزر ليصبح بحجم أيقونة */
+  #contactDeveloperBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1px;
+    min-width: auto;
+    width: 40px;
+    height: 30px;
+    border-radius: 12px;
+  }
+
+  #contactDeveloperBtn .contact-btn-icon {
+    font-size: 15px;
+    line-height: 1;
+    margin: 0;
+  }
+
+  /* لو اتجاه الصفحة RTL (عربي): ضع زر المطوّر قبل الشارة ليظهر على يمينها بصريًا */
+  [dir="rtl"] .header-actions {
+    direction: rtl;
+  }
+  [dir="rtl"] #contactDeveloperBtn { order: 1; }
+  [dir="rtl"] .version-badge      { order: 2; }
+
+  /* لو الصفحة LTR: اعكس الترتيب */
+  [dir="ltr"] #contactDeveloperBtn { order: 2; }
+  [dir="ltr"] .version-badge      { order: 1; }
+}
+
+
 /* ------- Mobile ------- */
 @media (max-width: 640px) {
   .modal-overlay { padding: 10px; }
@@ -396,4 +458,5 @@
     left: 12px;
     bottom: 12px;
   }
+
 }
