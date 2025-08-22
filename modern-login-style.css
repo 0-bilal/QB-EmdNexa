@@ -978,11 +978,15 @@ body {
 }
 
 .version-badge {
-  padding: var(--space-xs) var(--space-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
   background: var(--bg-tertiary);
   border: 1px solid var(--border-secondary);
   border-radius: var(--radius-lg);
+  color: var(--text-accent);
   font-size: var(--font-size-xs);
   font-weight: 600;
-  color: var(--text-accent);
+ 
 }

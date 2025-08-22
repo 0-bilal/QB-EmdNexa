@@ -144,13 +144,17 @@ body {
 }
 
 .version-badge {
-  padding: var(--space-xs) var(--space-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
   background: var(--bg-tertiary);
   border: 1px solid var(--border-secondary);
   border-radius: var(--radius-lg);
+  color: var(--text-accent);
   font-size: var(--font-size-xs);
   font-weight: 600;
-  color: var(--text-accent);
+ 
 }
 
 .header-gradient {
@@ -1239,5 +1243,87 @@ html {
   
   .modern-card:hover {
     transform: none; /* Disable hover effects on touch devices */
+  }
+}
+
+/* إضافة هذا CSS لملف modern-dark-style.css */
+
+/* Header Actions - تحديث تخطيط الـ header */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+@media (max-width: 640px) {
+  .header-actions {
+    gap: var(--space-sm);
+  }
+}
+
+/* Contact Button in Header */
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-secondary);
+  border-radius: var(--radius-lg);
+  color: var(--text-accent);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  text-decoration: none;
+}
+
+.contact-btn:hover {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: var(--border-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.contact-btn:active {
+  transform: translateY(0);
+}
+
+.contact-btn-icon {
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+}
+
+/* Mobile responsive for contact button */
+@media (max-width: 640px) {
+  .contact-btn {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 10px;
+  }
+  
+  .contact-btn span:last-child {
+    display: none; /* إخفاء النص على الشاشات الصغيرة */
+  }
+  
+  .contact-btn-icon {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .header-content {
+    padding: 0 var(--space-md);
+  }
+  
+  .version-badge {
+    padding: 2px var(--space-xs);
+    font-size: 10px;
+  }
+  
+  .brand-title {
+    font-size: var(--font-size-xl);
   }
 }
