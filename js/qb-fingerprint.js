@@ -1,11 +1,6 @@
-/* =======================
-   QB — Fingerprint & Heartbeat (No-CORS, Once-Per-Session Login FP)
-   ======================= */
-
-/* 1) رابط الويب آب (GAS Web App) */
 const FP_API_URL = "https://script.google.com/macros/s/AKfycbxdt8fC80BlrU7Sh5ZYA2wBCp6lt6wRWCbgYuB_MNi4JS5HK9qqCYf9GZbJVJNWy1yN/exec"; // ينتهي بـ /exec
 
-/* 2) أدوات جلسة/جهاز */
+
 function safeSession() {
   try {
     const s = JSON.parse(localStorage.getItem("qb_session") || "{}");
@@ -24,7 +19,6 @@ function getOrCreateDeviceId() {
   return id;
 }
 
-/* 3) تجميع بصمة خفيفة وآمنة */
 function collectFingerprint() {
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
   const langs = (navigator.languages && navigator.languages.join(",")) || navigator.language || "";
@@ -44,7 +38,6 @@ function collectFingerprint() {
   };
 }
 
-/* 4) إرسال (بدون هيدرز → Simple Request) */
 async function fpPost(payload) {
   try {
     const res = await fetch(FP_API_URL, { method: "POST", body: JSON.stringify(payload) });
@@ -57,7 +50,6 @@ async function fpPost(payload) {
   }
 }
 
-/* 5) علامة "أُرسلت بصمة الدخول لهذه الجلسة" — منع التكرار مع كل تحديث */
 function loginMarkerKeyForSession(s) {
   const device = getOrCreateDeviceId();
   const ts = s.ts || "0"; // مهم: تحفظ ts عند إنشاء الجلسة
@@ -70,7 +62,6 @@ function markLoginFingerprintSent(s) {
   localStorage.setItem(loginMarkerKeyForSession(s), "1");
 }
 
-/* 6) إرسال بصمة الدخول — تُكتب مرة واحدة لكل جلسة */
 async function sendLoginFingerprint() {
   const s = safeSession();
   if (!s) { console.warn("[FP] no session; skip login FP"); return; }
@@ -93,7 +84,6 @@ async function sendLoginFingerprint() {
   console.log("[FP] login ->", payload);
 
   const txt = await fpPost(payload);
-  // علّم الجلسة كمُرسلة فقط عند نجاح الرد
   try {
     const res = JSON.parse(txt || "{}");
     if (res && res.ok) {
@@ -107,7 +97,6 @@ async function sendLoginFingerprint() {
   }
 }
 
-/* 7) إرسال نبضة — (تُكتب في Heartbeats إن فعّلتها) */
 async function sendHeartbeat() {
   const s = safeSession();
   if (!s) return;
@@ -140,14 +129,14 @@ function sendFinalBeat() {
 }
 */
 
-/* 9) إدارة النبضات */
+/* إدارة النبضات */
 let HB_TIMER = null;
 // الإنتاج المقترح: كل 5 دقائق
 const HB_MS = 5 * 60 * 1000;
 
 function startHeartbeats() {
   stopHeartbeats();
-  setTimeout(sendHeartbeat, 2000); // نبضة مبكرة (اختياري)
+  setTimeout(sendHeartbeat, 2000); // 
   HB_TIMER = setInterval(sendHeartbeat, HB_MS);
   console.log("[FP] HB started every", HB_MS / 1000, "sec");
 }
@@ -160,7 +149,6 @@ function stopHeartbeats() {
   }
 }
 
-/* 10) تهيئة تلقائية عند تحميل الصفحة المحمية */
 let __FP_INIT_DONE__ = false;
 
 async function initFingerprintAndHB() {
@@ -168,7 +156,7 @@ async function initFingerprintAndHB() {
   const s = safeSession();
   if (!s) { console.warn("[FP] no session; won't init"); return; }
 
-  await sendLoginFingerprint();   // ✅ تُرسل مرة واحدة فقط لكل جلسة
+  await sendLoginFingerprint();  
 
   // 👇 السطر الوحيد الذي يفعّل النبضات.
   //    إذا أردت إيقاف تسجيل النبضات لاحقًا، علّق هذا السطر فقط.
@@ -184,7 +172,6 @@ window.addEventListener("visibilitychange", () => {
 });
 */
 
-/* نشغّل التهيئة عندما تصبح الـ DOM جاهزة أو عند load */
 window.addEventListener("DOMContentLoaded", () => {
   if (window.QBFingerprint?.init) return;
   initFingerprintAndHB();
@@ -193,7 +180,6 @@ window.addEventListener("load", () => {
   initFingerprintAndHB();
 });
 
-/* 11) واجهة للاستخدام اليدوي أثناء الاختبار */
 window.QBFingerprint = {
   init: initFingerprintAndHB,
   startHeartbeats,

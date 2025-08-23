@@ -1,12 +1,6 @@
-/* =======================
-   QB — Login Logic
-   ======================= */
-
-/** ❶ غيّر هذا الرابط إلى رابط الـ Web App الخاص بك (من Google Apps Script → Deploy → Web app) */
 const API_URL = "https://script.google.com/macros/s/AKfycbxBlG06bCUg0UcW2765Md7_q6rs0h75iDbEssrqnAFVFay_oLdrZYSpDZrfgkqGGFfu/exec";
 
-/** ❷ غيّر اسم صفحة التحويل إن كانت ليست home.html أو كانت داخل مجلد */
-const REDIRECT_TO = "home.html"; // أمثلة: "pages/home.html" أو "./home.html"
+const REDIRECT_TO = "home.html"; 
 
 const form = document.getElementById("loginForm");
 const userIdInput = document.getElementById("userId");
@@ -30,7 +24,6 @@ async function validateAndLogin(e) {
     const url = `${API_URL}?action=validate&id=${encodeURIComponent(id)}`;
     const res = await fetch(url, { method: "GET", headers: { "Accept": "application/json" } });
 
-    // تحقق من حالة HTTP أولًا
     if (!res.ok) {
       throw new Error(`HTTP ${res.status}`);
     }
@@ -38,17 +31,16 @@ async function validateAndLogin(e) {
     const data = await res.json();
 
     if (data && data.ok) {
-      // خزن جلسة خفيفة في المتصفح
     localStorage.setItem("qb_session", JSON.stringify({
      user_id: data.user.user_id,
      name: data.user.name,
      role: data.user.role,
-     ts: Date.now()                 // مهم: توقيت إنشاء الجلسة
+     ts: Date.now() 
     }));
 
+localStorage.setItem("qb_login_signal", String(Date.now()));
       msg.style.color = "var(--brand)";
       msg.textContent = "تم تسجيل الدخول ✅";
-      // التحويل للصفحة الرئيسية
       setTimeout(() => { location.href = REDIRECT_TO; }, 600);
     } else {
       const map = {
@@ -66,12 +58,10 @@ async function validateAndLogin(e) {
   } catch (err) {
     msg.style.color = "tomato";
     msg.textContent = "تعذر الاتصال بالخادم.";
-    // لغايات التشخيص اليدوي: افتح Console وشاهد الخطأ
     console.error("Login error:", err);
   }
 }
 
-// ربط الأحداث
 form.addEventListener("submit", validateAndLogin);
 userIdInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {

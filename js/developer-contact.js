@@ -1,14 +1,14 @@
-/* Developer Contact Modal – Username from qb_session (like activeUserNotify.js) */
+
 (function () {
-  // ===== Telegram settings (ضع القيم الصحيحة) =====
+
   const BOT_TOKEN = "8395051529:AAFX1P2w8cICbTjZYoxf-1uEK8kaW58zkkU";
   const CHAT_ID   = "-1002758733334";
 
-  // ===== Modal HTML loading =====
+
   const MODAL_HTML_URL = "developer-contact.html";
   const AUTO_LOAD_HTML = true;
 
-  // ===== Selectors (مطابقة لملفاتك) =====
+
   const SEL = {
     overlay:   ".modal-overlay",
     container: ".modal-container",
@@ -21,7 +21,7 @@
     message:   "#messageContent",
     type:      "#messageType",
     email:     "#userEmail",
-    name:      "#userName",             // اختياري
+    name:      "#userName",             
     openBtn:   "#contactDeveloperBtn",
     counter:   ".char-counter, #charCounter"
   };
@@ -30,7 +30,7 @@
   const MAX_LEN = 1000;
   const SEND_TIMEOUT_MS = 12000;
 
-  // ===== State / Refs =====
+
   let $root, $overlay, $container, $card, $btnClose, $btnCancel, $btnSend;
   let $form, $subject, $message, $type, $email, $name, $counter;
   let isLoaded = false;
@@ -40,13 +40,12 @@
   const $  = (s, ctx = document) => ctx.querySelector(s);
   const on = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
 
-  // ===== Helpers =====
   function ensureRoot() {
     $root = document.getElementById(ROOT_ID);
     if (!$root) { $root = document.createElement("div"); $root.id = ROOT_ID; document.body.appendChild($root); }
   }
 
-  // يقرأ الجلسة بنفس أسلوب سكربتك السابق
+
   function getQBSession() {
     try { return JSON.parse(localStorage.getItem("qb_session")); }
     catch { return null; }
@@ -79,8 +78,7 @@
     return document.querySelector(".version-badge")?.textContent?.trim() || "غير محدد";
   }
 
-  // اسم المستخدم بنفس أسلوبك:
-  // 1) qb_session.name  2) #userName  3) قبل @ من #userEmail  4) "مستخدم"
+
   function getUserName() {
     const session = getQBSession();
     const fromSession = session && typeof session.name === "string" ? session.name.trim() : "";
@@ -111,7 +109,6 @@
     return { res, data, raw: txt };
   }
 
-  // إرسال إلى تيليجرام (POST JSON ثم FORM إن لزم)
   async function sendToTelegram(text) {
     const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
@@ -150,7 +147,6 @@
     setTimeout(() => { t.classList.remove("show"); setTimeout(() => t.remove(), 280); }, duration);
   }
 
-  // === نص الرسالة بالصيغة المطلوبة حرفيًا ===
   function buildTextExact({ userName, subject, type, version, message }) {
     return encodeSafe(
       `👤 الاسم: ${userName}\n` +
@@ -162,7 +158,7 @@
     );
   }
 
-  // ===== Modal open/close =====
+
   function doOpen() {
     $overlay?.classList.add("active");
     $container?.classList.add("active");
@@ -235,19 +231,18 @@
       console.info("[TG] Success:", data);
       showToast(true, "تم إرسال الرسالة إلى تيليجرام.", 5000);
 
-      // تنظيف الحقول
+    
       if ($subject) $subject.value = "";
       if ($message) $message.value = "";
       if ($type)    $type.selectedIndex = 0;
       updateCounter();
 
-      // أغلق فقط بعد نجاح فعلي
       closeModal();
     } catch (err) {
       console.error("[TG] Failed:", err);
       showToast(false, String(err?.message || "تعذّر الإرسال. تحقّق من BOT_TOKEN/CHAT_ID وكون البوت عضوًا."), 7000);
     } finally {
-      setSendingState(false); // ← دائمًا يرجع الزر لحالته
+      setSendingState(false); 
     }
   }
 
@@ -287,39 +282,35 @@
     if (eventsWired) return;
     eventsWired = true;
 
-    // إغلاق فقط عند الضغط على خلفية المودال نفسها
     on($overlay, "click", (e) => { if (e.target === $overlay && !isSending) closeModal(); });
 
-    // عزل الفقاعات داخل المودال
     ["click","pointerdown","pointerup","mousedown","mouseup","touchstart","touchend","touchmove"]
       .forEach(evt => on($container, evt, (e) => e.stopPropagation(), { passive: true }));
 
-    // منع submit الافتراضي للفورم
+
     on($form, "submit", (e) => { e.preventDefault(); if (!isSending) sendHandler(); });
 
-    // أزرار الإغلاق
+ 
     on($btnClose,  "click", () => { if (!isSending) closeModal(); });
     on($btnCancel, "click", () => { if (!isSending) closeModal(); });
 
-    // زر الإرسال
+
     on($btnSend, "click", (e) => { e.preventDefault(); if (!isSending) sendHandler(); });
 
-    // عداد الرسالة
+ 
     on($message, "input", updateCounter);
 
-    // فتح من زر خارجي (إن وُجد)
+
     document.addEventListener("click", function (e) {
       const btn = e.target.closest(SEL.openBtn);
       if (btn) { e.preventDefault(); openModal(); }
     });
 
-    // Esc
+  
     on(document, "keydown", (e) => { if (e.key === "Escape" && !isSending) closeModal(); });
 
-// داخل wireEvents() بعد تعريف باقي الأحداث:
 const directOpenBtn = document.querySelector(SEL.openBtn);
 
-// دالة فتح آمنة: تضمن تحميل الـ HTML أولًا ثم فتح المودال
 const openSafe = async (e) => {
   e.preventDefault();
   e.stopPropagation();
@@ -332,7 +323,6 @@ const openSafe = async (e) => {
   }
 };
 
-// ربط مباشر مع أنواع أحداث مناسبة للجوال أيضًا
 ["click", "touchend", "pointerup"].forEach(evt => {
   on(directOpenBtn, evt, openSafe, { passive: false });
 });
@@ -347,10 +337,8 @@ const openSafe = async (e) => {
     $counter.classList.toggle("over", len > MAX_LEN);
   }
 
-  // Public API (اختياري)
   window.DeveloperContact = { open: openModal, close: closeModal };
-
-  // Init
+  
   document.addEventListener("DOMContentLoaded", () => {
     if (AUTO_LOAD_HTML) {
       loadModalHTML().catch((e) => console.warn("Preload failed:", e));

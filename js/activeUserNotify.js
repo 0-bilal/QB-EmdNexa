@@ -1,15 +1,15 @@
 // ===============================
-// Active User Telegram Notifier (KSA format)
+// Active User Telegram Notifier 
 // ===============================
 
-// ضع التوكن والمعرّف الصحيحين هنا
+
 const BOT_TOKEN = "8395051529:AAFX1P2w8cICbTjZYoxf-1uEK8kaW58zkkU";
 const CHAT_ID   = "-1002758733334";
 
 
 
 // كم تعتبر الجلسة "حديثة" بعد تسجيل الدخول؟ (بالدقائق)
-const FRESH_LOGIN_MINUTES = 10;
+const FRESH_LOGIN_MINUTES = 3;
 
 // اقرأ جلسة الدخول المخزّنة من login.js
 function getQBSession() {
@@ -34,7 +34,6 @@ function shouldNotifyOnce(session) {
   return true;
 }
 
-// تنسيق التاريخ/الوقت: 2025/08/16 مـ 12:49 م  (بتوقيت الرياض)
 function formatKSA(dt = new Date()) {
   const parts = new Intl.DateTimeFormat("en-GB", {
     timeZone: "Asia/Riyadh",
@@ -58,13 +57,13 @@ function formatKSA(dt = new Date()) {
   return `${yyyy}/${mm}/${dd} مـ ${hh}:${min} ${mer}`;
 }
 
-// واجهة جاهزة لو حبيت تستدعيها يدويًا بعد النجاح في login.js
+
 async function notifyActiveUserIfLoggedIn() {
   const s = getQBSession();
-  if (!isFreshLogin(s)) return;          // ⛔ لا ترسل قبل الدخول أو إن كانت الجلسة قديمة
-  if (!shouldNotifyOnce(s)) return;      // ⛔ لا تكرر لنفس الجلسة
+  if (!isFreshLogin(s)) return;          
+  if (!shouldNotifyOnce(s)) return;      
 
-  // ⛔ شرط منع الإرسال إذا كان المستخدم Admin
+ 
   if (s.role && s.role.toLowerCase() === "admin") {
     console.log("المستخدم Admin — لن يتم إرسال إشعار الدخول.");
     return;
@@ -91,11 +90,10 @@ async function notifyActiveUserIfLoggedIn() {
 }
 
 
-// تشغيل تلقائي عند تحميل الصفحات "المحمية" فقط
+
 window.addEventListener("load", () => {
-  // لن يرسل شيئًا إذا لم تكن هناك جلسة حديثة
+
   notifyActiveUserIfLoggedIn();
 });
 
-// اختياري: اجعل الدالة متاحة عالميًا لاستدعائها من login.js مباشرة بعد النجاح
 window.notifyActiveUserIfLoggedIn = notifyActiveUserIfLoggedIn;
