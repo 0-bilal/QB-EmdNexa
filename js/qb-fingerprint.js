@@ -78,6 +78,7 @@ async function sendLoginFingerprint() {
     name: s.name || "",
     role: (s.role || "").toLowerCase(),
     device_id: getOrCreateDeviceId(),
+    version: (typeof APP_VERSION !== "undefined" ? APP_VERSION : "unknown"), // ← هنا الإضافة
     ...collectFingerprint(),
     ts_client: Date.now()
   };
@@ -96,6 +97,7 @@ async function sendLoginFingerprint() {
     console.warn("[FP] login FP not marked (non-JSON response)");
   }
 }
+
 
 async function sendHeartbeat() {
   const s = safeSession();
