@@ -1,9 +1,3 @@
-/* =======================
-   QB-EmdNexa Modern Login Theme
-   تصميم تسجيل الدخول الجديد
-   ======================= */
-
-/* Reset & Base Styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -23,9 +17,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Modern Dark Theme Variables */
+
 :root {
-  /* Colors - Dark Theme */
   --bg-primary: #0a0b0f;
   --bg-secondary: #12141a;
   --bg-tertiary: #1a1d26;
@@ -37,8 +30,6 @@ body {
   --bg-success: #10b981;
   --bg-warning: #f59e0b;
   --bg-error: #ef4444;
-
-  /* Text Colors */
   --text-primary: #ffffff;
   --text-secondary: #cbd5e1;
   --text-tertiary: #94a3b8;
@@ -46,27 +37,19 @@ body {
   --text-success: #34d399;
   --text-warning: #fbbf24;
   --text-error: #f87171;
-
-  /* Border Colors */
   --border-primary: #374151;
   --border-secondary: #4b5563;
   --border-accent: #3b82f6;
   --border-success: #059669;
-
-  /* Gradients */
   --gradient-brand: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
   --gradient-card: linear-gradient(135deg, #1e2128 0%, #252832 100%);
   --gradient-button: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   --gradient-bg: radial-gradient(ellipse at top, #1e293b 0%, #0f172a 50%, #020617 100%);
-
-  /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
   --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.15);
-
-  /* Spacing */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
@@ -74,16 +57,12 @@ body {
   --space-xl: 2rem;
   --space-2xl: 3rem;
   --space-3xl: 4rem;
-
-  /* Border Radius */
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
   --radius-3xl: 2rem;
-
-  /* Typography */
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -92,14 +71,11 @@ body {
   --font-size-2xl: 1.5rem;
   --font-size-3xl: 1.875rem;
   --font-size-4xl: 2.25rem;
-
-  /* Layout */
   --header-height: 80px;
   --footer-h: 80px;
   --max-width: 1200px;
 }
 
-/* Body Theme */
 .modern-login-page {
   background: var(--gradient-bg);
   color: var(--text-primary);
@@ -107,15 +83,13 @@ body {
   overflow-x: hidden;
 }
 
-/* Full Height for Desktop */
 @media (min-width: 768px) {
   .modern-login-page {
     height: 100vh;
-    overflow: hidden; /* منع السكرول على الكمبيوتر */
+    overflow: hidden; 
   }
 }
 
-/* Allow scrolling on mobile */
 @media (max-width: 767px) {
   .modern-login-page {
     min-height: 100vh;
@@ -123,7 +97,6 @@ body {
   }
 }
 
-/* Background Animation */
 .bg-animation {
   position: fixed;
   top: 0;
@@ -192,7 +165,6 @@ body {
   }
 }
 
-/* Modern Header */
 .modern-header {
   position: relative;
   height: var(--header-height);
@@ -252,7 +224,6 @@ body {
   background: var(--gradient-brand);
 }
 
-/* Login Container */
 .login-container {
   display: flex;
   align-items: center;
@@ -262,7 +233,6 @@ body {
   z-index: 10;
 }
 
-/* Desktop Layout - Full Height */
 @media (min-width: 768px) {
   .login-container {
     height: calc(100vh - var(--header-height) - var(--footer-h));
@@ -270,7 +240,6 @@ body {
   }
 }
 
-/* Mobile Layout */
 @media (max-width: 767px) {
   .login-container {
     min-height: calc(100vh - var(--header-height) - var(--footer-h));
@@ -285,17 +254,16 @@ body {
   align-items: center;
 }
 
-/* Desktop Layout - Side by Side */
 @media (min-width: 768px) {
   .login-wrapper {
     max-width: 1000px;
-    height: 100%; /* استخدام الارتفاع الكامل */
+    height: 100%; 
     grid-template-columns: 1fr 450px;
-    align-items: stretch; /* توزيع الارتفاع بالتساوي */
+    align-items: stretch; 
   }
 }
 
-/* Mobile Layout - Login First, Features Below */
+
 @media (max-width: 767px) {
   .login-wrapper {
     grid-template-columns: 1fr;
@@ -304,15 +272,14 @@ body {
   }
   
   .login-card {
-    order: 1; /* تسجيل الدخول أولاً */
+    order: 1; 
   }
   
   .features-section {
-    order: 2; /* المميزات ثانياً تحت تسجيل الدخول */
+    order: 2; 
   }
 }
 
-/* Login Card */
 .login-card {
   background: var(--gradient-card);
   border: 1px solid var(--border-primary);
@@ -326,16 +293,14 @@ body {
   flex-direction: column;
 }
 
-/* Desktop - Full Height Card */
 @media (min-width: 768px) {
   .login-card {
-    height: 100%; /* استخدام الارتفاع الكامل */
-    justify-content: center; /* توسيط المحتوى عمودياً */
+    height: 100%; 
+    justify-content: center; 
     padding: var(--space-3xl);
   }
 }
 
-/* Mobile Card */
 @media (max-width: 767px) {
   .login-card {
     padding: var(--space-2xl);
@@ -376,14 +341,12 @@ body {
   font-weight: 500;
 }
 
-/* Login Form Improvements */
 .login-form {
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
 }
 
-/* Desktop - Center form content */
 @media (min-width: 768px) {
   .login-header {
     margin-bottom: var(--space-2xl);
@@ -398,7 +361,6 @@ body {
   }
 }
 
-/* Mobile form spacing */
 @media (max-width: 767px) {
   .login-header {
     margin-bottom: var(--space-xl);
@@ -468,7 +430,6 @@ body {
   width: 100%;
 }
 
-/* Login Button */
 .login-btn {
   display: flex;
   align-items: center;
@@ -532,7 +493,6 @@ body {
   transform: rotate(180deg) translateX(-3px);
 }
 
-/* Login Status */
 .login-status {
   min-height: 20px;
   font-size: var(--font-size-sm);
@@ -549,7 +509,6 @@ body {
   color: var(--text-success);
 }
 
-/* Login Footer */
 .login-footer {
   text-align: center;
   margin-top: var(--space-xl);
@@ -586,25 +545,24 @@ body {
   font-weight: 500;
 }
 
-/* Features Section */
 .features-section {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
 }
 
-/* Desktop - Full Height Features */
+
 @media (min-width: 768px) {
   .features-section {
-    height: 100%; /* استخدام الارتفاع الكامل */
-    justify-content: center; /* توسيط المميزات عمودياً */
+    height: 100%; 
+    justify-content: center; 
   }
 }
 
-/* Mobile - Features Below Login */
+
 @media (max-width: 767px) {
   .features-section {
-    margin-top: var(--space-lg); /* مسافة من تسجيل الدخول */
+    margin-top: var(--space-lg); 
   }
 }
 
@@ -657,7 +615,7 @@ body {
   font-weight: 500;
 }
 
-/* Modern Footer */
+
 .modern-footer {
   background: rgba(30, 33, 40, 0.8);
   backdrop-filter: blur(20px);
@@ -667,10 +625,9 @@ body {
   z-index: 50;
 }
 
-/* Desktop Footer */
 @media (min-width: 768px) {
   .modern-footer {
-    position: fixed; /* ثابت في أسفل الشاشة */
+    position: fixed; 
     bottom: 0;
     left: 0;
     right: 0;
@@ -680,10 +637,9 @@ body {
   }
 }
 
-/* Mobile Footer */
 @media (max-width: 767px) {
   .modern-footer {
-    position: static; /* طبيعي في التدفق */
+    position: static; 
     margin-top: var(--space-xl);
   }
 }
@@ -754,7 +710,6 @@ body {
   }
 }
 
-/* Loading State */
 .login-btn.loading {
   pointer-events: none;
   opacity: 0.8;
@@ -822,10 +777,9 @@ body {
   animation: slideInLeft 0.8s ease-out 0.2s both;
 }
 
-/* Mobile - Features come after login */
 @media (max-width: 767px) {
   .features-section {
-    animation: fadeInUp 0.8s ease-out 0.4s both; /* تأخير أكثر لأنها تأتي بعد تسجيل الدخول */
+    animation: fadeInUp 0.8s ease-out 0.4s both; 
   }
 }
 
@@ -834,25 +788,22 @@ body {
   animation: fadeInUp 0.6s ease-out forwards;
 }
 
-.feature-item:nth-child(1) { animation-delay: 0.6s; } /* تأخير أكثر على الهاتف */
+.feature-item:nth-child(1) { animation-delay: 0.6s; } 
 .feature-item:nth-child(2) { animation-delay: 0.8s; }
 .feature-item:nth-child(3) { animation-delay: 1.0s; }
 
-/* Desktop animation delays */
 @media (min-width: 768px) {
   .feature-item:nth-child(1) { animation-delay: 0.3s; }
   .feature-item:nth-child(2) { animation-delay: 0.5s; }
   .feature-item:nth-child(3) { animation-delay: 0.7s; }
 }
 
-/* Focus Management */
 .login-input:focus,
 .login-btn:focus {
   outline: 2px solid var(--border-accent);
   outline-offset: 2px;
 }
 
-/* High Contrast Mode Support */
 @media (prefers-contrast: high) {
   :root {
     --bg-primary: #000000;
@@ -870,7 +821,6 @@ body {
   }
 }
 
-/* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -889,7 +839,6 @@ body {
   }
 }
 
-/* Print Styles */
 @media print {
   .bg-animation,
   .features-section,
@@ -908,16 +857,15 @@ body {
   }
 }
 
-/* Touch Device Optimizations */
 @media (hover: none) and (pointer: coarse) {
   .login-btn,
   .login-input {
-    min-height: 48px; /* Minimum touch target size */
+    min-height: 48px;
   }
   
   .feature-item:hover,
   .login-card:hover {
-    transform: none; /* Disable hover effects on touch devices */
+    transform: none; 
   }
   
   .login-btn:hover {
@@ -929,7 +877,6 @@ body {
   }
 }
 
-/* RTL Text Direction Enhancements */
 [dir="rtl"] .btn-icon {
   transform: rotate(180deg);
 }
@@ -938,13 +885,11 @@ body {
   transform: rotate(180deg) translateX(-3px);
 }
 
-/* Number Input Styling */
 .login-input[type="text"] {
   font-feature-settings: "tnum" 1, "lnum" 1;
   letter-spacing: 2px;
 }
 
-/* Accessibility Improvements */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -957,7 +902,6 @@ body {
   border: 0;
 }
 
-/* Error State */
 .input-wrapper.error .login-input {
   border-color: var(--text-error);
   background: rgba(239, 68, 68, 0.1);

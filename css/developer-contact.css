@@ -1,8 +1,3 @@
-/* =======================
-   Developer Contact Modal Styles - Clean
-   ======================= */
-
-/* ------- Overlay ------- */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -18,7 +13,6 @@
 }
 .modal-overlay.active { opacity: 1; visibility: visible; }
 
-/* ------- Container ------- */
 .modal-container {
   background: var(--gradient-card);
   border: 1px solid var(--border-primary);
@@ -36,7 +30,6 @@
 }
 .modal-overlay.active .modal-container { transform: translateY(0); opacity: 1; }
 
-/* ------- Header ------- */
 .modal-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: var(--space-lg);
@@ -67,7 +60,6 @@
 .modal-close:hover { background: var(--bg-error); color: #fff; border-color: var(--bg-error); }
 .close-icon { font-size: var(--font-size-base); font-weight: bold; }
 
-/* ------- Body ------- */
 .modal-body {
   padding: var(--space-lg);
   display: flex; flex-direction: column; gap: var(--space-lg);
@@ -78,7 +70,6 @@
 .modal-body::-webkit-scrollbar-track { background: transparent; }
 .modal-body::-webkit-scrollbar-thumb { background: var(--border-secondary); border-radius: 3px; }
 
-/* ------- Developer Card ------- */
 .developer-info-card {
   display: flex; align-items: center; gap: var(--space-md);
   padding: var(--space-md);
@@ -119,7 +110,6 @@
 .contact-select { cursor: pointer; }
 .char-counter { text-align: left; font-size: var(--font-size-xs); color: var(--text-tertiary); margin-top: var(--space-xs); }
 
-/* ------- Version Badge (موحّد) ------- */
 .version-badge {
   display: inline-flex; align-items: center;
   font-weight: 800;
@@ -128,7 +118,6 @@
   border-radius: 12px;
 }
 
-/* ------- Footer ------- */
 .modal-footer {
   display: flex; gap: var(--space-md);
   padding: var(--space-lg);
@@ -136,7 +125,6 @@
   justify-content: flex-end; flex-shrink: 0;
 }
 
-/* ------- Buttons ------- */
 .btn-secondary, .btn-primary {
   display: inline-flex; align-items: center; justify-content: center;
   gap: var(--space-sm);
@@ -152,11 +140,9 @@
 .btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
 .btn-primary:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 
-/* ------- Spinner ------- */
 .btn-spinner { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ------- Toast ------- */
 .toast-notification {
   position: fixed; right: 16px; bottom: 16px;
   background: var(--gradient-card);
@@ -180,7 +166,6 @@
 .toast-title { font-size: var(--font-size-sm); font-weight: 700; color: var(--text-primary); margin: 0; }
 .toast-desc  { font-size: var(--font-size-xs); color: var(--text-tertiary); margin: 2px 0 0; }
 
-/* ------- Contact Button ------- */
 .contact-btn {
   display: inline-flex; align-items: center; gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
@@ -195,23 +180,19 @@
 .contact-btn:hover { background: rgba(59,130,246,.1); border-color: var(--border-accent); transform: translateY(-1px); }
 .contact-btn-icon { font-size: var(--font-size-sm); }
 
-/* زر المطوّر بنفس ارتفاع الشارة */
 #contactDeveloperBtn{
   height: auto;
   padding-top: 6px; padding-bottom: 6px;
-  padding-left: 10px; padding-right: 10px; /* لمطابقة الشارة أفقياً */
+  padding-left: 10px; padding-right: 10px; 
   line-height: 1.4;
   display: inline-flex; align-items: center;
 }
 
-/* ------- Header Actions (موحّد) ------- */
-/* افتراضيًا (كمبيوتر): صف واحد، والواجهة عربية (الزر يمين، الشارة يسار) */
 .header-actions {
   display: flex; flex-direction: row; align-items: center; gap: 8px;
   direction: rtl;
 }
 
-/* ------- Touch (جوال/تابلت) ------- */
 .is-touch .header-actions {
   display: flex; flex-direction: row; align-items: center; gap: 8px; direction: rtl;
 }
@@ -222,7 +203,6 @@
 }
 .is-touch #contactDeveloperBtn .contact-btn-icon { font-size: 18px; line-height: 1; }
 
-/* ------- Small Screens (محتوى المودال/التوست فقط) ------- */
 @media (max-width: 640px) {
   .modal-overlay { padding: 10px; }
   .modal-container { max-height: 90vh; }
@@ -231,8 +211,6 @@
   .developer-info-card { flex-direction: column; text-align: center; gap: var(--space-sm); }
   .toast-notification { right: 10px; left: 10px; transform: translateY(-50px); }
   .toast-notification.show { transform: translateY(0); }
-
-
 .dev-badges {
     justify-content: center;
   }
@@ -242,7 +220,6 @@
   .toast-notification { right: auto; left: 12px; bottom: 12px; }
 }
 
-/* ------- Accessibility ------- */
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 
