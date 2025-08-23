@@ -7,12 +7,16 @@
   <link rel="stylesheet" href="css/modern-dark-style.css"/>
 <link rel="stylesheet" href="css/developer-contact.css" />
   <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
-</head>
 
+<meta http-equiv="Cache-Control" content="no-store, max-age=0, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+</head>
+<script src="js/version.js" defer></script>
 <script defer src="js/guard.js"></script>
 
 <body class="modern-dark-theme">
-  <!-- Header مع تصميم جديد -->
   <header class="modern-header">
     <div class="header-content">
       <div class="brand-section">
@@ -27,16 +31,15 @@
       </button>
 
       
-           <div class="version-badge">v2.3 Nexus</div>
+           <div class="version-badge"></div>
     </div>
 
     
     <div class="header-gradient"></div>
   </header>
 
-  <!-- المحتوى الرئيسي -->
+
   <main class="modern-dashboard">
-    <!-- القسم الأول - إدخال البيانات -->
     <section class="modern-card primary-card" data-section="input">
       <div class="card-header">
         <div class="card-icon">💰</div>
@@ -94,7 +97,6 @@
       </div>
     </section>
 
-    <!-- القسم الثاني - تفاصيل الحسبة -->
     <section class="modern-card calculation-card" data-section="calculations">
       <div class="card-header">
         <div class="card-icon">📊</div>
@@ -192,7 +194,6 @@
       </div>
     </section>
 
-    <!-- القسم الثالث - رسالة العميل -->
     <section class="modern-card message-card" data-section="message">
       <div class="card-header">
         <div class="card-icon">📋</div>
@@ -209,7 +210,6 @@
     </section>
   </main>
 
-  <!-- زر التنقل للهاتف -->
   <div class="mobile-nav" id="mobileNav">
     <button class="nav-btn" id="navToCalc" data-target="calculations">
       <span class="nav-icon">📊</span>
@@ -225,7 +225,6 @@
     </button>
   </div>
 
-  <!-- Footer -->
   <footer class="modern-footer">
     <div class="footer-content">
       <div class="developer-info">
@@ -235,20 +234,13 @@
     </div>
   </footer>
 
-  <!-- الملفات الجافاسكريبت -->
   <script src="js/script.js"></script>
    <script defer src="js/activeUserNotify.js"></script> 
   <script src="js/qb-fingerprint.js" defer></script>
   <script src="js/developer-contact.js"></script>
 
   <script>
-    (function () {
-      let s = null;
-      try { s = JSON.parse(localStorage.getItem("qb_session")); } catch {}
-      if (!s) location.replace("index.html");
-    })();
 
-    // إضافة التنقل للهاتف
     document.addEventListener('DOMContentLoaded', function() {
       const navBtns = document.querySelectorAll('.nav-btn');
       const sections = document.querySelectorAll('.modern-card');
@@ -264,26 +256,18 @@
               block: 'start'
             });
           }
-
-          // تحديث حالة الأزرار
           navBtns.forEach(b => b.classList.remove('active'));
           this.classList.add('active');
         });
       });
-
-      // تعيين الزر النشط الافتراضي
       document.querySelector('[data-target="input"]').classList.add('active');
     });
 
-// إصلاح موقع أزرار التنقل على الهاتف
 document.addEventListener('DOMContentLoaded', function() {
   function fixMobileNavPosition() {
     const mobileNav = document.getElementById('mobileNav');
     if (mobileNav && window.innerWidth <= 767) {
-      // إزالة أي أنماط inline قد تكون مطبقة
       mobileNav.removeAttribute('style');
-      
-      // التأكد من الخصائص الصحيحة
       mobileNav.style.cssText = `
         display: flex !important;
         position: fixed !important;
@@ -307,19 +291,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // تطبيق الإصلاح عند التحميل
   fixMobileNavPosition();
-  
-  // تطبيق الإصلاح عند تغيير حجم الشاشة
+
   window.addEventListener('resize', fixMobileNavPosition);
-  
-  // تطبيق الإصلاح بعد تأخير قصير للتأكد
+
   setTimeout(fixMobileNavPosition, 100);
   setTimeout(fixMobileNavPosition, 500);
   setTimeout(fixMobileNavPosition, 1000);
 });
 
-// مراقبة أي تغييرات على العنصر
 if (window.MutationObserver) {
   const observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
@@ -354,7 +334,6 @@ if (window.MutationObserver) {
     });
   });
   
-  // مراقبة التغييرات على عنصر التنقل
   const mobileNav = document.getElementById('mobileNav');
   if (mobileNav) {
     observer.observe(mobileNav, {

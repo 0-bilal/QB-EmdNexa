@@ -7,28 +7,60 @@
   <link rel="stylesheet" href="css/modern-login-style.css" />
   <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
   <script defer src="js/login.js"></script>
+  <script src="js/version.js" defer></script>
+
 </head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
+<script>
+
+(function enforceLoginPageRefresh(){
+  const RELOAD_AFTER_MINUTES = 5; // 
+  const RELOAD_MS = RELOAD_AFTER_MINUTES * 60 * 1000;
+
+  function hardReload() {
+    const url = new URL(location.href);
+    url.searchParams.set("_r", Date.now().toString()); 
+    location.replace(url.toString());
+  }
+
+  window.addEventListener("storage", (e) => {
+    if (e.key === "qb_login_signal" || e.key === "qb_session") {
+      hardReload();
+    }
+  });
+
+  setTimeout(hardReload, RELOAD_MS);
+
+  let lastVisibleAt = Date.now();
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      const now = Date.now();
+      if (now - lastVisibleAt > RELOAD_MS) hardReload();
+      lastVisibleAt = now;
+    }
+  });
+})();
+</script>
+
+
 <body class="modern-login-page">
-  <!-- Modern Header -->
   <header class="modern-header">
     <div class="header-content">
       <div class="brand-section">
         <h1 class="brand-title">QB-EmdNexa</h1>
       </div>
-       <div class="version-badge">v2.3 Nexus</div>
+       <div class="version-badge"></div>
       </div>
     </div>
     <div class="header-gradient"></div>
   </header>
 
-  <!-- Main Content -->
+
   <main class="login-container">
     <div class="login-wrapper">
-      <!-- Login Card -->
       <section class="login-card">
         <div class="login-header">
           <div class="login-icon">
@@ -73,7 +105,6 @@
         </div>
       </section>
 
-      <!-- Features Section -->
       <section class="features-section">
         <div class="feature-item">
           <div class="feature-icon">🌍</div>
@@ -100,7 +131,6 @@
     </div>
   </main>
 
-  <!-- Modern Footer -->
   <footer class="modern-footer">
     <div class="footer-content">
       <div class="developer-info">
@@ -116,7 +146,6 @@
     </div>
   </footer>
 
-  <!-- Background Animation -->
   <div class="bg-animation">
     <div class="floating-shape shape-1"></div>
     <div class="floating-shape shape-2"></div>
@@ -164,18 +193,12 @@
 
 
   (function() {
-    // كشف “جهاز لمس” بشكل موثوق
     var isTouch = window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-
-    // بديل احتياطي (أقدم المتصفحات)
     if (!isTouch) {
       isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
     }
-
     document.documentElement.classList.add(isTouch ? 'is-touch' : 'is-desktop');
   })();
-
-
 
   </script>
 </body>
