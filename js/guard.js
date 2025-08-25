@@ -1,6 +1,6 @@
 const LOGIN_PAGE = "index.html";   
-const MAX_SESSION_AGE_MIN = 15;    
-const IDLE_TIMEOUT_MIN     = 10;   
+const MAX_SESSION_AGE_MIN = 90;    
+const IDLE_TIMEOUT_MIN     = 60;   
 
 
 function getSession() {

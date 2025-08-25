@@ -3,9 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>QB-EmdNexa</title>
+
+  <title>QB-Nexa</title>
+
   <link rel="stylesheet" href="css/modern-dark-style.css"/>
-<link rel="stylesheet" href="css/developer-contact.css" />
+  <link rel="stylesheet" href="css/developer-contact.css" />
+  <link rel="stylesheet" href="css/som.css"/>
+  <link rel="stylesheet" href="css/wallet.css"/>
+
   <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
 
 <meta http-equiv="Cache-Control" content="no-store, max-age=0, must-revalidate">
@@ -14,17 +19,71 @@
 
 </head>
 <script src="js/version.js" defer></script>
-<script defer src="js/guard.js"></script>
+ <script defer src="js/guard.js"></script>
 
 <body class="modern-dark-theme">
   <header class="modern-header">
     <div class="header-content">
       <div class="brand-section">
-        <h1 class="brand-title">QB-EmdNexa</h1>
+       <h1 class="brand-title">QB-Nexa</h1>
       </div>
 
     <div class="header-actions">
- 
+    <button id="saveDataBtn" class="save-data-btn" type="button">
+        <span class="save-data-btn-icon">💾</span>
+        <span>حفظ البيانات</span>
+      </button>
+
+      <div id="saveModal" class="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="closeModal">×</button>
+    
+    <div class="modal-header">
+      <div class="modal-icon">💾</div>
+      <h2 class="modal-title">حفظ البيانات</h2>
+    </div>
+
+    <!-- رسالة نجاح الحفظ -->
+    <div id="saveSuccess" class="save-success">
+      <span>✅</span>
+      <span>تم حفظ البيانات بنجاح!</span>
+    </div>
+
+    <form class="modal-form" id="saveForm">
+      <div class="modal-form-group">
+        <label for="operationName" class="modal-label">اسم العملية</label>
+        <input 
+          type="text" 
+          id="operationName" 
+          class="modal-input" 
+          placeholder="أدخل اسم العملية (مثل: تمويل سيارة نيسان صني)"
+          required
+          maxlength="50"
+        />
+      </div>
+
+    
+
+      <div class="modal-actions">
+        <button type="button" class="modal-btn modal-btn-secondary" id="cancelSave">
+          <span class="modal-btn-icon"></span>
+          إلغاء
+        </button>
+        <button type="submit" class="modal-btn modal-btn-primary" id="confirmSave">
+          <span class="modal-btn-icon"></span>
+          حفظ العملية
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+      <div id="wallet-mount" class="wallet-mount">
+       <button id="walletBtn" class="wallet-btn" type="button" title="العمليات المحفوظة">
+        <span class="wallet-btn-icon">🗂️</span>
+       </button>
+      </div>
+
      <button id="contactDeveloperBtn" class="contact-btn" type="button">
            <span class="contact-btn-icon">💬</span>
            <span>تواصل مع المطور</span>
@@ -228,16 +287,24 @@
   <footer class="modern-footer">
     <div class="footer-content">
       <div class="developer-info">
-        <div class="dev-badge">تطوير : بلال الخواجة</div>
-        <div class="dev-details">مبني على إصدار الإكسل الأصلية | 20 أغسطس 2025</div>
+        <div class="dev-main">
+          <span class="dev-badge">تطوير : بلال الخواجة</span>
+        </div>
+        <div class="dev-details">
+          <span class="dev-date"></span>
+          <span class="dev-separator">•</span>
+          <span class="dev-base">مبني على إصدار الإكسل الأصلية</span>
+        </div>
       </div>
     </div>
   </footer>
 
-  <script src="js/script.js"></script>
-   <script defer src="js/activeUserNotify.js"></script> 
-  <script src="js/qb-fingerprint.js" defer></script>
-  <script src="js/developer-contact.js"></script>
+   <script src="js/script.js"></script>
+   <script defer src="js/activeUserNotify.js"></script>
+   <script src="js/qb-fingerprint.js" defer></script>
+   <script src="js/developer-contact.js"></script>
+   <script src="js/som.js"></script>
+   <script src="js/wallet.js"></script>
 
   <script>
 
@@ -342,6 +409,7 @@ if (window.MutationObserver) {
     });
   }
 }
+
   </script>
 </body>
 </html>

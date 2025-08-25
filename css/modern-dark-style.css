@@ -27,7 +27,7 @@ body {
   --bg-input: #2a2d38;
   --bg-button: #3b82f6;
   --bg-button-hover: #2563eb;
-  --bg-success: #10b981;
+  --bg-success: #1a1d26;
   --bg-warning: #f59e0b;
   --bg-error: #ef4444;
   --text-primary: #ffffff;
@@ -51,6 +51,8 @@ body {
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
+  --space-n: 1.1rem;
+  --space-n: 0.54rem;
   --space-lg: 1.5rem;
   --space-xl: 2rem;
   --space-2xl: 3rem;
@@ -122,7 +124,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-n) var(--space-n);
   background: var(--bg-tertiary);
   border: 1px solid var(--border-secondary);
   border-radius: var(--radius-lg);
@@ -262,7 +264,6 @@ body {
   flex: 1;
 }
 
-/* Form Styles */
 .form-grid {
   display: flex;
   flex-direction: column;
@@ -433,7 +434,6 @@ body {
   font-weight: 600;
 }
 
-/* Calculation Grid */
 .calculation-grid {
   display: flex;
   flex-direction: column;
@@ -753,7 +753,6 @@ body {
   }
 }
 
-/* Card Structure for Desktop */
 @media (min-width: 1024px) {
   .primary-card,
   .calculation-card {
@@ -785,25 +784,23 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
-  flex: 1; /* يأخذ باقي المساحة المتاحة */
+  flex: 1; 
 }
 
 .modern-textarea {
   flex: 1;
   font-family: 'Courier New', monospace;
   line-height: 1.6;
-  resize: none; /* منع تغيير الحجم على الكمبيوتر */
+  resize: none; 
 }
 
-/* Desktop specific textarea sizing */
 @media (min-width: 1024px) {
   .modern-textarea {
-    min-height: 0; /* السماح للفليكس بالتحكم في الحجم */
+    min-height: 0; 
     max-height: none;
   }
 }
 
-/* Mobile specific textarea sizing */
 @media (max-width: 767px) {
   .modern-textarea {
     min-height: 150px;
@@ -812,7 +809,6 @@ body {
   }
 }
 
-/* Modern Button */
 .modern-btn {
   display: inline-flex;
   align-items: center;
@@ -829,7 +825,7 @@ body {
   transition: all 0.2s ease;
   box-shadow: var(--shadow-md);
   outline: none;
-  margin-top: auto; /* يدفع الزر لأسفل الكرت */
+  margin-top: auto;
 }
 
 @media (max-width: 767px) {
@@ -859,12 +855,10 @@ body {
   font-size: var(--font-size-lg);
 }
 
-/* Mobile Navigation - Single Clear Rule */
 .mobile-nav {
   display: none;
 }
 
-/* Only for mobile devices */
 @media (max-width: 767px) {
   .mobile-nav {
     display: flex !important;
@@ -948,7 +942,6 @@ body {
   display: block !important;
 }
 
-/* Modern Footer */
 .modern-footer {
   height: var(--footer-height);
   background: var(--bg-card);
@@ -1260,7 +1253,7 @@ html {
   }
   
   .version-badge {
-    padding: 2px var(--space-xs);
+    padding: 9px var(--space-xs);
     font-size: 10px;
   }
   

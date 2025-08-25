@@ -1,6 +1,7 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbxBlG06bCUg0UcW2765Md7_q6rs0h75iDbEssrqnAFVFay_oLdrZYSpDZrfgkqGGFfu/exec";
 
 const REDIRECT_TO = "home.html"; 
+const REDIRECT_AD = "about.html";
 
 const form = document.getElementById("loginForm");
 const userIdInput = document.getElementById("userId");
@@ -31,17 +32,24 @@ async function validateAndLogin(e) {
     const data = await res.json();
 
     if (data && data.ok) {
-    localStorage.setItem("qb_session", JSON.stringify({
-     user_id: data.user.user_id,
-     name: data.user.name,
-     role: data.user.role,
-     ts: Date.now() 
-    }));
+      localStorage.setItem("qb_session", JSON.stringify({
+        user_id: data.user.user_id,
+        name: data.user.name,
+        role: data.user.role,
+        ts: Date.now() 
+      }));
 
-localStorage.setItem("qb_login_signal", String(Date.now()));
+      localStorage.setItem("qb_login_signal", String(Date.now()));
       msg.style.color = "var(--brand)";
       msg.textContent = "تم تسجيل الدخول ✅";
-      setTimeout(() => { location.href = REDIRECT_TO; }, 600);
+
+      // 🔹 التوجيه حسب الدور
+      let redirectTo = REDIRECT_TO;
+      if (data.user.role === "admin") {
+        redirectTo = REDIRECT_AD;
+      }
+
+      setTimeout(() => { location.href = redirectTo; }, 600);
     } else {
       const map = {
         MISSING_ID: "يرجى إدخال رقم التعريف.",
@@ -69,4 +77,3 @@ userIdInput.addEventListener("keydown", (e) => {
     validateAndLogin();
   }
 });
-

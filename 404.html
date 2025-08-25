@@ -6,7 +6,7 @@
   <title>صفحة غير موجودة</title>
   <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
   <style>
-    /* Reset & Base Styles */
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -30,7 +30,6 @@
       overflow-x: hidden;
     }
 
-    /* Variables */
     :root {
       --bg-primary: #0a0b0f;
       --bg-secondary: #12141a;
@@ -86,7 +85,6 @@
       --font-size-6xl: 3.75rem;
     }
 
-    /* Background Animation */
     .bg-animation {
       position: fixed;
       top: 0;
@@ -155,7 +153,6 @@
       }
     }
 
-    /* Header */
     .error-header {
       position: relative;
       height: 80px;
@@ -215,7 +212,6 @@
       background: var(--gradient-brand);
     }
 
-    /* Main Content */
     .error-container {
       min-height: calc(100vh - 80px - 80px);
       display: flex;
@@ -321,7 +317,6 @@
       font-size: var(--font-size-lg);
     }
 
-    /* Additional Info */
     .error-details {
       background: var(--bg-secondary);
       border: 1px solid var(--border-primary);
@@ -358,7 +353,6 @@
       right: 0;
     }
 
-    /* Footer */
     .error-footer {
       height: 80px;
       background: rgba(30, 33, 40, 0.8);
@@ -383,7 +377,6 @@
       font-weight: 600;
     }
 
-    /* Mobile Responsive */
     @media (max-width: 640px) {
       .error-content {
         padding: var(--space-2xl);
@@ -426,7 +419,6 @@
       }
     }
 
-    /* Auto redirect countdown */
     .countdown {
       margin-top: var(--space-lg);
       padding: var(--space-md);
@@ -438,7 +430,6 @@
       font-weight: 600;
     }
 
-    /* Loading animation */
     .loading-dots {
       display: inline-block;
     }
@@ -461,7 +452,7 @@
 </head>
 
 <body>
-  <!-- Background Animation -->
+
   <div class="bg-animation">
     <div class="floating-shape shape-1"></div>
     <div class="floating-shape shape-2"></div>
@@ -469,18 +460,16 @@
     <div class="floating-shape shape-4"></div>
   </div>
 
-  <!-- Header -->
   <header class="error-header">
     <div class="header-content">
       <div class="brand-section">
-        <h1 class="brand-title">QB-EmdNexa</h1>
+        <h1 class="brand-title">QB-Nexa</h1>
       </div>
       <div class="version-badge"></div>
     </div>
     <div class="header-gradient"></div>
   </header>
 
-  <!-- Main Content -->
   <main class="error-container">
     <div class="error-content">
       <div class="error-icon">🧰</div>
@@ -508,16 +497,14 @@
     </div>
   </main>
 
-  <!-- Footer -->
   <footer class="error-footer">
     <div class="footer-text">
       تطوير: <span class="footer-brand">بلال الخواجة</span> 
-             <div class="dev-details">مبني على إصدار الإكسل الأصلية | 20 أغسطس 2025</div>
+             <div class="dev-details">مبني على إصدار الإكسل الأصلية | 23 أغسطس 2025</div>
     </div>
   </footer>
 
   <script>
-    // Auto redirect after 10 seconds
     let redirectTimer = null;
     let timeLeft = 10;
 
@@ -525,7 +512,6 @@
       const countdown = document.getElementById('countdown');
       const timerElement = document.getElementById('timer');
       
-      // Show countdown after 3 seconds
       setTimeout(() => {
         countdown.style.display = 'block';
         
@@ -541,10 +527,7 @@
       }, 3000);
     }
 
-    // Start timer when page loads
     window.addEventListener('load', startRedirectTimer);
-
-    // Cancel redirect if user interacts with page
     document.addEventListener('click', () => {
       if (redirectTimer) {
         clearInterval(redirectTimer);
@@ -553,9 +536,7 @@
       }
     });
 
-    // Add some interactive effects
     document.addEventListener('DOMContentLoaded', function() {
-      // Animate the 404 code
       const errorCode = document.querySelector('.error-code');
       errorCode.style.opacity = '0';
       errorCode.style.transform = 'scale(0.5)';
@@ -566,7 +547,6 @@
         errorCode.style.transform = 'scale(1)';
       }, 500);
 
-      // Add hover effect to buttons
       const buttons = document.querySelectorAll('.btn');
       buttons.forEach(btn => {
         btn.addEventListener('mouseenter', function() {
@@ -579,7 +559,6 @@
       });
     });
 
-    // Add error reporting (optional)
     function reportError() {
       const errorData = {
         url: window.location.href,
@@ -588,21 +567,17 @@
         timestamp: new Date().toISOString()
       };
       
-      // Log to console (can be sent to server)
       console.log('404 Error:', errorData);
-      
-      // Save to localStorage for debugging
       try {
         const errors = JSON.parse(localStorage.getItem('qb_404_errors') || '[]');
         errors.push(errorData);
-        if (errors.length > 10) errors.shift(); // Keep only last 10
+        if (errors.length > 10) errors.shift(); 
         localStorage.setItem('qb_404_errors', JSON.stringify(errors));
       } catch (e) {
         console.warn('Could not save error data');
       }
     }
 
-    // Report error when page loads
     reportError();
   </script>
 </body>

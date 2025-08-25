@@ -485,7 +485,7 @@ body {
 
 .btn-icon {
   font-size: var(--font-size-xl);
-  transform: rotate(180deg); /* For RTL */
+  transform: rotate(180deg); 
   transition: transform 0.2s ease;
 }
 
@@ -735,7 +735,6 @@ body {
   100% { transform: rotate(360deg); }
 }
 
-/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -911,7 +910,6 @@ body {
   background: var(--text-error);
 }
 
-/* Success State */
 .input-wrapper.success .login-input {
   border-color: var(--text-success);
   background: rgba(16, 185, 129, 0.1);

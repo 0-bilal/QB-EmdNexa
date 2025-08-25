@@ -88,7 +88,6 @@
 .dev-details h4 { font-size: var(--font-size-base); font-weight: 700; color: var(--text-primary); margin: 0 0 2px; }
 .dev-details p  { font-size: var(--font-size-sm); color: var(--text-tertiary); margin: 0; }
 
-/* ------- Form ------- */
 .contact-form { display: flex; flex-direction: column; gap: var(--space-md); }
 .form-section { display: flex; flex-direction: column; gap: var(--space-sm); }
 .form-label { font-size: var(--font-size-sm); font-weight: 600; color: var(--text-secondary); }
@@ -110,13 +109,6 @@
 .contact-select { cursor: pointer; }
 .char-counter { text-align: left; font-size: var(--font-size-xs); color: var(--text-tertiary); margin-top: var(--space-xs); }
 
-.version-badge {
-  display: inline-flex; align-items: center;
-  font-weight: 800;
-  padding: 6px 10px;                 /* يتحكم في الارتفاع */
-  border: 1px solid var(--border, rgba(255,255,255,.18));
-  border-radius: 12px;
-}
 
 .modal-footer {
   display: flex; gap: var(--space-md);
@@ -182,9 +174,9 @@
 
 #contactDeveloperBtn{
   height: auto;
-  padding-top: 6px; padding-bottom: 6px;
+  padding: var(--space-sm) var(--space-md);
   padding-left: 10px; padding-right: 10px; 
-  line-height: 1.4;
+  line-height: 1.5;
   display: inline-flex; align-items: center;
 }
 
@@ -239,10 +231,12 @@
     border-radius: var(--radius-md);
 }
 
-.version-value {
+.version-badge {
     font-size: var(--font-size-xs);
     color: var(--text-accent);
     font-weight: 700;
+
+ 
 }
 
 .dev-badges {
