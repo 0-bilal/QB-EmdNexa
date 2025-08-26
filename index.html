@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function boot(){
   var V = (window.APP_VERSION || 'v3.0 Nova');
   function bust(u){ return u + (u.indexOf('?')>-1?'&':'?') + 'v=' + encodeURIComponent(V); }
 
-  var css = ['css/modern-login-style.cs'];
+  var css = ['css/modern-login-style.css'];
   css.forEach(function(href){
     var l = document.createElement('link');
     l.rel = 'stylesheet';
@@ -219,4 +219,5 @@ document.addEventListener('DOMContentLoaded', function boot(){
   </script>
 
 </body>
+
 </html>
