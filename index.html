@@ -4,15 +4,31 @@
   <meta charset="UTF-8" />
   <title>QB-Nexa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="css/modern-login-style.css" />
   <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
-  <script src="js/version.js" defer></script>
-  <script defer src="js/login.js"></script>
   
+
+<script src="js/version.js" defer></script>
+<script src="js/version-check.js" defer></script>
+<script defer src="js/login.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function boot(){
+  var V = (window.APP_VERSION || 'v3.0 Nova');
+  function bust(u){ return u + (u.indexOf('?')>-1?'&':'?') + 'v=' + encodeURIComponent(V); }
+
+  var css = ['css/modern-login-style.cs'];
+  css.forEach(function(href){
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = bust(href);
+    document.head.appendChild(l);
+  });
+
+});
+</script>
+
 </head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 
 <script>
 
@@ -201,5 +217,6 @@
   })();
 
   </script>
+
 </body>
 </html>

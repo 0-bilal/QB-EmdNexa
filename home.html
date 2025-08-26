@@ -6,20 +6,41 @@
 
   <title>QB-Nexa</title>
 
-  <link rel="stylesheet" href="css/modern-dark-style.css"/>
-  <link rel="stylesheet" href="css/developer-contact.css" />
-  <link rel="stylesheet" href="css/som.css"/>
-  <link rel="stylesheet" href="css/wallet.css"/>
-
   <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
 
 <meta http-equiv="Cache-Control" content="no-store, max-age=0, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 
+  <script src="js/version.js" defer></script>
+  <script src="js/version-check.js" defer></script>
+  <script defer src="js/guard.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function boot(){
+  var V = (window.APP_VERSION || 'v3.0 Nova');
+  function bust(u){ return u + (u.indexOf('?')>-1?'&':'?') + 'v=' + encodeURIComponent(V); }
+
+  var css = ['css/modern-dark-style.css','css/developer-contact.css','css/som.css','css/wallet.css'];
+  css.forEach(function(href){
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = bust(href);
+    document.head.appendChild(l);
+  });
+
+  var js = ['js/script.js','js/activeUserNotify.js','js/qb-fingerprint.js','js/developer-contact.js','js/som.js','js/wallet.js'];
+  js.forEach(function(src){
+    var s = document.createElement('script');
+    s.defer = true;
+    s.src = bust(src);
+    document.head.appendChild(s);
+  });
+});
+</script>
+
+
 </head>
-<script src="js/version.js" defer></script>
- <script defer src="js/guard.js"></script>
 
 <body class="modern-dark-theme">
   <header class="modern-header">
@@ -299,12 +320,6 @@
     </div>
   </footer>
 
-   <script src="js/script.js"></script>
-   <script defer src="js/activeUserNotify.js"></script>
-   <script src="js/qb-fingerprint.js" defer></script>
-   <script src="js/developer-contact.js"></script>
-   <script src="js/som.js"></script>
-   <script src="js/wallet.js"></script>
 
   <script>
 
@@ -411,5 +426,6 @@ if (window.MutationObserver) {
 }
 
   </script>
+
 </body>
 </html>

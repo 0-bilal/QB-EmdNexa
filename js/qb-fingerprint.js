@@ -160,19 +160,11 @@ async function initFingerprintAndHB() {
 
   await sendLoginFingerprint();  
 
-  // 👇 السطر الوحيد الذي يفعّل النبضات.
-  //    إذا أردت إيقاف تسجيل النبضات لاحقًا، علّق هذا السطر فقط.
-  startHeartbeats();              // ← علّق هذا السطر لإيقاف النبضات
+// startHeartbeats();            
 
   __FP_INIT_DONE__ = true;
 }
 
-/* (اختياري) لو فعّلت بصمة الخروج لاحقًا أزل التعليق:
-window.addEventListener("pagehide", sendFinalBeat);
-window.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "hidden") sendFinalBeat();
-});
-*/
 
 window.addEventListener("DOMContentLoaded", () => {
   if (window.QBFingerprint?.init) return;

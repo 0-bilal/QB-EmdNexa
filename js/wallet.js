@@ -307,8 +307,8 @@ class WalletModalManager {
           <div class="operation-date">${operation.date}</div>
           <div class="operation-summary">
             <div class="summary-item"><div class="summary-label">سعر السيارة</div><div class="summary-value">${carPrice || '0'} ريال</div></div>
-            <div class="summary-item"><div class="summary-label">سعر البنك</div><div class="summary-value">${bankPrice || '0'} ريال</div></div>
-            <div class="summary-item"><div class="summary-label">القسط الشهري</div><div class="summary-value">${monthlyPayment || '0'} ريال</div></div>
+            <div class="summary-item"><div class="summary-label">هامش الربح</div><div class="summary-value">${bankPrice || '0'} %</div></div>
+            <div class="summary-item"><div class="summary-label">صافي الربح</div><div class="summary-value">${monthlyPayment || '0'} ريال</div></div>
            
           </div>
         </div>
