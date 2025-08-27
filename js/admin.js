@@ -1,7 +1,6 @@
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyESxUtYPNcVNrMf2_dAUy7d6vbydDvASw_5tBo3E6Rl1dYPRBhCz4r2pUhv6dMqcKK/exec';
 
 let employees = [];
-let filteredEmployees = [];
 let editingIndex = -1;
 let deletingIndex = -1;
 
@@ -29,67 +28,6 @@ function hideLoading() {
     overlay.style.display = 'none';
     document.body.style.overflow = 'auto';
   }
-}
-
-function updateResultsCount() {
-  const count = filteredEmployees.length;
-  const total = employees.length;
-  const resultsText = count === total 
-    ? `عرض جميع الموظفين (${total})` 
-    : `عرض ${count} من ${total} موظف`;
-  byId('resultsCount').textContent = resultsText;
-}
-
-function filterAndSearchEmployees() {
-  const searchTerm = byId('searchInput').value.toLowerCase().trim();
-  const statusFilter = byId('statusFilter').value;
-  const roleFilter = byId('roleFilter').value;
-  const sortBy = byId('sortBy').value;
-
-  // Apply filters
-  filteredEmployees = employees.filter(emp => {
-    const matchesSearch = !searchTerm || 
-      emp.name.toLowerCase().includes(searchTerm) ||
-      emp.id.toLowerCase().includes(searchTerm) ||
-      emp.role.toLowerCase().includes(searchTerm) ||
-      (emp.deviceStatus && emp.deviceStatus.toLowerCase().includes(searchTerm)) ||
-      (emp.lastVersion && emp.lastVersion.toLowerCase().includes(searchTerm));
-
-    const matchesStatus = !statusFilter || emp.status === statusFilter;
-    const matchesRole = !roleFilter || emp.role === roleFilter;
-
-    return matchesSearch && matchesStatus && matchesRole;
-  });
-
-  // Apply sorting
-  filteredEmployees.sort((a, b) => {
-    switch (sortBy) {
-      case 'name':
-        return a.name.localeCompare(b.name, 'ar');
-      case 'id':
-        return a.id.localeCompare(b.id);
-      case 'lastActivity':
-        return new Date(b.lastActivity || 0) - new Date(a.lastActivity || 0);
-      case 'loginCount':
-        return parseInt(b.loginCount || 0) - parseInt(a.loginCount || 0);
-      case 'operationsCount':
-        return parseInt(b.operationsCount || 0) - parseInt(a.operationsCount || 0);
-      default:
-        return 0;
-    }
-  });
-
-  renderEmployeeTable();
-  renderMobileCards();
-  updateResultsCount();
-}
-
-function clearAllFilters() {
-  byId('searchInput').value = '';
-  byId('statusFilter').value = '';
-  byId('roleFilter').value = '';
-  byId('sortBy').value = 'name';
-  filterAndSearchEmployees();
 }
 
 function formatDateISO(d) {
@@ -159,7 +97,8 @@ async function loadEmployeesFromSheet() {
     const json = await res.json();
     if (!json.ok) throw new Error(json.error || 'Load failed');
     employees = (json.data || []).map(parseAggregatedLine).map(toEmployeeObject);
-    filterAndSearchEmployees();
+    renderEmployeeTable();
+    renderMobileCards();
   } catch (error) {
     console.error('[Load]', error);
     throw error;
@@ -212,10 +151,9 @@ function renderEmployeeTable() {
   if (!tbody) return;
   tbody.innerHTML = '';
 
-  filteredEmployees.forEach((e, idx) => {
-    const originalIndex = employees.indexOf(e);
-    const statusClass = statusToClass(e.status);
+  employees.forEach((e, idx) => {
     const tr = document.createElement('tr');
+    const statusClass = statusToClass(e.status);
     tr.innerHTML = `
       <td>${e.id}</td>
       <td>${e.name}</td>
@@ -229,20 +167,28 @@ function renderEmployeeTable() {
       <td>${e.lastVersion || '-'}</td>
       <td>
         <div class="action-buttons">
-          <button class="action-btn edit-btn" data-index="${originalIndex}" title="تعديل">✏️</button>
-          <button class="action-btn delete-btn" data-index="${originalIndex}" title="حذف">🗑️</button>
+          <button class="action-btn edit-btn" data-index="${idx}" title="تعديل">✏️</button>
+          <button class="action-btn delete-btn" data-index="${idx}" title="حذف">🗑️</button>
         </div>
       </td>
     `;
     tbody.appendChild(tr);
   });
 
-  $$('#employeeTableBody .edit-btn').forEach(btn => {
-    btn.onclick = () => openEmployeeModal(Number(btn.dataset.index));
-  });
-  $$('#employeeTableBody .delete-btn').forEach(btn => {
-    btn.onclick = () => openDeleteModal(Number(btn.dataset.index));
-  });
+$$('#employeeTableBody .edit-btn').forEach(btn => {
+  btn.onclick = () => openEmployeeModal(Number(btn.dataset.index));
+});
+$$('#employeeTableBody .delete-btn').forEach(btn => {
+  btn.onclick = () => openDeleteModal(Number(btn.dataset.index));
+});
+
+$$('.mobile-edit-btn').forEach(btn => {
+  btn.onclick = () => openEmployeeModal(Number(btn.dataset.index));
+});
+$$('.mobile-delete-btn').forEach(btn => {
+  btn.onclick = () => openDeleteModal(Number(btn.dataset.index));
+});
+
 }
 
 function renderMobileCards() {
@@ -250,268 +196,44 @@ function renderMobileCards() {
   if (!wrap) return;
   wrap.innerHTML = '';
 
-  filteredEmployees.forEach((e, idx) => {
-    const originalIndex = employees.indexOf(e);
+  employees.forEach((e, idx) => {
     const statusClass = statusToClass(e.status);
     const card = document.createElement('div');
     card.className = 'employee-card';
     card.innerHTML = `
-      <div class="swipe-actions">
-        <div class="swipe-action edit" data-index="${originalIndex}" title="تعديل">✏️</div>
-        <div class="swipe-action delete" data-index="${originalIndex}" title="حذف">🗑️</div>
+      <div class="employee-card-header">
+        <div class="employee-basic-info">
+          <h3>${e.name || '-'}</h3>
+          <div class="employee-id">${e.id || '-'}</div>
+        </div>
+        <span class="status-badge ${statusClass}">${e.status || '-'}</span>
       </div>
-      
-      <div class="employee-card-content">
-        <div class="employee-card-header" data-index="${originalIndex}">
-          <div class="employee-basic-info">
-            <h3>${e.name || '-'}</h3>
-            <div class="employee-id">${e.id || '-'}</div>
-          </div>
-          <span class="status-badge ${statusClass}">${e.status || '-'}</span>
-          <div class="collapse-indicator">
-            <span>عرض المزيد</span>
-            <span class="collapse-icon">▼</span>
-          </div>
-        </div>
 
-        <div class="employee-card-body">
-          <div class="info-grid">
-            <div class="info-item">
-              <div class="info-label">الدور</div>
-              <div class="info-value">${e.role || '-'}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">تاريخ الانتهاء</div>
-              <div class="info-value">${e.expiryDate || '-'}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">تسجيلات الدخول</div>
-              <div class="info-value">${e.loginCount || '0'}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">آخر نشاط</div>
-              <div class="info-value">${e.lastActivity || '-'}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">حالة الجهاز</div>
-              <div class="info-value">${e.deviceStatus || '-'}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">العمليات</div>
-              <div class="info-value">${e.operationsCount || '0'}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">آخر إصدار</div>
-              <div class="info-value">${e.lastVersion || '-'}</div>
-            </div>
-          </div>
+      <div class="employee-card-body">
+        <div class="info-item"><div class="info-label">الدور</div><div class="info-value">${e.role || '-'}</div></div>
+        <div class="info-item"><div class="info-label">تاريخ الانتهاء</div><div class="info-value">${e.expiryDate || '-'}</div></div>
+        <div class="info-item"><div class="info-label">تسجيلات الدخول</div><div class="info-value">${e.loginCount || '0'}</div></div>
+        <div class="info-item"><div class="info-label">آخر نشاط</div><div class="info-value">${e.lastActivity || '-'}</div></div>
+        <div class="info-item"><div class="info-label">حالة الجهاز</div><div class="info-value">${e.deviceStatus || '-'}</div></div>
+        <div class="info-item"><div class="info-label">العمليات</div><div class="info-value">${e.operationsCount || '0'}</div></div>
+        <div class="info-item"><div class="info-label">آخر إصدار</div><div class="info-value">${e.lastVersion || '-'}</div></div>
+      </div>
 
-          <div class="employee-card-actions">
-            <button class="mobile-action-btn mobile-edit-btn" data-index="${originalIndex}">
-              <span>✏️</span><span>تعديل</span>
-            </button>
-            <button class="mobile-action-btn mobile-delete-btn" data-index="${originalIndex}">
-              <span>🗑️</span><span>حذف</span>
-            </button>
-          </div>
-        </div>
+      <div class="employee-card-actions">
+        <button class="mobile-action-btn mobile-edit-btn" data-index="${idx}"><span>✏️</span><span>تعديل</span></button>
+        <button class="mobile-action-btn mobile-delete-btn" data-index="${idx}"><span>🗑️</span><span>حذف</span></button>
       </div>
     `;
     wrap.appendChild(card);
   });
 
-  // Initialize swipe functionality
-  initializeSwipeActions();
+$$('.mobile-edit-btn').forEach(btn => {
+  btn.onclick = () => openEmployeeModal(Number(btn.dataset.index));
+});
+$$('.mobile-delete-btn').forEach(btn => {
+  btn.onclick = () => openDeleteModal(Number(btn.dataset.index));
+});
 
-  // Add collapse functionality for mobile cards
-  $$('.employee-card-header').forEach(header => {
-    header.addEventListener('click', (e) => {
-      // Don't toggle if card is being swiped
-      if (header.closest('.employee-card').classList.contains('swiping')) {
-        return;
-      }
-      
-      const card = header.closest('.employee-card');
-      const indicator = header.querySelector('.collapse-indicator span:first-child');
-      
-      card.classList.toggle('expanded');
-      if (card.classList.contains('expanded')) {
-        indicator.textContent = 'عرض أقل';
-      } else {
-        indicator.textContent = 'عرض المزيد';
-      }
-    });
-  });
-
-  $$('.mobile-edit-btn').forEach(btn => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      openEmployeeModal(Number(btn.dataset.index));
-    };
-  });
-  $$('.mobile-delete-btn').forEach(btn => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      openDeleteModal(Number(btn.dataset.index));
-    };
-  });
-}
-
-// Initialize swipe actions for mobile cards
-function initializeSwipeActions() {
-  const cards = $$('.employee-card');
-  
-  cards.forEach(card => {
-    let startX = 0;
-    let currentX = 0;
-    let isDragging = false;
-    let threshold = 60; // Minimum swipe distance
-
-    const cardContent = card.querySelector('.employee-card-content');
-    const swipeActions = card.querySelectorAll('.swipe-action');
-
-    // Touch events
-    card.addEventListener('touchstart', handleTouchStart, { passive: false });
-    card.addEventListener('touchmove', handleTouchMove, { passive: false });
-    card.addEventListener('touchend', handleTouchEnd, { passive: false });
-
-    // Mouse events for testing
-    card.addEventListener('mousedown', handleMouseStart);
-    card.addEventListener('mousemove', handleMouseMove);
-    card.addEventListener('mouseup', handleMouseEnd);
-    card.addEventListener('mouseleave', handleMouseEnd);
-
-    function handleTouchStart(e) {
-      startX = e.touches[0].clientX;
-      isDragging = true;
-      card.style.transition = 'none';
-    }
-
-    function handleMouseStart(e) {
-      startX = e.clientX;
-      isDragging = true;
-      card.style.transition = 'none';
-      e.preventDefault();
-    }
-
-    function handleTouchMove(e) {
-      if (!isDragging) return;
-      
-      currentX = e.touches[0].clientX;
-      const deltaX = startX - currentX;
-      
-      updateCardPosition(deltaX);
-      e.preventDefault();
-    }
-
-    function handleMouseMove(e) {
-      if (!isDragging) return;
-      
-      currentX = e.clientX;
-      const deltaX = startX - currentX;
-      
-      updateCardPosition(deltaX);
-    }
-
-    function updateCardPosition(deltaX) {
-      // Only allow swiping to the left (revealing actions on the right)
-      if (deltaX > 0 && deltaX <= 80) {
-        cardContent.style.transform = `translateX(-${deltaX}px)`;
-        
-        if (deltaX > threshold) {
-          card.classList.add('swiping');
-        } else {
-          card.classList.remove('swiping');
-        }
-      }
-    }
-
-    function handleTouchEnd(e) {
-      handleEnd();
-    }
-
-    function handleMouseEnd(e) {
-      handleEnd();
-    }
-
-    function handleEnd() {
-      if (!isDragging) return;
-      
-      isDragging = false;
-      card.style.transition = '';
-      
-      const deltaX = startX - currentX;
-      
-      if (deltaX > threshold) {
-        // Show actions
-        card.classList.add('swiping');
-        cardContent.style.transform = 'translateX(-80px)';
-      } else {
-        // Reset position
-        card.classList.remove('swiping');
-        cardContent.style.transform = 'translateX(0)';
-      }
-    }
-
-    // Handle swipe action clicks
-    swipeActions.forEach(action => {
-      action.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const index = Number(action.dataset.index);
-        
-        if (action.classList.contains('edit')) {
-          openEmployeeModal(index);
-        } else if (action.classList.contains('delete')) {
-          openDeleteModal(index);
-        }
-        
-        // Reset card position after action
-        setTimeout(() => {
-          card.classList.remove('swiping');
-          cardContent.style.transform = 'translateX(0)';
-        }, 300);
-      });
-    });
-
-    // Reset swipe when clicking elsewhere
-    document.addEventListener('click', (e) => {
-      if (!card.contains(e.target)) {
-        card.classList.remove('swiping');
-        cardContent.style.transform = 'translateX(0)';
-      }
-    });
-  }, 100);
-}
-
-// Handle floating action button scroll behavior
-function handleFABScrollBehavior() {
-  const fab = byId('floatingAddBtn');
-  if (!fab) return;
-  
-  let lastScrollY = window.scrollY;
-  let ticking = false;
-
-  function updateFAB() {
-    const currentScrollY = window.scrollY;
-    
-    if (currentScrollY > lastScrollY && currentScrollY > 100) {
-      // Scrolling down - hide FAB
-      fab.classList.add('hide');
-    } else {
-      // Scrolling up or at top - show FAB
-      fab.classList.remove('hide');
-    }
-    
-    lastScrollY = currentScrollY;
-    ticking = false;
-  }
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(updateFAB);
-      ticking = true;
-    }
-  });
 }
 
 function openEmployeeModal(index = -1) {
@@ -581,16 +303,16 @@ async function handleFormSubmit(e) {
   if (!data.status) { alert('الحالة مطلوبة');         stField?.focus();   return; }
   if (!data.expiryDate) { alert('تاريخ الصلاحية مطلوب'); expField?.focus(); return; }
 
-  const wasEdit = editingIndex > -1;
+const wasEdit = editingIndex > -1;
 
   try {
-    await saveEmployeeToSheet(data);
-    await loadEmployeesFromSheet();
-    closeEmployeeModal();
-    showSuccessMessage(wasEdit ? 'تم التحديث بنجاح ✅' : 'تم الحفظ بنجاح ✅');
-  } catch (err) {
+  await saveEmployeeToSheet(data);
+  await loadEmployeesFromSheet();
+  closeEmployeeModal();
+  showSuccessMessage(wasEdit ? 'تم التحديث بنجاح ✅' : 'تم الحفظ بنجاح ✅');
+} catch (err) {
     console.error('[Save]', err);
-    alert('تعذر الحفظ. تحقق من رابط الويب-آب والصلاحيات.');
+    alert('تعذّر الحفظ. تحقّق من رابط الويب-آب والصلاحيات.');
   }
 }
 
@@ -606,7 +328,7 @@ async function confirmDelete() {
     
   } catch (err) {
     console.error('[Delete]', err);
-    alert('تعذر الحذف. تحقق من رابط الويب-آب والصلاحيات.');
+    alert('تعذّر الحذف. تحقّق من رابط الويب-آب والصلاحيات.');
   }
 }
 
@@ -638,10 +360,10 @@ function showSuccessMessage(text = 'تم') {
   }, 1600);
 }
 
+
 document.addEventListener('DOMContentLoaded', () => {
 
   byId('addEmployeeBtn')?.addEventListener('click', () => openEmployeeModal(-1));
-  byId('floatingAddBtn')?.addEventListener('click', () => openEmployeeModal(-1));
   byId('employeeForm')?.addEventListener('submit', handleFormSubmit);
 
   byId('closeModal')?.addEventListener('click', closeEmployeeModal);
@@ -651,22 +373,6 @@ document.addEventListener('DOMContentLoaded', () => {
   byId('cancelDeleteBtn')?.addEventListener('click', closeDeleteModalFunction);
   byId('confirmDeleteBtn')?.addEventListener('click', confirmDelete);
 
-  // Search and Filter Event Listeners
-  byId('statusFilter')?.addEventListener('change', filterAndSearchEmployees);
-  byId('roleFilter')?.addEventListener('change', filterAndSearchEmployees);
-  byId('sortBy')?.addEventListener('change', filterAndSearchEmployees);
-  byId('clearFilters')?.addEventListener('click', clearAllFilters);
-
-  // Real-time search with debounce
-  let searchTimeout;
-  byId('searchInput')?.addEventListener('input', () => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(filterAndSearchEmployees, 300);
-  });
-
-  // Initialize FAB scroll behavior
-  handleFABScrollBehavior();
-
   const expiryDateInput = byId('expiryDate');
   if (expiryDateInput && !expiryDateInput.value) {
     const nextYear = new Date();
@@ -674,9 +380,11 @@ document.addEventListener('DOMContentLoaded', () => {
     expiryDateInput.value = nextYear.toISOString().split('T')[0];
   }
 
+
   if (!WEB_APP_URL || WEB_APP_URL.includes('PUT_YOUR_WEB_APP_URL_HERE')) {
     console.warn('⚠️ WEB_APP_URL غير مضبوط. ضع رابط الويب-آب الصحيح.');
   } else {
+
     loadEmployeesFromSheet().catch(err => {
       console.error('[Initial Load]', err);
       hideLoading();

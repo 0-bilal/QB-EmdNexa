@@ -15,6 +15,12 @@
   <script src="js/version.js" defer></script>
   <script src="js/version-check.js" defer></script>
   <script defer src="js/guard.js"></script>
+  <script defer src="js/script.js"></script>
+  <script defer src="js/activeUserNotify.js"></script>
+  <script defer src="js/qb-fingerprint.js"></script>
+  <script defer src="js/developer-contact.js"></script>
+  <script defer src="js/som.js"></script>
+  <script defer src="js/wallet.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function boot(){
@@ -27,14 +33,6 @@ document.addEventListener('DOMContentLoaded', function boot(){
     l.rel = 'stylesheet';
     l.href = bust(href);
     document.head.appendChild(l);
-  });
-
-  var js = ['js/script.js','js/activeUserNotify.js','js/qb-fingerprint.js','js/developer-contact.js','js/som.js','js/wallet.js'];
-  js.forEach(function(src){
-    var s = document.createElement('script');
-    s.defer = true;
-    s.src = bust(src);
-    document.head.appendChild(s);
   });
 });
 </script>
@@ -83,17 +81,11 @@ document.addEventListener('DOMContentLoaded', function boot(){
         />
       </div>
 
-    
-
       <div class="modal-actions">
         <button type="button" class="modal-btn modal-btn-secondary" id="cancelSave">
-          <span class="modal-btn-icon"></span>
-          إلغاء
-        </button>
+          <span class="modal-btn-icon"></span>إلغاء</button>
         <button type="submit" class="modal-btn modal-btn-primary" id="confirmSave">
-          <span class="modal-btn-icon"></span>
-          حفظ العملية
-        </button>
+          <span class="modal-btn-icon"></span>حفظ العملية</button>
       </div>
     </form>
   </div>
@@ -111,11 +103,9 @@ document.addEventListener('DOMContentLoaded', function boot(){
       </button>
 
       
-           <div class="version-badge"></div>
-    </div>
-
-    
-    <div class="header-gradient"></div>
+         <div class="version-badge"></div>
+      <div class="header-gradient"></div>
+  </div>
   </header>
 
 
@@ -283,9 +273,7 @@ document.addEventListener('DOMContentLoaded', function boot(){
       <div class="message-content">
         <textarea id="clientMessage" class="modern-textarea" readonly placeholder="ستظهر رسالة العميل هنا..."></textarea>
         <button id="copyMessage" class="modern-btn primary-btn">
-          <span class="btn-icon">📋</span>
-          نسخ الرسالة
-        </button>
+          <span class="btn-icon">📋</span>نسخ الرسالة</button>
       </div>
     </section>
   </main>
@@ -426,6 +414,5 @@ if (window.MutationObserver) {
 }
 
   </script>
-
-</body>
+ </body>
 </html>

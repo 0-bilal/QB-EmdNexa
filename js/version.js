@@ -1,5 +1,5 @@
 // js/version.js
-const APP_VERSION = "v3.0² Nova";
+const APP_VERSION = "v3.0¹ Nova";
 const DATA_VERSIN = "26 أغسطس 2025";
 
 window.APP_VERSION = APP_VERSION;
