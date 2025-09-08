@@ -22,12 +22,13 @@
   <script defer src="js/som.js"></script>
   <script defer src="js/wallet.js"></script>
 
+
 <script>
 document.addEventListener('DOMContentLoaded', function boot(){
-  var V = (window.APP_VERSION || 'v3.0 Nova');
+  var V = (window.APP_VERSION || 'v3.2 Nova');
   function bust(u){ return u + (u.indexOf('?')>-1?'&':'?') + 'v=' + encodeURIComponent(V); }
 
-  var css = ['css/modern-dark-style.css','css/developer-contact.css','css/som.css','css/wallet.css'];
+var css = ['css/modern-dark-style.css','css/developer-contact.css','css/som.css','css/wallet.css','css/toolbox-style.css'];
   css.forEach(function(href){
     var l = document.createElement('link');
     l.rel = 'stylesheet';
@@ -46,6 +47,8 @@ document.addEventListener('DOMContentLoaded', function boot(){
       <div class="brand-section">
        <h1 class="brand-title">QB-Nexa</h1>
       </div>
+
+
 
     <div class="header-actions">
     <button id="saveDataBtn" class="save-data-btn" type="button">
@@ -81,6 +84,10 @@ document.addEventListener('DOMContentLoaded', function boot(){
         />
       </div>
 
+  <div class="modal-help" id="operationHelp">
+    ℹ️ العمليات المسجّلة يمكن استردادها من صندوق الأدوات &gt; المحفظة
+  </div>
+
       <div class="modal-actions">
         <button type="button" class="modal-btn modal-btn-secondary" id="cancelSave">
           <span class="modal-btn-icon"></span>إلغاء</button>
@@ -91,11 +98,13 @@ document.addEventListener('DOMContentLoaded', function boot(){
   </div>
 </div>
 
-      <div id="wallet-mount" class="wallet-mount">
-       <button id="walletBtn" class="wallet-btn" type="button" title="العمليات المحفوظة">
-        <span class="wallet-btn-icon">🗂️</span>
-       </button>
-      </div>
+
+
+  <button id="toolboxBtn" class="toolbox-trigger-btn" type="button" title="صندوق الأدوات">
+    <span class="toolbox-btn-icon">🧰</span>
+    <span class="toolbox-btn-text">صندوق الأدوات</span>
+  </button>
+
 
      <button id="contactDeveloperBtn" class="contact-btn" type="button">
            <span class="contact-btn-icon">💬</span>
@@ -311,6 +320,8 @@ document.addEventListener('DOMContentLoaded', function boot(){
 
   <script>
 
+
+
     document.addEventListener('DOMContentLoaded', function() {
       const navBtns = document.querySelectorAll('.nav-btn');
       const sections = document.querySelectorAll('.modern-card');
@@ -412,6 +423,71 @@ if (window.MutationObserver) {
     });
   }
 }
+
+    <!--  لصندوق الأدوات -->
+
+document.addEventListener('DOMContentLoaded', function() {
+  const toolboxBtn = document.getElementById('toolboxBtn');
+  
+  if (toolboxBtn) {
+    toolboxBtn.addEventListener('click', async function() {
+      try {
+        // تحقق من وجود صندوق الأدوات
+        let toolboxOverlay = document.getElementById('toolboxOverlay');
+        
+        if (!toolboxOverlay) {
+          // تحميل محتوى صندوق الأدوات
+          const response = await fetch('toolbox.html');
+          if (!response.ok) {
+            throw new Error('فشل في تحميل صندوق الأدوات');
+          }
+          
+          const toolboxHTML = await response.text();
+          
+          // إنشاء عنصر مؤقت لاستخراج محتوى الـ body
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = toolboxHTML;
+          
+          // استخراج محتوى صندوق الأدوات
+          toolboxOverlay = tempDiv.querySelector('.toolbox-overlay');
+          
+          if (toolboxOverlay) {
+            // إضافة صندوق الأدوات للصفحة
+            document.body.appendChild(toolboxOverlay);
+            
+            // تحميل JavaScript للصندوق
+            const script = document.createElement('script');
+            script.src = 'js/toolbox-script.js';
+            script.onload = function() {
+              // تهيئة صندوق الأدوات بعد تحميل الـ JS
+              if (typeof window.reinitializeToolbox === 'function') {
+                window.reinitializeToolbox();
+              }
+              
+              // فتح صندوق الأدوات
+              if (typeof openToolbox === 'function') {
+                openToolbox();
+              }
+            };
+            document.head.appendChild(script);
+          }
+        } else {
+          // إذا كان موجوداً، فقط افتحه
+          if (typeof openToolbox === 'function') {
+            openToolbox();
+          } else {
+            toolboxOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }
+        }
+        
+      } catch (error) {
+        console.error('خطأ في تحميل صندوق الأدوات:', error);
+        alert('فشل في تحميل صندوق الأدوات. تأكد من وجود ملف toolbox.html');
+      }
+    });
+  }
+});
 
   </script>
  </body>

@@ -1261,3 +1261,68 @@ html {
     font-size: var(--font-size-xl);
   }
 }
+
+.toolbox-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-secondary);
+  border-radius: var(--radius-lg);
+  color: var(--text-accent);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  text-decoration: none;
+  height: auto;
+  line-height: 1.5;
+}
+
+.toolbox-trigger-btn:hover {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: var(--border-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.toolbox-trigger-btn:active {
+  transform: translateY(0);
+}
+
+.toolbox-btn-icon {
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+}
+
+.toolbox-btn-text {
+  display: inline;
+}
+
+@media (max-width: 640px) {
+  .toolbox-trigger-btn {
+    padding: var(--space-sm);
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    justify-content: center;
+  }
+  
+  .toolbox-btn-text {
+    display: none;
+  }
+  
+  .toolbox-btn-icon {
+    font-size: var(--font-size-base);
+  }
+}
+
+@media (max-width: 480px) {
+  .toolbox-trigger-btn {
+    padding: 6px;
+    border-radius: 12px;
+  }
+}

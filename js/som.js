@@ -1,4 +1,3 @@
-
 const SAVE_API_URL = "https://script.google.com/macros/s/AKfycbywXfqFC0fgZoBcjgBM2VUTnQSKZuY7CqdVeflqFvC9HoIpE8cNN0arAMY3deZaM_AL/exec";
 
 function safeSession() {

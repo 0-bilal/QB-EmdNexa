@@ -581,3 +581,11 @@
     left: var(--space-md);
   }
 }
+
+.modal-help {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary, #94a3b8); /* لون احتياطي إذا المتغير غير معرّف */
+  line-height: 1.6;
+  margin-top: 2px;
+  display: block;
+}

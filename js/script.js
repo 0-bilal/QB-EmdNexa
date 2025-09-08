@@ -106,6 +106,7 @@
 
   function updateUI(bank, sec2) {
     $("bankPrice").textContent = nf0(bank.bankPrice);
+    $("bankPrice").dataset.raw = String(bank.bankPrice); // ← إضافة
     $("downPayment").textContent = nf0(sec2.downPayment);
     $("balloon").textContent = nf0(sec2.balloon);
     $("profit").textContent = nf0(sec2.profit);
