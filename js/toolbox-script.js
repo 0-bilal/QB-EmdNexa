@@ -955,3 +955,402 @@ if (refreshPriceBtn) {
         showStatusMessage('success', '✅', 'تم تحديث البيانات');
     });
 }
+
+// إضافة هذا الكود في نهاية ملف toolbox-script.js
+
+/**
+ * تهيئة حاسبة الاستقطاع عند تحميل صندوق الأدوات
+ */
+function initializeDeductionCalculator() {
+    try {
+        // التحقق من وجود عناصر حاسبة الاستقطاع
+        const deductionHeader = document.getElementById('deductionHeader');
+        const deductionContent = document.getElementById('deductionContent');
+        
+        if (!deductionHeader || !deductionContent) {
+            console.warn('عناصر حاسبة الاستقطاع غير موجودة');
+            return;
+        }
+
+        // تهيئة وظيفة الطي والتوسيع
+        setupDeductionCollapsible();
+        
+        // تهيئة حسابات الاستقطاع
+        setupDeductionCalculations();
+        
+        console.log('تم تهيئة حاسبة الاستقطاع بنجاح');
+    } catch (error) {
+        console.error('خطأ في تهيئة حاسبة الاستقطاع:', error);
+    }
+}
+
+/**
+ * إعداد وظيفة الطي والتوسيع لحاسبة الاستقطاع
+ */
+function setupDeductionCollapsible() {
+    const deductionHeader = document.getElementById('deductionHeader');
+    const deductionContent = document.getElementById('deductionContent');
+    
+    if (!deductionHeader || !deductionContent) return;
+
+    // إضافة مستمع النقر
+    deductionHeader.addEventListener('click', function() {
+        toggleDeductionSection();
+    });
+
+    // إضافة مستمع لوحة المفاتيح
+    deductionHeader.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleDeductionSection();
+        }
+    });
+
+    // تأثيرات التمرير
+    deductionHeader.addEventListener('mouseenter', function() {
+        if (!this.matches(':focus')) {
+            this.style.transform = 'translateY(-1px)';
+        }
+    });
+
+    deductionHeader.addEventListener('mouseleave', function() {
+        if (!this.matches(':focus')) {
+            this.style.transform = 'translateY(0)';
+        }
+    });
+}
+
+/**
+ * تبديل حالة قسم حاسبة الاستقطاع
+ */
+function toggleDeductionSection() {
+    const deductionHeader = document.getElementById('deductionHeader');
+    const deductionContent = document.getElementById('deductionContent');
+    
+    if (!deductionHeader || !deductionContent) return;
+
+    const isExpanded = deductionHeader.getAttribute('aria-expanded') === 'true';
+    
+    if (isExpanded) {
+        closeDeductionSection();
+    } else {
+        openDeductionSection();
+    }
+}
+
+/**
+ * فتح قسم حاسبة الاستقطاع
+ */
+function openDeductionSection() {
+    const deductionHeader = document.getElementById('deductionHeader');
+    const deductionContent = document.getElementById('deductionContent');
+    const monthlySalaryInput = document.getElementById('monthlySalary');
+    
+    if (!deductionHeader || !deductionContent) return;
+
+    deductionHeader.setAttribute('aria-expanded', 'true');
+    deductionContent.setAttribute('aria-hidden', 'false');
+    deductionContent.classList.add('expanded');
+    
+    // تركيز على أول حقل إدخال
+    setTimeout(() => {
+        if (monthlySalaryInput) {
+            monthlySalaryInput.focus();
+        }
+    }, 300);
+
+    // حفظ حالة القسم
+    try {
+        localStorage.setItem('deduction_calculator_expanded', 'true');
+    } catch (e) {
+        console.warn('لا يمكن حفظ حالة القسم:', e);
+    }
+}
+
+/**
+ * إغلاق قسم حاسبة الاستقطاع
+ */
+function closeDeductionSection() {
+    const deductionHeader = document.getElementById('deductionHeader');
+    const deductionContent = document.getElementById('deductionContent');
+    
+    if (!deductionHeader || !deductionContent) return;
+
+    deductionHeader.setAttribute('aria-expanded', 'false');
+    deductionContent.setAttribute('aria-hidden', 'true');
+    deductionContent.classList.remove('expanded');
+
+    // حفظ حالة القسم
+    try {
+        localStorage.setItem('deduction_calculator_expanded', 'false');
+    } catch (e) {
+        console.warn('لا يمكن حفظ حالة القسم:', e);
+    }
+}
+
+/**
+ * إعداد حسابات الاستقطاع
+ */
+function setupDeductionCalculations() {
+    const monthlySalaryInput = document.getElementById('monthlySalary');
+    const deductionRateSelect = document.getElementById('deductionRate');
+    const commitmentAmountInput = document.getElementById('commitmentAmount');
+    const deductionForm = document.getElementById('deductionForm');
+    const deductionResetBtn = document.getElementById('deductionResetBtn');
+    const deductionSaveBtn = document.getElementById('deductionSaveBtn');
+
+    if (!deductionForm) return;
+
+    // متغيرات حاسبة الاستقطاع
+    let currentFinancingAmount = 0;
+
+    // مستمعي الأحداث للحقول
+    if (monthlySalaryInput) {
+        monthlySalaryInput.addEventListener('input', calculateDeduction);
+        monthlySalaryInput.addEventListener('keypress', validateNumericInput);
+    }
+
+    if (deductionRateSelect) {
+        deductionRateSelect.addEventListener('change', calculateDeduction);
+    }
+
+    if (commitmentAmountInput) {
+        commitmentAmountInput.addEventListener('input', calculateDeduction);
+        commitmentAmountInput.addEventListener('keypress', validateNumericInput);
+    }
+
+    // مستمعي النموذج والأزرار
+    deductionForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        saveDeductionResult();
+    });
+
+    if (deductionResetBtn) {
+        deductionResetBtn.addEventListener('click', resetDeductionForm);
+    }
+
+    if (deductionSaveBtn) {
+        deductionSaveBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            saveDeductionResult();
+        });
+    }
+
+    /**
+     * حساب الحد الأدنى للتمويل
+     */
+    function calculateDeduction() {
+        const monthlySalary = parseFloat(monthlySalaryInput?.value) || 0;
+        const deductionRate = parseFloat(deductionRateSelect?.value) || 0;
+        const commitmentAmount = parseFloat(commitmentAmountInput?.value) || 0;
+
+        if (monthlySalary > 0 && deductionRate > 0) {
+            // الراتب الشهري × نسبة الاستقطاع / 100 - مبلغ الالتزام
+            const deductionAmount = (monthlySalary * deductionRate) / 100;
+            const minimumFinancing = Math.max(0, deductionAmount - commitmentAmount);
+            
+            currentFinancingAmount = minimumFinancing;
+            updateDeductionDisplay(minimumFinancing);
+            
+            // تفعيل زر الحفظ
+            if (deductionSaveBtn) {
+                deductionSaveBtn.disabled = false;
+            }
+        } else {
+            currentFinancingAmount = 0;
+            updateDeductionDisplay(0);
+            
+            // تعطيل زر الحفظ
+            if (deductionSaveBtn) {
+                deductionSaveBtn.disabled = true;
+            }
+        }
+    }
+
+    /**
+     * تحديث عرض النتيجة
+     */
+    function updateDeductionDisplay(amount) {
+        const financingValueElement = document.getElementById('financingValue');
+        if (!financingValueElement) return;
+
+        const formattedAmount = formatCurrency(amount);
+        financingValueElement.textContent = formattedAmount;
+        
+        // تأثير بصري
+        financingValueElement.style.transform = 'scale(1.1)';
+        financingValueElement.style.color = amount > 0 ? 'var(--text-accent)' : 'var(--text-tertiary)';
+        
+        setTimeout(() => {
+            financingValueElement.style.transform = 'scale(1)';
+        }, 200);
+    }
+
+    /**
+     * حفظ نتيجة الاستقطاع
+     */
+    function saveDeductionResult() {
+        if (currentFinancingAmount <= 0) {
+            showDeductionStatus('warning', 'لا توجد نتيجة صحيحة للحفظ');
+            return;
+        }
+
+        try {
+            const deductionData = {
+                monthlySalary: parseFloat(monthlySalaryInput?.value) || 0,
+                deductionRate: parseFloat(deductionRateSelect?.value) || 0,
+                commitmentAmount: parseFloat(commitmentAmountInput?.value) || 0,
+                minimumFinancing: currentFinancingAmount,
+                calculatedAt: new Date().toISOString(),
+                type: 'deduction_calculation'
+            };
+
+            // حفظ في التخزين المحلي
+            let savedCalculations = [];
+            try {
+                const existingData = localStorage.getItem('saved_calculations');
+                if (existingData) {
+                    savedCalculations = JSON.parse(existingData);
+                }
+            } catch (e) {
+                console.warn('خطأ في قراءة البيانات المحفوظة:', e);
+            }
+
+            savedCalculations.push(deductionData);
+
+            // الاحتفاظ بآخر 50 حساب
+            if (savedCalculations.length > 50) {
+                savedCalculations = savedCalculations.slice(-50);
+            }
+
+            localStorage.setItem('saved_calculations', JSON.stringify(savedCalculations));
+
+            showDeductionStatus('success', `تم حفظ النتيجة بنجاح! الحد الأدنى للتمويل: ${formatCurrency(currentFinancingAmount)} ريال`);
+
+            // إرسال حدث مخصص
+            window.dispatchEvent(new CustomEvent('deductionCalculationSaved', {
+                detail: deductionData
+            }));
+
+        } catch (error) {
+            console.error('خطأ في حفظ البيانات:', error);
+            showDeductionStatus('error', 'حدث خطأ في حفظ البيانات');
+        }
+    }
+
+    /**
+     * إعادة تعيين النموذج
+     */
+    function resetDeductionForm() {
+        if (deductionForm) {
+            deductionForm.reset();
+        }
+        
+        currentFinancingAmount = 0;
+        updateDeductionDisplay(0);
+        
+        if (deductionSaveBtn) {
+            deductionSaveBtn.disabled = true;
+        }
+        
+        hideDeductionStatus();
+        
+        // تركيز على أول حقل
+        if (monthlySalaryInput) {
+            monthlySalaryInput.focus();
+        }
+        
+        showDeductionStatus('success', 'تم إعادة تعيين النموذج');
+    }
+
+    /**
+     * التحقق من المدخلات الرقمية
+     */
+    function validateNumericInput(e) {
+        if (!/[0-9.]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter'].includes(e.key)) {
+            e.preventDefault();
+        }
+        
+        // منع أكثر من نقطة عشرية واحدة
+        if (e.key === '.' && e.target.value.includes('.')) {
+            e.preventDefault();
+        }
+    }
+
+    /**
+     * عرض رسالة حالة الاستقطاع
+     */
+    function showDeductionStatus(type, message) {
+        const deductionStatusMessage = document.getElementById('deductionStatusMessage');
+        const deductionStatusIcon = document.getElementById('deductionStatusIcon');
+        const deductionStatusText = document.getElementById('deductionStatusText');
+        
+        if (!deductionStatusMessage || !deductionStatusIcon || !deductionStatusText) return;
+
+        deductionStatusMessage.className = `status-message show ${type}`;
+        deductionStatusText.textContent = message;
+        
+        const icons = {
+            success: '✅',
+            error: '❌',
+            warning: '⚠️',
+            info: 'ℹ️'
+        };
+        
+        deductionStatusIcon.textContent = icons[type] || '✅';
+        
+        // إخفاء الرسالة بعد 4 ثوان
+        setTimeout(() => {
+            hideDeductionStatus();
+        }, 4000);
+    }
+
+    /**
+     * إخفاء رسالة الحالة
+     */
+    function hideDeductionStatus() {
+        const deductionStatusMessage = document.getElementById('deductionStatusMessage');
+        if (deductionStatusMessage) {
+            deductionStatusMessage.classList.remove('show');
+        }
+    }
+
+    // استرجاع حالة القسم عند التحميل
+    try {
+        const isExpanded = localStorage.getItem('deduction_calculator_expanded') === 'true';
+        if (isExpanded) {
+            setTimeout(() => {
+                openDeductionSection();
+            }, 100);
+        }
+    } catch (e) {
+        console.warn('لا يمكن استرجاع حالة القسم:', e);
+    }
+}
+
+// تحديث دالة التهيئة الرئيسية لتشمل حاسبة الاستقطاع
+const originalInitializeToolbox = initializeToolbox;
+initializeToolbox = function() {
+    try {
+        // تشغيل التهيئة الأصلية
+        originalInitializeToolbox();
+        
+        // تهيئة حاسبة الاستقطاع
+        setTimeout(() => {
+            initializeDeductionCalculator();
+        }, 100);
+        
+    } catch (error) {
+        console.error('خطأ في تهيئة صندوق الأدوات المحدث:', error);
+    }
+};
+
+// تصدير وظائف حاسبة الاستقطاع للاستخدام العام
+window.deductionCalculatorAPI = {
+    toggle: toggleDeductionSection,
+    open: openDeductionSection,
+    close: closeDeductionSection
+};
+
+console.log('تم تحميل تكامل حاسبة الاستقطاع بنجاح');
+
