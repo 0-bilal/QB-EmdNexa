@@ -21,6 +21,7 @@
   <script defer src="js/developer-contact.js"></script>
   <script defer src="js/som.js"></script>
   <script defer src="js/wallet.js"></script>
+  <script defer src="js/deduction-calculator.js"></script>
 
 
 <script>
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function boot(){
   var V = (window.APP_VERSION || 'v3.2 Nova');
   function bust(u){ return u + (u.indexOf('?')>-1?'&':'?') + 'v=' + encodeURIComponent(V); }
 
-var css = ['css/modern-dark-style.css','css/developer-contact.css','css/som.css','css/wallet.css','css/toolbox-style.css'];
+var css = ['css/modern-dark-style.css','css/developer-contact.css','css/som.css','css/wallet.css','css/toolbox-style.css','developer-contact.css'];
   css.forEach(function(href){
     var l = document.createElement('link');
     l.rel = 'stylesheet';
