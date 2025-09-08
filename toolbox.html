@@ -110,6 +110,94 @@
         </div>
     </div>
 
+
+  <!-- قسم حاسبة الاستقطاع -->
+                <div class="deduction-calculator">
+                    <div class="calculator-header collapsible" id="deductionHeader" role="button" tabindex="0" aria-expanded="false" aria-controls="deductionContent">
+                        <div class="calculator-icon">💰</div>
+                        <div class="calculator-title">حاسبة الاستقطاع</div>
+                        <div class="collapse-indicator" aria-hidden="true">▼</div>
+                    </div>
+
+                    <div class="calculator-content" id="deductionContent" aria-hidden="true">
+                        <form class="calculator-form" id="deductionForm" novalidate>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="monthlySalary" class="form-label">
+                                        الراتب الشهري
+                                        <span class="required-indicator" aria-label="مطلوب">*</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="monthlySalary" 
+                                        name="monthlySalary"
+                                        class="form-input" 
+                                        placeholder="أدخل الراتب الشهري بالريال"
+                                        min="0"
+                                        step="0.01"
+                                        required
+                                        aria-describedby="monthlySalaryHelp"
+                                    />
+                                    <small id="monthlySalaryHelp" class="form-help">
+                                        أدخل الراتب الشهري الإجمالي بالريال السعودي
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="deductionRate" class="form-label">
+                                        نسبة الاستقطاع
+                                        <span class="required-indicator" aria-label="مطلوب">*</span>
+                                    </label>
+                                    <select 
+                                        id="deductionRate" 
+                                        name="deductionRate"
+                                        class="form-input form-select" 
+                                        required
+                                        aria-describedby="deductionRateHelp"
+                                    >
+                                        <option value="">اختر نسبة الاستقطاع</option>
+                                        <option value="33">33%</option>
+                                        <option value="33.3">33.3%</option>
+                                        <option value="45">45%</option>
+                                        <option value="60">60%</option>
+                                        <option value="65">65%</option>
+                                    </select>
+                                    <small id="deductionRateHelp" class="form-help">
+                                        اختر النسبة المئوية للاستقطاع المسموحة
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="commitmentAmount" class="form-label">مبلغ الالتزام</label>
+                                    <input 
+                                        type="number" 
+                                        id="commitmentAmount" 
+                                        name="commitmentAmount"
+                                        class="form-input" 
+                                        placeholder="أدخل مبلغ الالتزام بالريال (اختياري)"
+                                        min="0"
+                                        step="0.01"
+                                        aria-describedby="commitmentAmountHelp"
+                                    />
+                                    <small id="commitmentAmountHelp" class="form-help">
+                                        أدخل مبلغ الالتزامات الشهرية الحالية (اختياري)
+                                    </small>
+                                </div>
+
+                                <!-- نتيجة الحد الأدنى للتمويل -->
+                                <div class="form-group">
+                                    <label for="minimumFinancingResult" class="form-label"></label>
+                                    <div class="financing-result" id="minimumFinancingResult" role="status" aria-live="polite">
+                                        <div class="financing-label">الحد الأدنى للتمويل</div>
+                                        <div class="financing-value">
+                                            <span id="financingValue" class="financing-number">0</span>
+                                            <span class="financing-unit">ريال</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                     <div class="NFS-section" id="NFSSection" role="button" tabindex="0" aria-label="">
                     <div class="NFS-icon">🔬</div>
                     <div class="NFS-text">
@@ -120,5 +208,6 @@
 
     <script src="js/toolbox-script.js"></script>
       <script defer src="js/wallet.js"></script>
+      <script defer src="js/deduction-calculator.js"></script>
 </body>
 </html>
