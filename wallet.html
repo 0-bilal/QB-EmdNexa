@@ -1,143 +1,0 @@
-
-<div id="walletModal" class="wallet-modal-overlay">
-  <div class="wallet-modal">
-    <div class="wallet-modal-header">
-      <div class="wallet-modal-title-section">
-        <div class="wallet-modal-icon">🗂️</div>
-        <h2 class="wallet-modal-title">العمليات المحفوظة</h2>
-      </div>
-      
-      <div class="wallet-header-actions">
-        <button class="wallet-refresh-btn" id="refreshWalletBtn" title="إعادة تحميل">
-          <span class="refresh-icon">⟳</span>
-        </button>
-        <button class="wallet-modal-close" id="closeWalletModal">×</button>
-      </div>
-    </div>
-
-    <div class="wallet-modal-content">
-      <div id="walletLoadingBar" class="wallet-loading-container">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">جاري تحميل العمليات المحفوظة...</div>
-        <div class="loading-progress">
-          <div class="progress-bar">
-            <div class="progress-fill" id="walletProgressFill"></div>
-          </div>
-          <div class="progress-text" id="walletProgressText">0%</div>
-        </div>
-      </div>
-
-      <div id="walletContent" class="wallet-content">
-        <div id="savedOperationsList" class="saved-operations-list">
-          <div class="saved-operation-item" data-id="1">
-            <div class="operation-info">
-              <div class="operation-name">تمويل سيارة كامري 2024</div>
-              <div class="operation-date">23/8/2025, 10:30:45 ص</div>
-              <div class="operation-summary">
-                <div class="summary-item">
-                  <div class="summary-label">سعر السيارة</div>
-                  <div class="summary-value">120,000 ريال</div>
-                </div>
-                <div class="summary-item">
-                  <div class="summary-label">سعر البنك</div>
-                  <div class="summary-value">135,000 ريال</div>
-                </div>
-                <div class="summary-item">
-                  <div class="summary-label">القسط الشهري</div>
-                  <div class="summary-value">2,250 ريال</div>
-                </div>
-
-              </div>
-            </div>
-            <div class="operation-actions">
-              <button class="action-btn action-btn-load" 
-                      data-action="load" 
-                      data-id="1"
-                      title="تحميل العملية">
-                📂
-              </button>
-              <button class="action-btn action-btn-delete" 
-                      data-action="delete" 
-                      data-id="1"
-                      data-name="تمويل سيارة كامري 2024"
-                      title="حذف العملية">
-                🗑️
-              </button>
-            </div>
-          </div>
-
-          <div class="saved-operation-item" data-id="2">
-            <div class="operation-info">
-              <div class="operation-name">تمويل سيارة أكورد 2023</div>
-              <div class="operation-date">22/8/2025, 2:15:30 م</div>
-              <div class="operation-summary">
-                <div class="summary-item">
-                  <div class="summary-label">سعر السيارة</div>
-                  <div class="summary-value">95,000 ريال</div>
-                </div>
-                <div class="summary-item">
-                  <div class="summary-label">سعر البنك</div>
-                  <div class="summary-value">108,000 ريال</div>
-                </div>
-                <div class="summary-item">
-                  <div class="summary-label">القسط الشهري</div>
-                  <div class="summary-value">1,800 ريال</div>
-                </div>
-                <div class="summary-item">
-                  <div class="summary-label">التكلفة النهائية</div>
-                  <div class="summary-value">125,000 ريال</div>
-                </div>
-              </div>
-            </div>
-            <div class="operation-actions">
-              <button class="action-btn action-btn-load" 
-                      data-action="load" 
-                      data-id="2"
-                      title="تحميل العملية">
-                📂
-              </button>
-              <button class="action-btn action-btn-delete" 
-                      data-action="delete" 
-                      data-id="2"
-                      data-name="تمويل سيارة أكورد 2023"
-                      title="حذف العملية">
-                🗑️
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        <div class="empty-state" id="emptyState">
-          <div class="empty-icon">📂</div>
-          <div class="empty-text">لا توجد عمليات محفوظة</div>
-          <div class="empty-subtitle">قم بحفظ عملية أولاً لتظهر هنا</div>
-        </div>
-      </div>
-    </div>
-    </div>
-  </div>
-</div>
-
-<div id="deleteModal" class="modal-overlay">
-  <div class="modal delete-modal">
-    <div class="modal-header">
-      <div class="modal-icon delete-icon">🗑️</div>
-      <h2 class="modal-title">تأكيد الحذف</h2>
-    </div>
-    
-    <div class="modal-body">
-      <p>هل أنت متأكد من حذف العملية "<span id="deleteOperationName">تمويل سيارة كامري 2024</span>"؟</p>
-      <p class="delete-warning">لا يمكن التراجع عن هذا الإجراء.</p>
-    </div>
-    
-    <div class="modal-actions">
-      <button type="button" class="modal-btn modal-btn-secondary" id="cancelDelete">
-        إلغاء
-      </button>
-      <button type="button" class="modal-btn modal-btn-danger" id="confirmDelete">
-        <span class="modal-btn-icon">🗑️</span>
-        حذف
-      </button>
-    </div>
-  </div>
-</div>
