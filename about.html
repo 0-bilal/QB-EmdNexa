@@ -1,234 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>QB-Nexa</title>
-  
-  <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
-
-  
-  <script src="js/version.js" defer></script>
-  <script src="js/version-check.js" defer></script>
-  <script defer src="js/guard.js"></script> 
-
-<script>
-document.addEventListener('DOMContentLoaded', function boot(){
-  var V = (window.APP_VERSION || 'v3.2 Nova');
-  function bust(u){ return u + (u.indexOf('?')>-1?'&':'?') + 'v=' + encodeURIComponent(V); }
-
-  var css = ['css/admin.css'];
-  css.forEach(function(href){
-    var l = document.createElement('link');
-    l.rel = 'stylesheet';
-    l.href = bust(href);
-    document.head.appendChild(l);
-  });
-
-});
-</script>
-
-</head>
-<body class="modern-dark-theme">
-  <header class="modern-header">
-    <div class="header-content">
-      <div class="brand-section">
-       <h1 class="brand-title">QB-Nexa</h1>
-      </div>
-
-      <div class="header-actions">
-        <button id="addEmployeeBtn" class="modern-btn success" type="button">
-          <span class="btn-icon">+</span>
-          <span>إضافة موظف</span>
-        </button>
-         <div class="version-badge"></div>
-      </div>
-    </div>
-
-    <div class="header-gradient"></div>
-  </header>
-
-  <main class="modern-dashboard">
-    <section class="modern-card">
-      <div class="card-header">
-        <div class="card-title-section">
-          <div class="card-icon">👥</div>
-          <h2>نظام إدارة الموظفين</h2>
-        </div>
-      </div>
-
-      <div class="success-message" id="successMessage"></div>
-
-      <div class="table-container">
-        <table class="employee-table">
-          <thead>
-            <tr>
-              <th>رقم التعريف</th>
-              <th>الاسم</th>
-              <th>الدور</th>
-              <th>الحالة</th>
-              <th>تاريخ انتهاء</th>
-              <th>عدد مرات الدخول</th>
-              <th>آخر تاريخ للنشاط</th>
-              <th>حالة الجهاز</th>
-              <th>عدد العمليات المسجلة</th>
-              <th>آخر إصدار</th>
-              <th>الإجراءات</th>
-            </tr>
-          </thead>
-          <tbody id="employeeTableBody"></tbody>
-        </table>
-      </div>
-
-      <div class="mobile-employee-cards" id="mobileEmployeeCards"></div>
-    </section>
-  </main>
-
-  <div id="employeeModal" class="modal-overlay">
-    <div class="modal">
-      <button class="modal-close" id="closeModal">×</button>
-      
-      <div class="modal-header">
-        <div class="modal-icon" id="modalIcon">👤</div>
-        <h2 class="modal-title" id="modalTitle">إضافة موظف جديد</h2>
-      </div>
-
-      <form class="modal-form" id="employeeForm">
-        <div class="form-group">
-          <label for="employeeId" class="form-label">رقم التعريف</label>
-          <input 
-            type="text" 
-            id="employeeId" 
-            class="modern-input" 
-            placeholder="أدخل رقم التعريف"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="employeeName" class="form-label">اسم الموظف</label>
-          <input 
-            type="text" 
-            id="employeeName" 
-            class="modern-input" 
-            placeholder="أدخل اسم الموظف"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="employeeRole" class="form-label">الدور</label>
-          <select id="employeeRole" class="modern-select" required>
-            <option value="">اختر الدور</option>
-            <option value="admin">مدير</option>
-            <option value="user">موظف</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="employeeStatus" class="form-label">الحالة</label>
-          <select id="employeeStatus" class="modern-select" required>
-            <option value="">اختر الحالة</option>
-            <option value="active">نشط</option>
-            <option value="no active">غير نشط</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="expiryDate" class="form-label">تاريخ انتهاء الاستخدام</label>
-          <input 
-            type="date" 
-            id="expiryDate" 
-            class="modern-input" 
-            required
-          />
-        </div>
-
-        <div class="modal-actions">
-          <button type="button" class="modal-btn modal-btn-secondary" id="cancelBtn">
-            إلغاء
-          </button>
-          <button type="submit" class="modal-btn modal-btn-primary" id="saveBtn">
-            <span id="saveBtnText">حفظ الموظف</span>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div id="deleteModal" class="modal-overlay">
-    <div class="modal delete-modal">
-      <button class="modal-close" id="closeDeleteModal">×</button>
-      
-      <div class="modal-header">
-        <div class="modal-icon delete-icon">🗑️</div>
-        <h2 class="modal-title">تأكيد الحذف</h2>
-      </div>
-
-      <div class="delete-modal-content">
-        <div class="delete-warning">
-          <div class="warning-icon">⚠️</div>
-          <p class="warning-text">هل أنت متأكد من حذف هذا الموظف؟</p>
-        </div>
-        
-        <div class="employee-to-delete">
-          <div class="employee-preview">
-            <strong id="deleteEmployeeName">اسم الموظف</strong>
-            <span id="deleteEmployeeId">رقم التعريف</span>
-          </div>
-        </div>
-        
-        <div class="delete-note">
-          <p>لا يمكن التراجع عن هذا الإجراء</p>
-        </div>
-      </div>
-
-      <div class="modal-actions">
-        <button type="button" class="modal-btn modal-btn-secondary" id="cancelDeleteBtn">
-          إلغاء
-        </button>
-        <button type="button" class="modal-btn modal-btn-danger" id="confirmDeleteBtn">
-          حذف الموظف
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div id="loadingOverlay" class="loading-overlay">
-    <div class="loading-container">
-      <div class="loading-spinner"></div>
-      <h3 class="loading-title" id="loadingTitle">جاري التحميل...</h3>
-      <p class="loading-message" id="loadingMessage">يرجى الانتظار</p>
-      <div class="loading-progress">
-        <div class="loading-progress-bar"></div>
-      </div>
-      <div class="loading-dots">
-        <div class="loading-dot"></div>
-        <div class="loading-dot"></div>
-        <div class="loading-dot"></div>
-      </div>
-    </div>
-  </div>
-
-  <footer class="modern-footer">
-    <div class="footer-content">
-      <div class="developer-info">
-        <div class="dev-main">
-          <span class="dev-badge">تطوير : بلال الخواجة</span>
-        </div>
-        <div class="dev-details">
-          <span class="dev-date"></span>
-          <span class="dev-separator"></span>
-        </div>
-      </div>
-    </div>
-  </footer>
-
- <script>
-
-</script>
-
-  <script src="js/admin.js"></script>
-
-</body>
-</html>
