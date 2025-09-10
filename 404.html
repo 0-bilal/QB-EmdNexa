@@ -1,585 +1,204 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>صفحة غير موجودة</title>
-  <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QB-Nexa - صيانة الموقع</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
 
-    html {
-      font-size: 16px;
-      scroll-behavior: smooth;
-    }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            animation: fadeIn 1s ease-out;
+        }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Arabic", sans-serif;
-      direction: rtl;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      background: linear-gradient(135deg, #0a0b0f 0%, #12141a 50%, #1a1d26 100%);
-      color: #ffffff;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    :root {
-      --bg-primary: #0a0b0f;
-      --bg-secondary: #12141a;
-      --bg-tertiary: #1a1d26;
-      --bg-card: #1e2128;
-      --bg-card-hover: #252832;
-      --bg-input: #2a2d38;
-      --bg-button: #3b82f6;
-      --bg-button-hover: #2563eb;
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-      --text-primary: #ffffff;
-      --text-secondary: #cbd5e1;
-      --text-tertiary: #94a3b8;
-      --text-accent: #60a5fa;
+        .maintenance-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
 
-      --border-primary: #374151;
-      --border-secondary: #4b5563;
-      --border-accent: #3b82f6;
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
 
-      --gradient-brand: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-      --gradient-card: linear-gradient(135deg, #1e2128 0%, #252832 100%);
-      --gradient-button: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        .title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
 
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+        .message {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
 
-      --space-xs: 0.25rem;
-      --space-sm: 0.5rem;
-      --space-md: 1rem;
-      --space-lg: 1.5rem;
-      --space-xl: 2rem;
-      --space-2xl: 3rem;
-      --space-3xl: 4rem;
+        .redirect-button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
 
-      --radius-sm: 0.375rem;
-      --radius-md: 0.5rem;
-      --radius-lg: 0.75rem;
-      --radius-xl: 1rem;
-      --radius-2xl: 1.5rem;
-      --radius-3xl: 2rem;
+        .redirect-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
 
-      --font-size-xs: 0.75rem;
-      --font-size-sm: 0.875rem;
-      --font-size-base: 1rem;
-      --font-size-lg: 1.125rem;
-      --font-size-xl: 1.25rem;
-      --font-size-2xl: 1.5rem;
-      --font-size-3xl: 1.875rem;
-      --font-size-4xl: 2.25rem;
-      --font-size-5xl: 3rem;
-      --font-size-6xl: 3.75rem;
-    }
+        .redirect-button:active {
+            transform: translateY(0);
+        }
 
-    .bg-animation {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
-    }
+        .footer-text {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #888;
+        }
 
-    .floating-shape {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.1;
-      animation: float 20s infinite linear;
-    }
+        /* استجابة للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .maintenance-icon {
+                font-size: 3rem;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .message {
+                font-size: 1rem;
+            }
+            
+            .redirect-button {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+        }
 
-    .shape-1 {
-      width: 120px;
-      height: 120px;
-      background: var(--gradient-brand);
-      top: 20%;
-      left: 10%;
-      animation-delay: 0s;
-    }
-
-    .shape-2 {
-      width: 180px;
-      height: 180px;
-      background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
-      top: 60%;
-      right: 15%;
-      animation-delay: -5s;
-    }
-
-    .shape-3 {
-      width: 100px;
-      height: 100px;
-      background: var(--gradient-brand);
-      bottom: 30%;
-      left: 30%;
-      animation-delay: -10s;
-    }
-
-    .shape-4 {
-      width: 150px;
-      height: 150px;
-      background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-      top: 40%;
-      right: 40%;
-      animation-delay: -15s;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-      }
-      25% {
-        transform: translateY(-30px) rotate(90deg);
-      }
-      50% {
-        transform: translateY(-60px) rotate(180deg);
-      }
-      75% {
-        transform: translateY(-30px) rotate(270deg);
-      }
-    }
-
-    .error-header {
-      position: relative;
-      height: 80px;
-      background: rgba(30, 33, 40, 0.8);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border-primary);
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 var(--space-lg);
-    }
-
-    .header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 var(--space-lg);
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-    }
-
-    .brand-section {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xs);
-    }
-
-    .brand-title {
-      font-size: var(--font-size-2xl);
-      font-weight: 900;
-      background: var(--gradient-brand);
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.025em;
-    }
-
-    .version-badge {
-      padding: var(--space-xs) var(--space-sm);
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border-secondary);
-      border-radius: var(--radius-lg);
-      font-size: var(--font-size-xs);
-      font-weight: 600;
-      color: var(--text-accent);
-    }
-
-    .header-gradient {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--gradient-brand);
-    }
-
-    .error-container {
-      min-height: calc(100vh - 80px - 80px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: var(--space-xl);
-      position: relative;
-      z-index: 10;
-    }
-
-    .error-content {
-      max-width: 600px;
-      width: 100%;
-      text-align: center;
-      background: var(--gradient-card);
-      border: 1px solid var(--border-primary);
-      border-radius: var(--radius-3xl);
-      padding: var(--space-3xl);
-      box-shadow: var(--shadow-xl);
-      backdrop-filter: blur(20px);
-    }
-
-    .error-icon {
-      font-size: var(--font-size-6xl);
-      margin-bottom: var(--space-xl);
-      opacity: 0.8;
-    }
-
-    .error-code {
-      font-size: var(--font-size-6xl);
-      font-weight: 900;
-      background: var(--gradient-brand);
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: var(--space-lg);
-      line-height: 1;
-    }
-
-    .error-title {
-      font-size: var(--font-size-2xl);
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: var(--space-md);
-    }
-
-    .error-description {
-      font-size: var(--font-size-lg);
-      color: var(--text-tertiary);
-      margin-bottom: var(--space-2xl);
-      line-height: 1.6;
-    }
-
-    .error-actions {
-      display: flex;
-      gap: var(--space-lg);
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: var(--space-xl);
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-sm);
-      padding: var(--space-md) var(--space-xl);
-      border-radius: var(--radius-xl);
-      font-size: var(--font-size-base);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      outline: none;
-      border: none;
-      text-decoration: none;
-      min-width: 150px;
-    }
-
-    .btn-primary {
-      background: var(--gradient-button);
-      color: white;
-      box-shadow: var(--shadow-md);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .btn-secondary {
-      background: var(--bg-tertiary);
-      color: var(--text-secondary);
-      border: 1px solid var(--border-secondary);
-    }
-
-    .btn-secondary:hover {
-      background: var(--bg-card-hover);
-      color: var(--text-primary);
-      transform: translateY(-1px);
-    }
-
-    .btn-icon {
-      font-size: var(--font-size-lg);
-    }
-
-    .error-details {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-primary);
-      border-radius: var(--radius-lg);
-      padding: var(--space-lg);
-      margin-top: var(--space-xl);
-    }
-
-    .details-title {
-      font-size: var(--font-size-base);
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin-bottom: var(--space-md);
-    }
-
-    .suggestions-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .suggestions-list li {
-      padding: var(--space-sm) 0;
-      color: var(--text-tertiary);
-      font-size: var(--font-size-sm);
-      position: relative;
-      padding-right: var(--space-lg);
-    }
-
-    .suggestions-list li::before {
-      content: "•";
-      color: var(--text-accent);
-      font-weight: bold;
-      position: absolute;
-      right: 0;
-    }
-
-    .error-footer {
-      height: 80px;
-      background: rgba(30, 33, 40, 0.8);
-      backdrop-filter: blur(20px);
-      border-top: 1px solid var(--border-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 var(--space-lg);
-      position: relative;
-      z-index: 50;
-    }
-
-    .footer-text {
-      text-align: center;
-      color: var(--text-tertiary);
-      font-size: var(--font-size-sm);
-    }
-
-    .footer-brand {
-      color: var(--text-accent);
-      font-weight: 600;
-    }
-
-    @media (max-width: 640px) {
-      .error-content {
-        padding: var(--space-2xl);
-        margin: var(--space-md);
-      }
-
-      .error-code {
-        font-size: var(--font-size-5xl);
-      }
-
-      .error-title {
-        font-size: var(--font-size-xl);
-      }
-
-      .error-description {
-        font-size: var(--font-size-base);
-      }
-
-      .error-actions {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .btn {
-        width: 100%;
-        max-width: 280px;
-      }
-
-      .brand-title {
-        font-size: var(--font-size-xl);
-      }
-
-      .version-badge {
-        padding: 2px var(--space-xs);
-        font-size: 10px;
-      }
-
-      .header-content {
-        padding: 0 var(--space-md);
-      }
-    }
-
-    .countdown {
-      margin-top: var(--space-lg);
-      padding: var(--space-md);
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.2);
-      border-radius: var(--radius-lg);
-      color: var(--text-accent);
-      font-size: var(--font-size-sm);
-      font-weight: 600;
-    }
-
-    .loading-dots {
-      display: inline-block;
-    }
-
-    .loading-dots::after {
-      content: "";
-      animation: dots 2s infinite;
-    }
-
-    @keyframes dots {
-      0%, 20% { content: ""; }
-      40% { content: "."; }
-      60% { content: ".."; }
-      80%, 100% { content: "..."; }
-    }
-  </style>
-
-<script src="js/version.js" defer></script>
-<script src="/js/version-check.js" defer></script>
-
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 15px;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            .title {
+                font-size: 1.3rem;
+            }
+            
+            .message {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
-
-  <div class="bg-animation">
-    <div class="floating-shape shape-1"></div>
-    <div class="floating-shape shape-2"></div>
-    <div class="floating-shape shape-3"></div>
-    <div class="floating-shape shape-4"></div>
-  </div>
-
-  <header class="error-header">
-    <div class="header-content">
-      <div class="brand-section">
-        <h1 class="brand-title">QB-Nexa</h1>
-      </div>
-      <div class="version-badge"></div>
-    </div>
-    <div class="header-gradient"></div>
-  </header>
-
-  <main class="error-container">
-    <div class="error-content">
-      <div class="error-icon">🧰</div>
-      
-      <div class="error-code">404</div>
-      
-      <h2 class="error-title">الصفحة غير موجودة</h2>
-      
-      <p class="error-description">
-        عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها إلى مكان آخر.
-        يمكنك العودة إلى الصفحة الرئيسية أو المحاولة مرة أخرى.
-      </p>
-
-      <div class="error-actions">
-        <a href="index.html" class="btn btn-primary">
-          <span class="btn-icon">🏠</span>
-          العودة للرئيسية
+    <div class="container">
+        <div class="logo">QB-Nexa</div>
+        
+        <div class="maintenance-icon">🔧</div>
+        
+        <h1 class="title">الموقع قيد الصيانة</h1>
+        
+        <p class="message">
+            نعتذر عن الإزعاج، نحن حالياً نعمل على تحسين الموقع وإضافة ميزات جديدة.
+            <br><br>
+            يمكنكم متابعة العمل من خلال النسخة البديلة بينما نعمل على حل المشاكل التقنية.
+        </p>
+        
+        <a href="#" class="redirect-button" id="redirectBtn">
+            الانتقال للنسخة البديلة ←
         </a>
-      </div>
-
-      <div class="countdown" id="countdown" style="display: none;">
-        سيتم توجيهك إلى الصفحة الرئيسية خلال <span id="timer">10</span> ثوانٍ
-        <span class="loading-dots"></span>
-      </div>
-    </div>
-  </main>
-
-  <footer class="error-footer">
-    <div class="footer-text">
-      تطوير: <span class="footer-brand">بلال الخواجة</span> 
-             <div class="dev-details">مبني على إصدار الإكسل الأصلية | 08 سبتمبر 2025</div>
-    </div>
-  </footer>
-
-  <script>
-    let redirectTimer = null;
-    let timeLeft = 10;
-
-    function startRedirectTimer() {
-      const countdown = document.getElementById('countdown');
-      const timerElement = document.getElementById('timer');
-      
-      setTimeout(() => {
-        countdown.style.display = 'block';
         
-        redirectTimer = setInterval(() => {
-          timeLeft--;
-          timerElement.textContent = timeLeft;
-          
-          if (timeLeft <= 0) {
-            clearInterval(redirectTimer);
-            window.location.href = 'index.html';
-          }
-        }, 1000);
-      }, 3000);
-    }
+        <p class="footer-text">
+            شكراً لصبركم وتفهمكم
+        </p>
+    </div>
 
-    window.addEventListener('load', startRedirectTimer);
-    document.addEventListener('click', () => {
-      if (redirectTimer) {
-        clearInterval(redirectTimer);
-        const countdown = document.getElementById('countdown');
-        countdown.style.display = 'none';
-      }
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-      const errorCode = document.querySelector('.error-code');
-      errorCode.style.opacity = '0';
-      errorCode.style.transform = 'scale(0.5)';
-      
-      setTimeout(() => {
-        errorCode.style.transition = 'all 0.8s ease';
-        errorCode.style.opacity = '1';
-        errorCode.style.transform = 'scale(1)';
-      }, 500);
-
-      const buttons = document.querySelectorAll('.btn');
-      buttons.forEach(btn => {
-        btn.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-2px) scale(1.02)';
-        });
+    <script>
+        // استبدل الرابط التالي برابط الموقع البديل الفعلي
+        const alternativeURL = 'https://0-bilal.github.io/Backup/'; // ضع الرابط البديل هنا
         
-        btn.addEventListener('mouseleave', function() {
-          this.style.transform = 'translateY(0) scale(1)';
+        document.getElementById('redirectBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // يمكنك تغيير الرابط هنا إلى الموقع البديل الفعلي
+            if (alternativeURL !== 'https://example.com') {
+                window.open(alternativeURL, '_blank');
+            } else {
+                alert('يرجى تعديل الرابط في الكود ليشير إلى الموقع البديل');
+            }
         });
-      });
-    });
-
-    function reportError() {
-      const errorData = {
-        url: window.location.href,
-        referrer: document.referrer,
-        userAgent: navigator.userAgent,
-        timestamp: new Date().toISOString()
-      };
-      
-      console.log('404 Error:', errorData);
-      try {
-        const errors = JSON.parse(localStorage.getItem('qb_404_errors') || '[]');
-        errors.push(errorData);
-        if (errors.length > 10) errors.shift(); 
-        localStorage.setItem('qb_404_errors', JSON.stringify(errors));
-      } catch (e) {
-        console.warn('Could not save error data');
-      }
-    }
-
-    reportError();
-  </script>
+    </script>
 </body>
 </html>
