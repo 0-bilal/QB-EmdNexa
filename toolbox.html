@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/toolbox-style.css">
+        <link rel="stylesheet" href="css/wallet.css">
+        <link rel="stylesheet" href="css/developer-contact.css">
+
+
+   <!--?  link backend  -->
+     <script src="js/backend/config.js"></script>
+    <script defer src="js/backend/wallet.js"></script>
+    
+   <!--?  link app  -->
+    <script src="js/app/toolbox-script.js"></script>
+    <script defer src="js/app/deduction-calculator.js"></script>
+
+</head>
+<body>
+    <div class="toolbox-overlay" id="toolboxOverlay">
+        <div class="toolbox-container">
+            <div class="toolbox-header">
+                <div class="toolbox-title">
+                    <div class="toolbox-icon">🧰</div>
+                    <h2>صندوق الأدوات</h2>
+                </div>
+                <button class="close-btn" id="closeToolboxBtn" type="button" aria-label="إغلاق صندوق الأدوات">
+                    <span aria-hidden="true">✕</span>
+                </button>
+            </div>
+
+    
+            <div class="toolbox-content">
+                <div class="wallet-section" id="walletSection" role="button" tabindex="0" aria-label="فتح المحفظة">
+                    <div class="wallet-icon">🗂️</div>
+                    <div class="wallet-text">
+                        <div class="wallet-title">المحفظة</div>
+                        <div class="wallet-desc">عرض العمليات المحفوظة والبيانات المخزنة</div>
+                    </div>
+                    <div class="wallet-arrow" aria-hidden="true">←</div>
+                </div>
+
+                <div class="insurance-calculator">
+                    <div class="calculator-header">
+                        <div class="calculator-icon">📊</div>
+                        <div class="calculator-title">حاسبة التأمين - Bete</div>
+                    </div>
+
+                    <form class="calculator-form" id="calculatorForm" novalidate>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="liftPrice" class="form-label">
+                                    سعر الرفع
+                                    <span class="required-indicator">(يتم جلبه تلقائياً)</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="liftPrice" 
+                                    name="liftPrice"
+                                    class="form-input" 
+                                    placeholder="0 ريال سعودي"
+                                    readonly
+                                    aria-describedby="liftPriceHelp"
+                                />
+                                <small id="liftPriceHelp" class="form-help">
+                                    يتم جلب هذه القيمة تلقائياً من البيانات المدخلة   
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="insuranceAmount" class="form-label">
+                                    مبلغ التأمين
+                                    <span class="required-indicator" aria-label="مطلوب">*</span>
+                                </label>
+                                <input 
+                                    type="number" 
+                                    id="insuranceAmount" 
+                                    name="insuranceAmount"
+                                    class="form-input" 
+                                    placeholder="أدخل مبلغ التأمين بالريال"
+                                    min="0"
+                                    step="0.01"
+                                    required
+                                    aria-describedby="insuranceAmountHelp"
+                                />
+                                <small id="insuranceAmountHelp" class="form-help">
+                                    أدخل المبلغ الإجمالي للتأمين بالريال السعودي
+                                </small>
+                            </div>
+
+                            <!-- نسبة التأمين (نتيجة الحساب) -->
+                            <div class="form-group">
+                                <label for="percentageResult" class="form-label">نسبة التأمين المئوية</label>
+                                <div class="percentage-result" id="percentageResult" role="status" aria-live="polite">
+                                    <div class="percentage-label">النسبة المحسوبة</div>
+                                    <div class="percentage-value">
+                                        <span id="percentageValue" class="percentage-number">0</span>
+                                        <span class="percentage-unit">%</span>
+                                    </div>
+                          
+
+                        <div class="status-message" id="statusMessage" role="alert" aria-live="assertive">
+                            <span id="statusIcon" aria-hidden="true">✅</span>
+                            <span id="statusText">تم الحفظ بنجاح!</span>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button type="button" class="btn btn-secondary" id="resetBtn">
+                                <span class="btn-icon">🔄</span>
+                                <span class="btn-text">إعادة تعيين</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="saveBtn" disabled>
+                                <span class="btn-icon">💾</span>
+                                <span class="btn-text">حفظ النسبة</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+  <!-- قسم حاسبة الاستقطاع -->
+                <div class="deduction-calculator">
+                    <div class="calculator-header collapsible" id="deductionHeader" role="button" tabindex="0" aria-expanded="false" aria-controls="deductionContent">
+                        <div class="calculator-icon">💰</div>
+                        <div class="calculator-title">حاسبة الاستقطاع</div>
+                        <div class="collapse-indicator" aria-hidden="true">▼</div>
+                    </div>
+
+                    <div class="calculator-content" id="deductionContent" aria-hidden="true">
+                        <form class="calculator-form" id="deductionForm" novalidate>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="monthlySalary" class="form-label">
+                                        الراتب الشهري
+                                        <span class="required-indicator" aria-label="مطلوب">*</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="monthlySalary" 
+                                        name="monthlySalary"
+                                        class="form-input" 
+                                        placeholder="أدخل الراتب الشهري بالريال"
+                                        min="0"
+                                        step="0.01"
+                                        required
+                                        aria-describedby="monthlySalaryHelp"
+                                    />
+                                    <small id="monthlySalaryHelp" class="form-help">
+                                        أدخل الراتب الشهري الإجمالي بالريال السعودي
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="deductionRate" class="form-label">
+                                        نسبة الاستقطاع
+                                        <span class="required-indicator" aria-label="مطلوب">*</span>
+                                    </label>
+                                    <select 
+                                        id="deductionRate" 
+                                        name="deductionRate"
+                                        class="form-input form-select" 
+                                        required
+                                        aria-describedby="deductionRateHelp"
+                                    >
+                                        <option value="">اختر نسبة الاستقطاع</option>
+                                        <option value="33">33%</option>
+                                        <option value="33.3">33.3%</option>
+                                        <option value="45">45%</option>
+                                        <option value="60">60%</option>
+                                        <option value="65">65%</option>
+                                    </select>
+                                    <small id="deductionRateHelp" class="form-help">
+                                        اختر النسبة المئوية للاستقطاع المسموحة
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="commitmentAmount" class="form-label">مبلغ الالتزام</label>
+                                    <input 
+                                        type="number" 
+                                        id="commitmentAmount" 
+                                        name="commitmentAmount"
+                                        class="form-input" 
+                                        placeholder="أدخل مبلغ الالتزام بالريال (اختياري)"
+                                        min="0"
+                                        step="0.01"
+                                        aria-describedby="commitmentAmountHelp"
+                                    />
+                                    <small id="commitmentAmountHelp" class="form-help">
+                                        أدخل مبلغ الالتزامات الشهرية الحالية (اختياري)
+                                    </small>
+                                </div>
+
+                                <!-- نتيجة الحد الأدنى للتمويل -->
+                                <div class="form-group">
+                                    <label for="minimumFinancingResult" class="form-label"></label>
+                                    <div class="financing-result" id="minimumFinancingResult" role="status" aria-live="polite">
+                                        <div class="financing-label">الحد الأدنى للتمويل</div>
+                                        <div class="financing-value">
+                                            <span id="financingValue" class="financing-number">0</span>
+                                            <span class="financing-unit">ريال</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+</body>
+</html>

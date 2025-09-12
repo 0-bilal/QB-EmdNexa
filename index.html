@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>QB-Nexa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
+  <link rel="stylesheet" href="css/ui-login-v2.css">
+  <link rel="stylesheet" href="css/ui-nfs.css">
+
+   <!--?  link backend  -->
+  <script src="js/backend/config.js"></script>
+  <script defer src="js/backend/login.js"></script>
+
+   <!--?  link app  -->
+  <script src="js/app/version.js" defer></script>
+  <script src="js/app/version-check.js" defer></script>
+
+     <!--? Enhanced Loading Screen -->
+  <script src="js/animation/enhanced-loading.js"></script>
+
+</head>
+
+<script>
+(function enforceLoginPageRefresh(){
+  const RELOAD_AFTER_MINUTES = 5;
+  const RELOAD_MS = RELOAD_AFTER_MINUTES * 60 * 1000;
+
+  function hardReload() {
+    const url = new URL(location.href);
+    url.searchParams.set("_r", Date.now().toString());
+    location.replace(url.toString());
+  }
+
+  window.addEventListener("storage", (e) => {
+    if (e.key === "qb_login_signal" || e.key === "qb_session") {
+      hardReload();
+    }
+  });
+
+  setTimeout(hardReload, RELOAD_MS);
+
+  let lastVisibleAt = Date.now();
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      const now = Date.now();
+      if (now - lastVisibleAt > RELOAD_MS) hardReload();
+      lastVisibleAt = now;
+    }
+  });
+})();
+</script>
+
+  <div class="loading-screen" id="loadingScreen">
+    <!-- خلفية متحركة -->
+    <div class="background-animation">
+      <!-- الجسيمات المتطايرة -->
+      <div class="floating-particle" style="left: 10%; animation-delay: 0s;"></div>
+      <div class="floating-particle" style="left: 20%; animation-delay: 1s;"></div>
+      <div class="floating-particle" style="left: 30%; animation-delay: 2s;"></div>
+      <div class="floating-particle" style="left: 40%; animation-delay: 0.5s;"></div>
+      <div class="floating-particle" style="left: 50%; animation-delay: 1.5s;"></div>
+      <div class="floating-particle" style="left: 60%; animation-delay: 2.5s;"></div>
+      <div class="floating-particle" style="left: 70%; animation-delay: 0.8s;"></div>
+      <div class="floating-particle" style="left: 80%; animation-delay: 1.8s;"></div>
+      <div class="floating-particle" style="left: 90%; animation-delay: 2.8s;"></div>
+
+      <!-- الحلقات المتحركة -->
+      <div class="floating-ring ring-1"></div>
+      <div class="floating-ring ring-2"></div>
+      <div class="floating-ring ring-3"></div>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="loading-container">
+      <!-- الشعار -->
+      <div class="logo-container">
+        <div class="logo-pulse"></div>
+        <h1 class="logo-main">QB-Nexa</h1>
+        <p class="logo-subtitle"></p>
+      </div>
+
+      <!-- الرسائل -->
+      <div class="messages-container">
+        <div class="status-icon" id="statusIcon">⚡</div>
+        <div class="loading-message" id="loadingMessage">جاري تحضير النظام</div>
+        <div class="loading-submessage" id="loadingSubmessage">نحضر لك تجربة استثنائية</div>
+      </div>
+
+      <!-- شريط التقدم -->
+      <div class="progress-container">
+        <div class="progress-label">
+          <span>جاري التحميل</span>
+          <span class="progress-percentage" id="progressPercentage">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-dots" id="progressDots">
+          <div class="progress-dot active"></div>
+          <div class="progress-dot"></div>
+          <div class="progress-dot"></div>
+          <div class="progress-dot"></div>
+          <div class="progress-dot"></div>
+          <div class="progress-dot"></div>
+         </div>
+        </div>
+      </div>
+     </div>
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <header class="modern-header">
+      <div class="header-content">
+        <div class="brand-section">
+          <h1 class="brand-title">QB-Nexa</h1>
+        </div>
+        <div class="version-badge"></div>
+        <div class="header-gradient"></div>
+      </div>
+    </header>
+
+    <main class="login-container">
+      <div class="login-wrapper">
+        <section class="login-card">
+          <div class="login-header">
+            <div class="login-icon">
+              <span class="icon-symbol">🔐</span>
+            </div>
+            <h2 class="login-title">تسجيل الدخول</h2>
+            <p class="login-subtitle">أدخل رقم التعريف للمتابعة</p>
+          </div>
+
+          <form id="loginForm" class="login-form" autocomplete="on" novalidate>
+            <div class="input-group">
+              <label for="userId" class="input-label">رقم التعريف</label>
+              <div class="input-wrapper">
+                <input
+                  id="userId"
+                  class="login-input"
+                  type="text"
+                  inputmode="numeric"
+                  pattern="[0-4]*"
+                  placeholder="أدخل رقم التعريف"
+                  required
+                  aria-label="رقم التعريف"
+                />
+                <div class="input-decoration"></div>
+              </div>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+              <span class="btn-text">دخول</span>
+            </button>
+
+            <div class="login-status" id="msg" role="status" aria-live="polite"></div>
+          </form>
+
+          <div class="login-footer">
+            <div class="welcome-text">
+              <span class="welcome-label">أهلاً بك في</span>
+              <span class="brand-name">QB-Nexa</span>
+            </div>
+            <div class="app-description">الحاسبة الإلكترونية المتطورة</div>
+          </div>
+        </section>
+
+        <section class="features-section">
+          <div class="feature-item">
+            <div class="feature-icon">📂</div>
+            <div class="feature-text">
+              <div class="feature-title">عمليات محفوظة</div>
+              <div class="feature-desc">احفظ بيانات العمليات واستعدها وقت الحاجة</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🌐</div>
+            <div class="feature-text">
+              <div class="feature-title">في أي وقت، من أي مكان</div>
+              <div class="feature-desc">نتائج فورية ودقيقة</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🌟</div>
+            <div class="feature-text">
+              <div class="feature-title">خطوتك الذكية تبدأ من هنا</div>
+              <div class="feature-desc">نظامك جاهز دائماً</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="modern-footer">
+      <div class="footer-content">
+        <div class="developer-info">
+          <div class="dev-main">
+            <span class="dev-name">تطوير : بلال الخواجة</span>
+          </div>
+          <div class="dev-details">
+            <span class="dev-date"></span>
+            <span class="dev-separator">•</span>
+            <span class="dev-base">مبني على إصدار الإكسل الأصلية</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="bg-animation">
+      <div class="floating-shape shape-1"></div>
+      <div class="floating-shape shape-2"></div>
+      <div class="floating-shape shape-3"></div>
+      <div class="floating-shape shape-4"></div>
+    </div>
+  </div>
+
+  <!-- NFS Modal (unchanged) -->
+  <div class="features-modal-overlay-nfs" id="featuresModal" aria-hidden="true" role="dialog" aria-modal="true" style="display:none">
+    <div class="features-modal-nfs" aria-labelledby="nfsTitle" aria-describedby="nfsSubtitle">
+      <div class="features-modal-header-nfs">
+        <div class="features-header-icon-nfs">✨</div>
+        <h2 id="nfsTitle" class="features-modal-title-nfs">جديدنا</h2>
+        <p id="nfsSubtitle" class="features-modal-subtitle-nfs">نُحضّر لك تجربة أفضل أثناء إتمام تسجيل الدخول</p>
+        <div id="nfsStatus" class="login-status checking">جار التحقق…</div>
+      </div>
+
+      <div class="features-modal-content-nfs">
+        <div class="features-slideshow-nfs" id="nfsSlideshow" aria-live="polite">
+          <div class="feature-slide-nfs active">
+            <div class="feature-item-nfs">
+              <div class="feature-header-nfs">
+                <div class="feature-icon-nfs">💾</div>
+                <h3 class="feature-title-nfs">حفظ العمليات</h3>
+              </div>
+              <p class="feature-text-nfs">خزّن عملياتك بسرعة، وارجع لها لاحقاً في ثوان.</p>
+            </div>
+          </div>
+          <div class="feature-slide-nfs">
+            <div class="feature-item-nfs">
+              <div class="feature-header-nfs">
+                <div class="feature-icon-nfs">🧰</div>
+                <h3 class="feature-title-nfs">صندوق الأدوات</h3>
+              </div>
+              <p class="feature-text-nfs">كل الأدوات في مكان واحد: حاسبة التأمين + حاسبة الاستقطاع — وصول فوري من داخل النظام.</p>
+            </div>
+          </div>
+          <div class="feature-slide-nfs">
+            <div class="feature-item-nfs">
+              <div class="feature-header-nfs">
+                <div class="feature-icon-nfs">💰</div>
+                <h3 class="feature-title-nfs">حاسبة الاستقطاع</h3>
+              </div>
+              <p class="feature-text-nfs">احسب الاستقطاع الشهري من الراتب بسرعة، مع عرض تقدير القسط بشكل واضح.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-dots-nfs" id="nfsDots" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+function hardReload(delayMs){
+  setTimeout(function(){
+    var url = new URL(location.href);
+    url.searchParams.set('_r', Date.now().toString());
+    location.replace(url.toString());
+  }, typeof delayMs === 'number' ? delayMs : 250);
+}
+
+
+(function(){
+  'use strict';
+
+  // Core elements
+  var overlay   = document.getElementById('featuresModal');   // must have class .features-modal-overlay-nfs
+  var statusEl  = document.getElementById('nfsStatus');
+  var slideshow = document.getElementById('nfsSlideshow');
+  var dotsWrap  = document.getElementById('nfsDots');
+  var msgEl     = document.getElementById('msg');             // updated by login.js
+  var formEl    = document.getElementById('loginForm');
+  var loginBtn  = document.getElementById('loginBtn');
+  var userInput = document.getElementById('userId');
+
+  // -------- Slider setup (uses -nfs classes) --------
+  var slides   = slideshow ? Array.prototype.slice.call(slideshow.querySelectorAll('.feature-slide-nfs')) : [];
+  var dots     = [];
+  var current  = 0;
+  var TIMER    = null;
+  var INTERVAL = 3000;
+
+  function buildDots(){
+    if (!dotsWrap || !slides.length) return;
+    dotsWrap.innerHTML = '';
+    dots = slides.map(function(_, i){
+      var d = document.createElement('span');
+      d.className = 'feature-dot-nfs' + (i === 0 ? ' active' : '');
+      dotsWrap.appendChild(d);
+      return d;
+    });
+  }
+
+  function go(i){
+    if (!slides.length) return;
+    current = (i + slides.length) % slides.length;
+    for (var idx = 0; idx < slides.length; idx++){
+      slides[idx].classList.toggle('active', idx === current);
+      if (dots[idx]) dots[idx].classList.toggle('active', idx === current);
+    }
+  }
+
+  function startSlider(){
+    stopSlider();
+    if (slides.length) TIMER = setInterval(function(){ go(current + 1); }, INTERVAL);
+  }
+  function stopSlider(){
+    if (TIMER){ clearInterval(TIMER); TIMER = null; }
+  }
+
+  if (slides.length){ buildDots(); go(0); }
+
+  // -------- NFS API --------
+  var NFS = {
+    open: function(text, type){
+      this.setStatus(text || 'جارٍ التحقق…', type || 'checking');
+      // Force visible even if CSS not yet applied
+      if (overlay){
+        overlay.style.display = 'grid';
+        overlay.classList.add('active'); // matches .features-modal-overlay-nfs.active
+      }
+      document.body.classList.add('modal-open');
+      startSlider();
+    },
+    setStatus: function(text, type){
+      if (statusEl){
+        if (text != null) statusEl.textContent = text;
+        statusEl.classList.remove('success','error','blocked','checking');
+        if (type) statusEl.classList.add(type);
+      }
+    },
+    close: function(){
+      stopSlider();
+      if (overlay){
+        overlay.classList.remove('active');
+        overlay.style.display = 'none';
+      }
+      document.body.classList.remove('modal-open');
+    },
+    closeAfter: function(ms){
+      var self = this;
+      setTimeout(function(){ self.close(); }, ms || 1200);
+    }
+  };
+  window.NFS = NFS;
+
+  // -------- Helpers --------
+  function isInsideLoginForm(el){
+    return formEl && (el === formEl || formEl.contains(el));
+  }
+  function openIfNotActive(text, type){
+    if (!overlay) return NFS.open(text, type);
+    var shown = overlay.classList.contains('active') || overlay.style.display === 'grid';
+    if (!shown) NFS.open(text, type);
+  }
+
+  // Ensure login button submits form
+  if (loginBtn && loginBtn.type !== 'submit') loginBtn.type = 'submit';
+
+  // Open NFS when form is submitted (capture to run before other handlers)
+  if (formEl){
+    formEl.addEventListener('submit', function(){
+      openIfNotActive('جارٍ التحقق…', 'checking');
+    }, { capture: true });
+  }
+
+  // Open NFS on Enter from input or any control inside the form
+  if (userInput){
+    userInput.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.keyCode === 13){
+        openIfNotActive('جارٍ التحقق…', 'checking');
+      }
+    }, true);
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' || e.keyCode === 13){
+      if (isInsideLoginForm(document.activeElement)){
+        openIfNotActive('جارٍ التحقق…', 'checking');
+      }
+    }
+  }, true);
+
+  // -------- Reflect #msg changes from login.js --------
+var patterns = {
+  success:      /تم\s+تسجيل\s+الدخول|success/i,
+  blocked:      /الحساب\s+محظور|blocked/i,
+  unreachable:  /(يتعذر|تعذر)\s+الاتصال\s+بالخادم|server\s*(is\s*)?unreachable|network\s*error|failed\s*to\s*fetch/i,
+  error:        /الرقم\s+غير\s+موجود|انتهت\s+صلاحية\s+الوصول|طلب\s+غير\s+معروف|تعذر\s+الوصول\s+إلى\s+ورقة\s+المستخدمين|خطأ\s+في\s+الخادم|تعذر\s+تسجيل\s+الدخول|error|invalid/i,
+  checking:     /جار[ٍي]?\s*التحقق|checking/i
+};
+
+
+
+function handleMsgChange(text){
+  var t = (text || '').trim();
+  if (!t) return;
+
+  if (patterns.success.test(t)) {
+    NFS.setStatus('تم تسجيل الدخول', 'success');
+    return;
+  }
+  if (patterns.blocked.test(t)) {
+    NFS.setStatus('الحساب محظور', 'blocked');
+    NFS.closeAfter(2000);
+    hardReload(1500);
+    return;
+  }
+
+  // 👇 ضع unreachable هنا قبل error و checking
+  if (patterns.unreachable.test(t)) {
+    NFS.setStatus('يتعذر الاتصال بالخادم — سيتم إعادة المحاولة…', 'error');
+    NFS.closeAfter(2000);
+    hardReload(1200);   // إعادة تحميل مع كسر الكاش
+    return;
+  }
+
+  if (patterns.error.test(t)) {
+    NFS.setStatus('فشل التسجيل', 'error');
+    NFS.closeAfter(2000);
+    hardReload(1600);
+    return;
+  }
+  if (patterns.checking.test(t)) {
+    NFS.setStatus('جارٍ تسجيل الدخول', 'checking');
+    return;
+  }
+
+  NFS.setStatus(t, 'checking');
+}
+
+
+  if (msgEl){
+    // Primary observer
+    var mo = new MutationObserver(function(){
+      handleMsgChange(msgEl.textContent);
+    });
+    mo.observe(msgEl, { childList: true, subtree: true, characterData: true });
+
+    // Initialize if msg already has content
+    if ((msgEl.textContent || '').trim()) handleMsgChange(msgEl.textContent);
+
+    // Safety: if first state becomes "checking", open modal automatically
+    var firstCheckingShown = false;
+    var mo2 = new MutationObserver(function(){
+      var t = (msgEl.textContent || '').trim();
+      if (!firstCheckingShown && patterns.checking.test(t)){
+        firstCheckingShown = true;
+        openIfNotActive('جارٍ التحقق…', 'checking');
+      }
+    });
+    mo2.observe(msgEl, { childList: true, subtree: true, characterData: true });
+  }
+
+  // No manual close (no ESC / backdrop click listeners by design)
+})();
+</script>
+
+
+</body>
+</html>

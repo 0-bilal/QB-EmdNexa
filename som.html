@@ -1,0 +1,46 @@
+<button id="saveDataBtn" class="save-data-btn" type="button">
+  <span class="save-data-btn-icon">💾</span>
+  <span>حفظ البيانات</span>
+</button>
+
+<div id="saveModal" class="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="closeModal">×</button>
+    
+    <div class="modal-header">
+      <div class="modal-icon">💾</div>
+      <h2 class="modal-title">حفظ البيانات</h2>
+    </div>
+
+    <div id="saveSuccess" class="save-success">
+      <span>✅</span>
+      <span>تم حفظ البيانات بنجاح!</span>
+    </div>
+
+    <form class="modal-form" id="saveForm">
+      <div class="modal-form-group">
+        <label for="operationName" class="modal-label">اسم العملية</label>
+        <input 
+          type="text" 
+          id="operationName" 
+          class="modal-input" 
+          placeholder="أدخل اسم العملية (مثل: تمويل سيارة أحمد)"
+          required
+          maxlength="50"
+              />
+
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="modal-btn modal-btn-secondary" id="cancelSave">
+          <span class="modal-btn-icon">❌</span>
+          إلغاء
+        </button>
+        <button type="submit" class="modal-btn modal-btn-primary" id="confirmSave">
+          <span class="modal-btn-icon">💾</span>
+          حفظ العملية
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

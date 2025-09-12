@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>QB-Nexa</title>
+
+  <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
+
+<meta http-equiv="Cache-Control" content="no-store, max-age=0, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+
+   <!--?  link backend  -->
+  <script src="js/backend/config.js"></script>
+  <script defer src="js/backend/som.js"></script>
+  <script defer src="js/backend/wallet.js"></script>
+  <script defer src="js/backend/login-archive.js"></script>
+
+   <!--?  link app  -->
+  <script src="js/app/version.js" defer></script>
+  <script src="js/app/version-check.js" defer></script>
+  <script defer src="js/app/guard.js"></script>
+  <script defer src="js/app/script.js"></script>
+  <script defer src="js/app/activeUserNotify.js"></script>
+  <script defer src="js/app/developer-contact.js"></script>
+  <script defer src="js/app/deduction-calculator.js"></script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function boot(){
+  var V = (window.APP_VERSION || 'v4.0 Nerio');
+  function bust(u){ return u + (u.indexOf('?')>-1?'&':'?') + 'v=' + encodeURIComponent(V); }
+
+var css = ['css/modern-dark-style.css','css/developer-contact.css','css/som.css','css/wallet.css','css/toolbox-style.css','developer-contact.css'];
+  css.forEach(function(href){
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = bust(href);
+    document.head.appendChild(l);
+  });
+});
+</script>
+
+
+</head>
+
+<body class="modern-dark-theme">
+  <header class="modern-header">
+    <div class="header-content">
+      <div class="brand-section">
+       <h1 class="brand-title">QB-Nexa</h1>
+      </div>
+
+
+
+    <div class="header-actions">
+    <button id="saveDataBtn" class="save-data-btn" type="button">
+        <span class="save-data-btn-icon">💾</span>
+        <span>حفظ البيانات</span>
+      </button>
+
+      <div id="saveModal" class="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="closeModal">×</button>
+    
+    <div class="modal-header">
+      <div class="modal-icon">💾</div>
+      <h2 class="modal-title">حفظ البيانات</h2>
+    </div>
+
+    <!-- رسالة نجاح الحفظ -->
+    <div id="saveSuccess" class="save-success">
+      <span>✅</span>
+      <span>تم حفظ البيانات بنجاح!</span>
+    </div>
+
+    <form class="modal-form" id="saveForm">
+      <div class="modal-form-group">
+        <label for="operationName" class="modal-label">اسم العملية</label>
+        <input 
+          type="text" 
+          id="operationName" 
+          class="modal-input" 
+          placeholder="أدخل اسم العملية (مثل: تمويل سيارة نيسان صني)"
+          required
+          maxlength="50"
+        />
+      </div>
+
+  <div class="modal-help" id="operationHelp">
+    ℹ️ العمليات المسجّلة يمكن استردادها من صندوق الأدوات &gt; المحفظة
+  </div>
+
+      <div class="modal-actions">
+        <button type="button" class="modal-btn modal-btn-secondary" id="cancelSave">
+          <span class="modal-btn-icon"></span>إلغاء</button>
+        <button type="submit" class="modal-btn modal-btn-primary" id="confirmSave">
+          <span class="modal-btn-icon"></span>حفظ العملية</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+  <button id="toolboxBtn" class="toolbox-trigger-btn" type="button" title="صندوق الأدوات">
+    <span class="toolbox-btn-icon">🧰</span>
+    <span class="toolbox-btn-text">صندوق الأدوات</span>
+  </button>
+
+
+     <button id="contactDeveloperBtn" class="contact-btn" type="button">
+           <span class="contact-btn-icon">💬</span>
+           <span>تواصل مع المطور</span>
+      </button>
+
+      
+         <div class="version-badge"></div>
+      <div class="header-gradient"></div>
+  </div>
+  </header>
+
+
+  <main class="modern-dashboard">
+    <section class="modern-card primary-card" data-section="input">
+      <div class="card-header">
+        <div class="card-icon">💰</div>
+        <h2>السعر المرفوع للبنك</h2>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="priceType" class="form-label">نوع الإدخال</label>
+          <select id="priceType" class="modern-input modern-select">
+            <option value="withTax">سعر بطاقة</option>
+            <option value="withoutTax">سعر شامل الضريبة</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="carPrice" class="form-label">سعر السيارة</label>
+          <input type="number" id="carPrice" class="modern-input" placeholder="أدخل السعر" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="extras" class="form-label">رسوم اللوحات</label>
+            <input type="number" id="extras" class="modern-input" value="500" />
+          </div>
+          <div class="form-group">
+            <label for="other1" class="form-label">رسوم الخدمات</label>
+            <input type="number" id="other1" class="modern-input" placeholder="0" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cashback" class="form-label">نسبة الكاش باك (%)</label>
+            <input type="number" id="cashback" class="modern-input" placeholder="%0" />
+          </div>
+          <div class="form-group">
+            <label for="support" class="form-label">نسبة الدعم (%)</label>
+            <input type="number" id="support" class="modern-input" placeholder="%0" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="other2" class="form-label">صافي الربح</label>
+          <input type="number" id="other2" class="modern-input" placeholder="0" />
+        </div>
+      </div>
+
+      <div class="result-display">
+        <div class="result-label">السعر المرفوع على البنك</div>
+        <div class="result-value">
+          <span id="bankPrice" class="result-number">0</span>
+          <span class="result-currency">ريال سعودي</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="modern-card calculation-card" data-section="calculations">
+      <div class="card-header">
+        <div class="card-icon">📊</div>
+        <h2>تفاصيل الحسبة</h2>
+      </div>
+
+      <div class="calculation-grid">
+        <div class="calc-row">
+          <div class="calc-label">الدفعة الأولى</div>
+          <div class="calc-input-group">
+            <input type="number" id="downPaymentRate" class="calc-input" placeholder="%10" />
+            <span class="input-suffix">%</span>
+          </div>
+          <div class="calc-result">
+            <span id="downPayment" class="calc-number">0</span>
+            <span class="calc-unit">ريال</span>
+          </div>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-label">الدفعة الأخيرة</div>
+          <div class="calc-input-group">
+            <input type="number" id="balloonRate" class="calc-input" placeholder="%30" />
+            <span class="input-suffix">%</span>
+          </div>
+          <div class="calc-result">
+            <span id="balloon" class="calc-number">0</span>
+            <span class="calc-unit">ريال</span>
+          </div>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-label">هامش الربح</div>
+          <div class="calc-input-group">
+            <input type="number" id="profitRate" class="calc-input" placeholder="%5" />
+            <span class="input-suffix">%</span>
+          </div>
+          <div class="calc-result">
+            <span id="profit" class="calc-number">0</span>
+            <span class="calc-unit">ريال</span>
+          </div>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-label">التأمين</div>
+          <div class="calc-input-group">
+            <input type="number" id="insuranceRate" class="calc-input" placeholder="%2" />
+            <span class="input-suffix">%</span>
+          </div>
+          <div class="calc-result">
+            <span id="insurance" class="calc-number">0</span>
+            <span class="calc-unit">ريال</span>
+          </div>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-label">الرسوم الإدارية</div>
+          <div class="calc-input-group">
+            <input type="number" id="adminRate" class="calc-input" value="1" />
+            <span class="input-suffix">%</span>
+          </div>
+          <div class="calc-result">
+            <span id="admin" class="calc-number">0</span>
+            <span class="calc-unit">ريال</span>
+          </div>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-label">مدة التمويل</div>
+          <div class="calc-input-group">
+            <input type="number" id="years" class="calc-input" value="5" />
+            <span class="input-suffix">سنة</span>
+          </div>
+          <div class="calc-result calc-result-muted">
+            <span>—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="calculation-summary">
+        <div class="summary-row highlight">
+          <div class="summary-label">القسط الشهري</div>
+          <div class="summary-value">
+            <span id="monthlyPayment" class="summary-number">0</span>
+            <span class="summary-unit">ريال</span>
+          </div>
+        </div>
+        <div class="summary-row highlight">
+          <div class="summary-label">التكلفة النهائية</div>
+          <div class="summary-value">
+            <span id="finalCost" class="summary-number">0</span>
+            <span class="summary-unit">ريال</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="modern-card message-card" data-section="message">
+      <div class="card-header">
+        <div class="card-icon">📋</div>
+        <h2>رسالة العميل</h2>
+      </div>
+      
+      <div class="message-content">
+        <textarea id="clientMessage" class="modern-textarea" readonly placeholder="ستظهر رسالة العميل هنا..."></textarea>
+        <button id="copyMessage" class="modern-btn primary-btn">
+          <span class="btn-icon">📋</span>نسخ الرسالة</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="mobile-nav" id="mobileNav">
+    <button class="nav-btn" id="navToCalc" data-target="calculations">
+      <span class="nav-icon">📊</span>
+      <span class="nav-label">التفاصيل</span>
+    </button>
+    <button class="nav-btn" id="navToInput" data-target="input">
+      <span class="nav-icon">💰</span>
+      <span class="nav-label">الإدخال</span>
+    </button>
+    <button class="nav-btn" id="navToMessage" data-target="message">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label">الرسالة</span>
+    </button>
+  </div>
+
+  <footer class="modern-footer">
+    <div class="footer-content">
+      <div class="developer-info">
+        <div class="dev-main">
+          <span class="dev-badge">تطوير : بلال الخواجة</span>
+        </div>
+        <div class="dev-details">
+          <span class="dev-date"></span>
+          <span class="dev-separator">•</span>
+          <span class="dev-base">مبني على إصدار الإكسل الأصلية</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const navBtns = document.querySelectorAll('.nav-btn');
+      const sections = document.querySelectorAll('.modern-card');
+
+      navBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const target = this.dataset.target;
+          const targetSection = document.querySelector(`[data-section="${target}"]`);
+          
+          if (targetSection) {
+            targetSection.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+          navBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+      document.querySelector('[data-target="input"]').classList.add('active');
+    });
+
+document.addEventListener('DOMContentLoaded', function() {
+  function fixMobileNavPosition() {
+    const mobileNav = document.getElementById('mobileNav');
+    if (mobileNav && window.innerWidth <= 767) {
+      mobileNav.removeAttribute('style');
+      mobileNav.style.cssText = `
+        display: flex !important;
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 1000 !important;
+        align-items: center !important;
+        justify-content: space-around !important;
+        width: calc(100% - 40px) !important;
+        max-width: 350px !important;
+        height: 70px !important;
+        padding: 0.5rem !important;
+        margin: 0 !important;
+        background: rgba(30, 33, 40, 0.95) !important;
+        backdrop-filter: blur(20px) !important;
+        border: 1px solid #4b5563 !important;
+        border-radius: 25px !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
+      `;
+    }
+  }
+
+  fixMobileNavPosition();
+
+  window.addEventListener('resize', fixMobileNavPosition);
+
+  setTimeout(fixMobileNavPosition, 100);
+  setTimeout(fixMobileNavPosition, 500);
+  setTimeout(fixMobileNavPosition, 1000);
+});
+
+if (window.MutationObserver) {
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+        const mobileNav = document.getElementById('mobileNav');
+        if (mobileNav && window.innerWidth <= 767) {
+          // إعادة تطبيق الأنماط الصحيحة
+          setTimeout(() => {
+            mobileNav.style.cssText = `
+              display: flex !important;
+              position: fixed !important;
+              bottom: 20px !important;
+              left: 50% !important;
+              transform: translateX(-50%) !important;
+              z-index: 1000 !important;
+              align-items: center !important;
+              justify-content: space-around !important;
+              width: calc(100% - 40px) !important;
+              max-width: 350px !important;
+              height: 70px !important;
+              padding: 0.5rem !important;
+              margin: 0 !important;
+              background: rgba(30, 33, 40, 0.95) !important;
+              backdrop-filter: blur(20px) !important;
+              border: 1px solid #4b5563 !important;
+              border-radius: 25px !important;
+              box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
+            `;
+          }, 10);
+        }
+      }
+    });
+  });
+  
+  const mobileNav = document.getElementById('mobileNav');
+  if (mobileNav) {
+    observer.observe(mobileNav, {
+      attributes: true,
+      attributeFilter: ['style', 'class']
+    });
+  }
+}
+
+    <!--  لصندوق الأدوات -->
+
+document.addEventListener('DOMContentLoaded', function() {
+  const toolboxBtn = document.getElementById('toolboxBtn');
+  
+  if (toolboxBtn) {
+    toolboxBtn.addEventListener('click', async function() {
+      try {
+        // تحقق من وجود صندوق الأدوات
+        let toolboxOverlay = document.getElementById('toolboxOverlay');
+        
+        if (!toolboxOverlay) {
+          // تحميل محتوى صندوق الأدوات
+          const response = await fetch('toolbox.html');
+          if (!response.ok) {
+            throw new Error('فشل في تحميل صندوق الأدوات');
+          }
+          
+          const toolboxHTML = await response.text();
+          
+          // إنشاء عنصر مؤقت لاستخراج محتوى الـ body
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = toolboxHTML;
+          
+          // استخراج محتوى صندوق الأدوات
+          toolboxOverlay = tempDiv.querySelector('.toolbox-overlay');
+          
+          if (toolboxOverlay) {
+            // إضافة صندوق الأدوات للصفحة
+            document.body.appendChild(toolboxOverlay);
+            
+            // تحميل JavaScript للصندوق
+            const script = document.createElement('script');
+            script.src = 'js/app/toolbox-script.js';
+            script.onload = function() {
+              // تهيئة صندوق الأدوات بعد تحميل الـ JS
+              if (typeof window.reinitializeToolbox === 'function') {
+                window.reinitializeToolbox();
+              }
+              
+              // فتح صندوق الأدوات
+              if (typeof openToolbox === 'function') {
+                openToolbox();
+              }
+            };
+            document.head.appendChild(script);
+          }
+        } else {
+          // إذا كان موجوداً، فقط افتحه
+          if (typeof openToolbox === 'function') {
+            openToolbox();
+          } else {
+            toolboxOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }
+        }
+        
+      } catch (error) {
+        console.error('خطأ في تحميل صندوق الأدوات:', error);
+        alert('فشل في تحميل صندوق الأدوات. تأكد من وجود ملف toolbox.html');
+      }
+    });
+  }
+});
+
+  </script>
+ </body>
+</html>
